@@ -6,6 +6,15 @@
 <title>Focaccia Calculator — Focaccia Fridays</title>
 <meta name="description" content="Interactive focaccia calculator with baker's percentages, automatic yeast scaling, pan sizing, step-by-step method and built-in timers.">
 
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-41S3HVK20L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-41S3HVK20L');
+</script>
+
 <!-- Open Graph (Facebook, WhatsApp, iMessage, LinkedIn, Discord) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darcmuff.github.io/FocacciaFriday/">
@@ -21,14 +30,12 @@
 <meta name="twitter:description" content="Baker's percentages, automatic yeast scaling, pan calculator, step-by-step method with timers.">
 <meta name="twitter:image" content="https://darcmuff.github.io/FocacciaFriday/og-image.png">
 
-<!-- Favicon (bread emoji) -->
+<!-- Favicon -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫓</text></svg>">
-
-<!-- Theme colour for mobile browsers -->
-<meta name="theme-color" content="#e8dcc8">
+<meta name="theme-color" content="#ece8e0">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; font-family: 'Palatino Linotype', Palatino, serif; background: #e8dcc8; color: #1a0e04; font-size: 16px; }
+html, body { height: 100%; overflow: hidden; font-family: 'Palatino Linotype', Palatino, serif; background: #ece8e0; color: #1a0e04; font-size: 16px; }
 
 #header {
   height: 64px; background: #d4c4a0; border-bottom: 2px solid #a89060;
@@ -41,12 +48,12 @@ html, body { height: 100%; overflow: hidden; font-family: 'Palatino Linotype', P
 
 #page {
   display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-  padding: 20px 32px; height: calc(100vh - 64px);
+  padding: 20px 32px; height: calc(100vh - 64px); align-items: stretch;
 }
 
 .card {
   background: #d4c4a0; border: 1px solid #a89060; border-radius: 10px;
-  padding: 22px 26px; display: flex; flex-direction: column; overflow: hidden;
+  padding: 14px 18px; display: flex; flex-direction: column; overflow: hidden;
 }
 .card-title {
   font-size: 1rem; letter-spacing: 0.14em; text-transform: uppercase;
@@ -54,17 +61,43 @@ html, body { height: 100%; overflow: hidden; font-family: 'Palatino Linotype', P
 }
 
 /* LEFT CARD SECTIONS */
-.section { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 6px 0; border-top: 1px solid #b8a070; }
-.section:first-of-type { border-top: none; }
+.section { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 10px 14px; margin-bottom: 6px; border-top: none; background: #e8dcc8; border: 1px solid #b8a070; border-radius: 8px; }
+.section:last-child { margin-bottom: 0; }
 .sec-label { font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: #3a2010; font-weight: 700; margin-bottom: 4px; }
 
 input[type=range] { width: 100%; accent-color: #8a4a00; cursor: pointer; display: block; margin: 3px 0 2px; height: 4px; }
+/* ── TIMELINE VIEW ── */
+.tl-toggle{font-size:11px;color:#8a4a00;cursor:pointer;font-weight:700;letter-spacing:0.3px;padding:3px 10px;border:1px solid #a89060;border-radius:5px;background:transparent;font-family:inherit;transition:all .15s}
+.tl-toggle:hover{background:#c8b890}
+.tl-toggle.active{background:#8a4a00;color:#f5ead8;border-color:#8a4a00}
+#timeline-view{display:none;flex:1;overflow-y:auto;min-height:0;scrollbar-width:thin;scrollbar-color:#a89060 #d4c4a0}
+#timeline-view.show{display:block}
+#timeline-view::-webkit-scrollbar{width:6px}
+#timeline-view::-webkit-scrollbar-track{background:#d4c4a0;border-radius:3px}
+#timeline-view::-webkit-scrollbar-thumb{background:#a89060;border-radius:3px}
+#timeline-view::-webkit-scrollbar-thumb:hover{background:#8a4a00}
+#method-view.hide{display:none}
+.tl-item{display:flex;gap:10px;position:relative}
+.tl-line{position:relative;display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:#a89060;flex-shrink:0;z-index:1;border:2px solid #d4c4a0}
+.tl-dot.active{background:#8a4a00;width:12px;height:12px;border-color:#8a4a00}
+.tl-stem{width:4px;border-radius:2px;margin-top:2px;flex-shrink:0}
+.tl-item:last-child .tl-stem{display:none}
+.tl-content{flex:1;min-width:0;cursor:pointer;padding:2px 6px 6px;border-radius:6px;transition:background .12s}
+.tl-content:hover{background:#c8b890}
+.tl-head{display:flex;align-items:center;gap:6px}
+.tl-icon{font-size:16px;line-height:1}
+.tl-title{font-size:12px;font-weight:700;color:#1a0e04}
+.tl-dur{font-size:10px;color:#6a4a20;font-weight:600;margin-left:auto;flex-shrink:0}
+.tl-desc{font-size:11px;color:#3a2010;line-height:1.4;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ── SCHEDULE ── */
 .slider-labels { display: flex; justify-content: space-between; font-size: 1rem; color: #3a2010; }
 .green { color: #2a7a3a !important; }
 .red { color: #c03020 !important; }
 
-.fopt { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 7px 10px; border-radius: 7px; border: 1px solid #a89060; margin-bottom: 5px; }
-.fopt.sel { background: #c8b890; }
+.fopt { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 7px 10px; border-radius: 7px; border: 1px solid #b8a070; margin-bottom: 5px; background: #e0d4be; }
+.fopt.sel { background: #c8b890; border-color: #a89060; }
 .fradio { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; border: 2px solid #ccc; background: transparent; }
 .flabel { font-size: 1rem; font-weight: 600; }
 .fdesc { font-size: 1rem; color: #2a1800; margin-top: 1px; line-height: 1.3; }
@@ -79,7 +112,7 @@ input[type=range] { width: 100%; accent-color: #8a4a00; cursor: pointer; display
 .pan-shape { display: flex; gap: 12px; flex-shrink: 0; margin-top: 6px; }
 .shape-btn {
   flex: 1;
-  height: 52px;
+  height: 42px;
   border: 2px solid #a89060;
   border-radius: 10px;
   background: transparent;
@@ -91,13 +124,13 @@ input[type=range] { width: 100%; accent-color: #8a4a00; cursor: pointer; display
   transition: all 0.15s;
 }
 .shape-btn.sel { background: #c8b890; border-color: #8a4a00; color: #8a4a00; }
-.pan-inputs { margin-top: 20px; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px; }
+.pan-inputs { margin-top: 10px; flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
 .pan-row { display: flex; align-items: center; gap: 12px; }
 .pan-row label { font-size: 1.1rem; color: #3a2010; font-weight: 600; min-width: 80px; }
 .pan-row input {
   flex: 1;
   padding: 7px 12px;
-  border: 1px solid #a89060;
+  border: 1px solid #b8a070;
   border-radius: 8px;
   background: #e0d4be;
   font-family: inherit;
@@ -136,11 +169,11 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
 .m-step-lbl { font-size: 1rem; color: #3a2010; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 3px; }
 .m-title { font-size: 24px; font-weight: 700; color: #120a02; line-height: 1.2; }
 .m-body-text { font-size: 1rem; color: #120a02; line-height: 1.7; white-space: pre-line; flex: 1; }
-.tip-box { margin-top: 6px; padding: 8px 10px; background: #f5ead8; border-radius: 7px; border-left: 3px solid #8a4a00; }
+.tip-box { margin-top: 6px; padding: 8px 10px; background: #e8dcc8; border-radius: 7px; border-left: 3px solid #8a4a00; }
 .tip-lbl { font-size: 1rem; color: #8a4a00; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 3px; font-weight: 700; }
 .tip-txt { font-size: 1rem; color: #1a0e04; line-height: 1.5; }
 
-.timer-box { margin-top: 6px; background: #c8b890; border-radius: 7px; padding: 10px 14px; border: 1px solid #a89060; flex-shrink: 0; }
+.timer-box { margin-top: 6px; background: #e0d4be; border-radius: 7px; padding: 10px 14px; border: 1px solid #b8a070; flex-shrink: 0; }
 .timer-row { display: flex; align-items: center; gap: 10px; }
 .t-disp { font-size: 38px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 76px; }
 .t-bar-bg { flex: 1; height: 5px; background: #a89060; border-radius: 3px; overflow: hidden; }
@@ -149,8 +182,8 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
 .t-lbl { font-size: 1rem; color: #3a2010; margin-top: 4px; }
 
 .nav-row { display: flex; gap: 8px; margin-top: 6px; flex-shrink: 0; }
-.nav-prev { flex: 1; padding: 12px; border: 1px solid #a89060; border-radius: 7px; background: #f5ead8; color: #2a1800; font-size: 16px; cursor: pointer; font-family: inherit; }
-.nav-prev:disabled { background: #d4c4a0; color: #a89060; cursor: default; }
+.nav-prev { flex: 1; padding: 12px; border: 1px solid #b8a070; border-radius: 7px; background: #e0d4be; color: #2a1800; font-size: 16px; cursor: pointer; font-family: inherit; }
+.nav-prev:disabled { background: #c8b890; color: #a89060; cursor: default; }
 .nav-next { flex: 2; padding: 12px; border: none; border-radius: 7px; background: #8a4a00; color: #f5ead8; font-size: 16px; cursor: pointer; font-family: inherit; font-weight: 700; }
 .nav-next:disabled { background: #a89060; cursor: default; }
 
@@ -163,7 +196,7 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
     gap: 16px;
   }
   .card { overflow: visible; height: auto; }
-  .section { flex: none; padding: 12px 0; justify-content: flex-start; }
+  .section { flex: none; padding: 10px 14px; justify-content: flex-start; }
   .method-body { height: auto; overflow: visible; }
   .step-content { overflow: visible; height: auto; }
   #header { padding: 0 16px; }
@@ -196,29 +229,27 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
     <div class="card-title">Settings</div>
 
     <div class="section">
-      <div class="sec-label" id="hours-lbl">Total Time — 18 hours</div>
+      <div class="sec-label" id="hours-lbl">Total Time: 18 hours</div>
       <input type="range" min="6" max="24" step="1" value="18" id="hours-slider" oninput="update()">
       <div class="slider-labels"><span>6h</span><span id="sweet-lbl">12–18h sweet spot</span><span>24h</span></div>
-    </div>
-
-    <div class="section">
-      <div class="sec-label" id="hyd-lbl">Hydration — 90%</div>
-      <input type="range" min="80" max="100" step="1" value="90" id="hyd-slider" oninput="update()">
-      <div class="slider-labels"><span>80%</span><span id="hyd-sweet">85–90% target</span><span id="yolo">100% yolo</span></div>
-      <div class="warning" id="hyd-warn" style="display:none"></div>
-    </div>
-
-    <div class="section">
-      <div class="sec-label" id="temp-lbl">Room Temperature — 20°C</div>
-      <input type="range" min="15" max="28" step="1" value="20" id="temp-slider" oninput="update()">
-      <div class="slider-labels"><span>15° cool</span><span id="temp-ideal">18–22° ideal</span><span>28° warm</span></div>
+      <div style="margin-top:6px">
+        <div class="sec-label" id="hyd-lbl">Hydration: 90%</div>
+        <input type="range" min="80" max="100" step="1" value="90" id="hyd-slider" oninput="update()">
+        <div class="slider-labels"><span>80%</span><span id="hyd-sweet">85–90% target</span><span id="yolo">100% yolo</span></div>
+        <div class="warning" id="hyd-warn" style="display:none"></div>
+      </div>
+      <div style="margin-top:6px">
+        <div class="sec-label" id="temp-lbl">Room Temperature: 20°C</div>
+        <input type="range" min="15" max="28" step="1" value="20" id="temp-slider" oninput="update()">
+        <div class="slider-labels"><span>15° cool</span><span id="temp-ideal">18–22° ideal</span><span>28° warm</span></div>
+      </div>
     </div>
 
     <div class="section">
       <div class="sec-label">Ferment Type</div>
       <div class="fopt sel" id="opt-cold" onclick="selectFerment('cold')">
         <div class="fradio" id="radio-cold" style="border-color:#2a6898;background:#2a6898"></div>
-        <div><div class="flabel" id="lbl-cold" style="color:#2a6898">Cold Retard</div><div class="fdesc">Room temp bulk, overnight fridge, room temp final proof.</div></div>
+        <div><div class="flabel" id="lbl-cold" style="color:#2a6898">Cold Ferment</div><div class="fdesc">Room temp bulk, overnight fridge, room temp final proof.</div></div>
       </div>
       <div class="fopt" id="opt-room" onclick="selectFerment('room')">
         <div class="fradio" id="radio-room" style="border-color:#b85c00"></div>
@@ -242,35 +273,48 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
   <!-- RIGHT: INGREDIENTS + METHOD -->
   <div class="card">
 
-    <div class="card-title" id="rec-title">Ingredients</div>
-    <table>
-      <tbody id="rec-tbody"></tbody>
-    </table>
-
-    <div class="divider"></div>
-
-    <div class="card-title">Method</div>
-    <div class="prog-row">
-      <span id="step-counter"></span>
-      <span class="restart" onclick="setStep(0)">↺ Restart</span>
+    <div class="section" style="flex:0;margin-bottom:8px">
+      <div class="card-title" id="rec-title" style="margin-bottom:4px">Ingredients</div>
+      <table>
+        <tbody id="rec-tbody"></tbody>
+      </table>
     </div>
-    <div class="prog-bg"><div class="prog-fill" id="prog-fill"></div></div>
 
-    <div class="method-body">
-      <div class="step-content">
-        <div class="m-header">
-          <div class="m-icon" id="s-icon"></div>
-          <div><div class="m-step-lbl" id="s-lbl"></div><div class="m-title" id="s-title"></div></div>
+    <div class="section" style="flex:1;margin-bottom:0;min-height:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-shrink:0">
+        <div class="card-title" style="margin-bottom:0">Method</div>
+        <button class="tl-toggle" id="tl-toggle" onclick="toggleTimeline()">☰ Timeline</button>
+      </div>
+
+    <!-- STEP-BY-STEP VIEW -->
+    <div id="method-view">
+      <div class="prog-row">
+        <span id="step-counter"></span>
+        <span class="restart" onclick="setStep(0)">↺ Restart</span>
+      </div>
+      <div class="prog-bg"><div class="prog-fill" id="prog-fill"></div></div>
+
+      <div class="method-body">
+        <div class="step-content">
+          <div class="m-header">
+            <div class="m-icon" id="s-icon"></div>
+            <div><div class="m-step-lbl" id="s-lbl"></div><div class="m-title" id="s-title"></div></div>
+          </div>
+          <div class="m-body-text" id="s-body"></div>
+          <div id="timer-area"></div>
+          <div id="tip-area"></div>
         </div>
-        <div class="m-body-text" id="s-body"></div>
-        <div id="timer-area"></div>
-        <div id="tip-area"></div>
-      </div>
-      <div class="nav-row">
-        <button class="nav-prev" id="prev-btn" onclick="prevStep()">← Previous</button>
-        <button class="nav-next" id="next-btn" onclick="nextStep()">Next Step →</button>
+        <div class="nav-row">
+          <button class="nav-prev" id="prev-btn" onclick="prevStep()">← Previous</button>
+          <button class="nav-next" id="next-btn" onclick="nextStep()">Next Step →</button>
+        </div>
       </div>
     </div>
+
+    <!-- TIMELINE VIEW -->
+    <div id="timeline-view"></div>
+
+    </div><!-- /method section -->
 
   </div>
 
@@ -313,7 +357,7 @@ function setShape(shape) {
 
 function renderPanInputs() {
   const el = document.getElementById('pan-inputs');
-  el.style.marginTop = '20px';
+  el.style.marginTop = '10px';
   if (S.panShape === 'round') {
     el.innerHTML = `<div class="pan-row"><label>Diameter</label><input type="number" value="${S.panW}" min="10" max="60" oninput="S.panW=+this.value;S.panH=+this.value;update()"><span class="pan-unit">cm</span></div>`;
   } else {
@@ -348,21 +392,21 @@ function update(){
   const ing={flour,water:r(flour*hyd/100),salt:r(flour*2.5/100),yeast:r(flour*yp/100),oil:r(flour*2.5/100)};
   const total=Math.round(ing.flour+ing.water+ing.salt+ing.yeast+ing.oil);
 
-  document.getElementById('hours-lbl').textContent=`Total Time — ${hours} hours`;
+  document.getElementById('hours-lbl').textContent=`Total Time: ${hours} hours`;
   document.getElementById('sweet-lbl').className=(hours>=12&&hours<=18)?'green':'';
-  document.getElementById('hyd-lbl').textContent=`Hydration — ${hyd}%`;
+  document.getElementById('hyd-lbl').textContent=`Hydration: ${hyd}%`;
   document.getElementById('hyd-sweet').className=(hyd>=85&&hyd<=90)?'green':'';
 
-  // Cold retard warning if hours too short
+  // Cold ferment warning if hours too short
   const coldWarn = document.getElementById('cold-warn');
   if(fid==='cold' && hours < 10) {
     coldWarn.style.display='block';
-    coldWarn.textContent=`⚠ Cold retard needs at least 10 hours. At ${hours}h the fridge time is too short to be worth it — switch to Room Temp or add more time.`;
+    coldWarn.textContent=`⚠ Cold ferment needs at least 10 hours. At ${hours}h the fridge time is too short to be worth it — switch to Room Temp or add more time.`;
   } else {
     coldWarn.style.display='none';
   }
   document.getElementById('yolo').className=hyd>95?'red':'';
-  document.getElementById('temp-lbl').textContent=`Room Temperature — ${rTemp}°C`;
+  document.getElementById('temp-lbl').textContent=`Room Temperature: ${rTemp}°C`;
   document.getElementById('temp-ideal').className=(rTemp>=18&&rTemp<=22)?'green':'';
   const w=document.getElementById('hyd-warn');
   if(hyd>92){w.style.display='block';w.textContent='⚠ Above 92% — extremely slack. Respect.';}
@@ -413,15 +457,15 @@ function buildSteps(ing,hyd,fid,hours){
     {title:'Coil Fold 4 of 4',icon:'🔄',timer:null,body:'Final fold. Smooth and springy. Leave it alone now.',tip:null},
     ...(fid==='cold'?[{title:'Into the Fridge',icon:'❄️',
       timer: Math.round(Math.max(4, hours - 5.5) * 60),
-      body:`Cover tightly with cling film. Fridge at 3–5°C.\n\nCold retard: ${Math.max(4, hours - 5.5).toFixed(1)} hours. Start the timer and leave it alone.`,
+      body:`Cover tightly with cling film. Fridge at 3–5°C.\n\nCold ferment: ${Math.max(4, hours - 5.5).toFixed(1)} hours. Start the timer and leave it alone.`,
       tip:'Cold slows yeast, develops flavour, and relaxes gluten for bigger voids.'}]:[]),
     ...(fid==='room'?[{title:'Bulk Ferment',icon:'⏱',
       timer: Math.round(Math.max(1, hours - 3.75) * 60),
       body:`Cover the dough. Leave at room temperature for ${Math.max(1, hours - 3.75).toFixed(1)} hours until visibly puffy and roughly doubled.`,
       tip:'Room temp ferment — warmer kitchen = faster rise. Watch the dough, not just the clock.'}]:[]),
     {title:'Transfer to Baking Pan',icon:'🫙',timer:null,
-     body:'Pool olive oil in the baking pan. Tip dough in. Flip once. Coax toward corners. If it springs back, wait 10 minutes.',
-     tip:'Pooled oil creates the crispy fried underside.'},
+     body:'Line your baking pan with greaseproof paper, then pool olive oil on top. Tip dough in. Coax toward corners. If it springs back, wait 10 minutes.',
+     tip:'Greaseproof paper makes removal effortless and prevents sticking. The pooled oil on top creates the crispy fried underside.'},
     {title:'Final Proof',icon:'🔍',timer:120,
      body:'Cover loosely. Leave until doubled, puffy, bubbly. Jiggle test — wobble like jelly = ready.',tip:null},
     {title:'Preheat Oven',icon:'🔥',timer:20,
@@ -474,6 +518,20 @@ function renderMethod(){
 
 function fmt(s){const m=Math.floor(s/60),sec=s%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
 
+function beep(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    [0,0.3,0.6].forEach(t=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.frequency.value=880;o.type='sine';
+      g.gain.setValueAtTime(0.3,ctx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+t+0.25);
+      o.start(ctx.currentTime+t);o.stop(ctx.currentTime+t+0.25);
+    });
+  }catch(e){}
+}
+
 function toggleTimer(){
   if(TS.done){
     TS={...TS,rem:TS.total,done:false,running:false}; clearInterval(timerInt);
@@ -492,6 +550,7 @@ function toggleTimer(){
       document.getElementById('t-bar').style.width=((TS.total-TS.rem)/TS.total*100)+'%';
       if(TS.rem<=0){
         clearInterval(timerInt); TS.done=true; TS.running=false;
+        beep();
         document.getElementById('t-disp').textContent='Done ✓';
         document.getElementById('t-disp').style.color='#2a7a3a';
         document.getElementById('t-bar').style.cssText='width:100%;background:#2a7a3a';
@@ -504,7 +563,78 @@ function toggleTimer(){
 
 function prevStep(){if(S.step>0){S.step--;clearInterval(timerInt);renderMethod();}}
 function nextStep(){if(S.step<steps.length-1){S.step++;clearInterval(timerInt);renderMethod();}}
-function setStep(i){S.step=i;clearInterval(timerInt);renderMethod();}
+function setStep(i){S.step=i;clearInterval(timerInt);renderMethod();showMethodView();}
+
+let tlVisible=false;
+function toggleTimeline(){
+  tlVisible=!tlVisible;
+  document.getElementById('tl-toggle').classList.toggle('active',tlVisible);
+  document.getElementById('tl-toggle').textContent=tlVisible?'← Steps':'☰ Timeline';
+  document.getElementById('method-view').classList.toggle('hide',tlVisible);
+  document.getElementById('timeline-view').classList.toggle('show',tlVisible);
+  if(tlVisible) renderTimeline();
+}
+
+function showMethodView(){
+  if(!tlVisible)return;
+  tlVisible=false;
+  document.getElementById('tl-toggle').classList.remove('active');
+  document.getElementById('tl-toggle').textContent='☰ Timeline';
+  document.getElementById('method-view').classList.remove('hide');
+  document.getElementById('timeline-view').classList.remove('show');
+}
+
+function renderTimeline(){
+  if(!steps.length)return;
+  const el=document.getElementById('timeline-view');
+  // Calculate proportional heights — min 8px for instant steps, scale timer steps
+  const MIN_H=4;
+  const maxTimer=Math.max(...steps.map(s=>s.timer||0));
+  const MAX_H=120; // tallest stem (the big ferment)
+
+  el.innerHTML=steps.map((s,i)=>{
+    const isCurrent=i===S.step;
+    const isLast=i===steps.length-1;
+
+    // Stem height proportional to timer duration
+    let stemH=MIN_H;
+    if(s.timer){
+      stemH=Math.max(12,Math.round((s.timer/maxTimer)*MAX_H));
+    }
+
+    // Stem colour: cold ferment = blue, room ferment = red/warm, rest = neutral
+    let stemCol='#b8a070';
+    const titleLow=s.title.toLowerCase();
+    if(titleLow.includes('fridge')){stemCol='#2a6898';}
+    else if(titleLow.includes('bulk ferment')){stemCol='#b85c00';}
+    else if(titleLow.includes('final proof')){stemCol='#d4a840';}
+    else if(titleLow.includes('bake')||titleLow.includes('200°c')||titleLow.includes('preheat')){stemCol='#c03020';}
+    else if(s.timer){stemCol='#a89060';}
+
+    // Dot colour matches stem for timer steps
+    const dotCol=s.timer?stemCol:'#a89060';
+    const dotClass=isCurrent?'tl-dot active':'tl-dot';
+    const dotStyle=isCurrent?'':`background:${dotCol};border-color:${dotCol}`;
+
+    const dur=s.timer?minsToLabel(s.timer):'';
+    const desc=s.body.split('\n')[0];
+
+    return `<div class="tl-item">
+      <div class="tl-line">
+        <div class="${dotClass}" ${dotStyle?`style="${dotStyle}"`:''} ></div>
+        ${!isLast?`<div class="tl-stem" style="height:${stemH}px;background:${stemCol}"></div>`:''}
+      </div>
+      <div class="tl-content" onclick="setStep(${i})">
+        <div class="tl-head">
+          <span class="tl-icon">${s.icon}</span>
+          <span class="tl-title">${s.title}</span>
+          ${dur?`<span class="tl-dur">${dur}</span>`:''}
+        </div>
+        <div class="tl-desc">${desc}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
 
 setShape('round');
 update();

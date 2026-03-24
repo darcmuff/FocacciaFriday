@@ -459,8 +459,8 @@ function buildSteps(ing,hyd,fid,hours){
     {title:'Transfer to Heavy Pan',icon:'🔲',timer:null,
      body:'Scrape dough onto your large heavy pan. It will spread flat. Leave it here for all four folds.',
      tip:'Pan stays on the counter. You lift the dough — the pan doesn\'t move.'},
-    {title:'Coil Folds — 4 × 30 min',icon:'🔄',coilFold:true,timer:null,
-     body:`4 folds, 30 minutes apart. Total: 2 hours.\n\nWet hands. Slide under the centre of the dough, lift high — let both ends fold underneath. Pan stays on the counter, you move the dough. Rotate 90°, repeat. That's one fold.\n\nThe dough will feel more resistant with each fold. By fold 4 it should be smooth and springy.\n\nNot sure of the technique? Watch a coil fold video before you start — it's worth 2 minutes.`,
+    {title:'Coil Folds — 4',icon:'🔄',coilFold:true,timer:null,
+     body:`4 folds, 30 minutes apart. Total: 1.5 hours.\nWet hands. Slide under the centre of the dough, lift high — let both ends fold underneath. Pan stays on the counter, you move the dough. Rotate 90°, repeat. That's one fold.\nThe dough will feel more resistant with each fold. By fold 4 it should be smooth and springy.\nNot sure of the technique? Watch a coil fold video before you start — it's worth 2 minutes.`,
      tip:null},
     ...(fid==='cold'?[{title:'Into the Fridge',icon:'❄️',
       timer: Math.round(Math.max(4, hours - 5.5) * 60),
@@ -511,11 +511,13 @@ function renderMethod(){
     TS={total:30*60,rem:30*60,running:false,done:false};
     ta.innerHTML=`
       <div id="fold-indicator" style="font-size:1rem;font-weight:700;margin-bottom:8px;color:#8a4a00">Fold 1 of 4 — do your fold now, then start the timer.</div>
-      <div class="timer-box"><div class="timer-row">
+      <div id="timer-box-wrap"><div class="timer-box"><div class="timer-row">
         <div class="t-disp" id="t-disp" style="color:#8a4a00">${fmt(TS.rem)}</div>
         <div class="t-bar-bg"><div class="t-bar" id="t-bar"></div></div>
         <button class="t-btn" id="t-btn" onclick="toggleTimer()">Start</button>
-      </div><div class="t-lbl">30 minute rest — then fold again</div></div>`;
+      </div><div class="t-lbl">30 minute rest — then fold again</div></div></div>`;
+    // Disable Next Step until fold 4 is reached
+    document.getElementById('next-btn').disabled=true;
   } else if(step.timer){
     clearInterval(timerInt);
     TS={total:step.timer*60,rem:step.timer*60,running:false,done:false};
@@ -571,13 +573,24 @@ let CF={active:false,fold:0,totalFolds:4,intervalMins:30};
 
 function updateFoldDisplay(){
   const el=document.getElementById('fold-indicator');
+  const tb=document.getElementById('timer-box-wrap');
   if(!el)return;
   if(CF.fold>=CF.totalFolds){
-    el.textContent='All 4 folds done. Leave it alone now.';
+    // All 4 folds done — hide timer, show next step
+    el.textContent='All 4 folds done. Move on to the next step.';
     el.style.color='#2a7a3a';
+    if(tb)tb.style.display='none';
+    document.getElementById('next-btn').disabled=false;
+  } else if(CF.fold===CF.totalFolds-1){
+    // Fold 4 — do the fold, no timer, just next step
+    el.textContent='Fold 4 of 4 — last fold. When done, press Next Step.';
+    el.style.color='#8a4a00';
+    if(tb)tb.style.display='none';
+    document.getElementById('next-btn').disabled=false;
   } else {
     el.textContent=`Fold ${CF.fold+1} of ${CF.totalFolds} — do your fold now, then start the timer.`;
     el.style.color='#8a4a00';
+    if(tb)tb.style.display='block';
   }
 }
 
@@ -589,6 +602,7 @@ function toggleTimer(){
   if(TS.done){
     stopAlarm();
     if(isCoilFold && CF.fold < CF.totalFolds-1){
+      // Advance to next fold — if it's fold 4, hide timer
       CF.fold++;
       TS={total:30*60,rem:30*60,running:false,done:false};
       document.getElementById('t-disp').textContent=fmt(TS.rem);
@@ -599,13 +613,6 @@ function toggleTimer(){
       const lbl=document.querySelector('.t-lbl');
       if(lbl)lbl.textContent='30 minute rest — then fold again';
       updateFoldDisplay();
-      return;
-    } else if(isCoilFold && CF.fold>=CF.totalFolds-1){
-      CF.fold=CF.totalFolds;
-      updateFoldDisplay();
-      document.getElementById('t-btn').style.background='#a89060';
-      document.getElementById('t-btn').textContent='Done ✓';
-      document.getElementById('t-btn').disabled=true;
       return;
     }
     TS={...TS,rem:TS.total,done:false,running:false}; clearInterval(timerInt);
@@ -625,16 +632,13 @@ function toggleTimer(){
       if(TS.rem<=0){
         clearInterval(timerInt); TS.done=true; TS.running=false;
         startAlarm();
-        const allDone=isCoilFold && CF.fold>=CF.totalFolds-1;
-        document.getElementById('t-disp').textContent=allDone?'Done ✓':'Fold!';
-        document.getElementById('t-disp').style.color=allDone?'#2a7a3a':'#8a4a00';
-        document.getElementById('t-bar').style.cssText=`width:100%;background:${allDone?'#2a7a3a':'#8a4a00'}`;
-        document.getElementById('t-btn').style.background=allDone?'#2a7a3a':'#8a4a00';
-        document.getElementById('t-btn').textContent=allDone?'Reset':'Next Fold →';
+        document.getElementById('t-disp').textContent='Fold!';
+        document.getElementById('t-disp').style.color='#8a4a00';
+        document.getElementById('t-bar').style.cssText='width:100%;background:#8a4a00';
+        document.getElementById('t-btn').style.background='#8a4a00';
+        document.getElementById('t-btn').textContent='Next Fold →';
         if(isCoilFold){
           updateFoldDisplay();
-          const lbl=document.querySelector('.t-lbl');
-          if(lbl&&!allDone)lbl.textContent='Time to fold — then press Next Fold';
         }
       } else document.getElementById('t-disp').textContent=fmt(TS.rem);
     },1000);
@@ -696,8 +700,9 @@ function renderTimeline(){
     const dotClass=isCurrent?'tl-dot active':'tl-dot';
     const dotStyle=isCurrent?'':`background:${dotCol};border-color:${dotCol}`;
 
-    const dur=s.coilFold?'2h':s.timer?minsToLabel(s.timer):'';
+    const dur=s.coilFold?'1.5h':s.timer?minsToLabel(s.timer):'';
     const desc=s.body.split('\n')[0];
+    const displayTitle=s.coilFold?'Coil Folds ×4':s.title;
 
     return `<div class="tl-item">
       <div class="tl-line">
@@ -707,7 +712,7 @@ function renderTimeline(){
       <div class="tl-content" onclick="setStep(${i})">
         <div class="tl-head">
           <span class="tl-icon">${s.icon}</span>
-          <span class="tl-title">${s.title}</span>
+          <span class="tl-title">${displayTitle}</span>
           ${dur?`<span class="tl-dur">${dur}</span>`:''}
         </div>
         <div class="tl-desc">${desc}</div>

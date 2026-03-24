@@ -47,21 +47,17 @@ html, body { height: 100%; overflow: hidden; font-family: 'Palatino Linotype', P
 .h-sub { font-size: 10px; color: #3a2010; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 2px; }
 
 #page {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-  padding: 20px 32px; height: calc(100vh - 64px); align-items: stretch;
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; gap: 10px;
+  padding: 20px 32px; height: calc(100vh - 64px);
 }
 
-.card {
-  background: #d4c4a0; border: 1px solid #a89060; border-radius: 10px;
-  padding: 14px 18px; display: flex; flex-direction: column; overflow: hidden;
-}
 .card-title {
   font-size: 1rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: #3a2010; font-weight: 700; margin-bottom: 8px; flex-shrink: 0;
 }
 
-/* LEFT CARD SECTIONS */
-.section { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 10px 14px; margin-bottom: 6px; border-top: none; background: #e8dcc8; border: 1px solid #b8a070; border-radius: 8px; }
+/* TILES */
+.section { display: flex; flex-direction: column; justify-content: center; padding: 14px 16px; background: #d4c4a0; border: 1px solid #a89060; border-radius: 10px; }
 .section:last-child { margin-bottom: 0; }
 .sec-label { font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: #3a2010; font-weight: 700; margin-bottom: 4px; }
 
@@ -107,8 +103,8 @@ input[type=range] { width: 100%; accent-color: #8a4a00; cursor: pointer; display
 
 
 /* PAN SELECTOR */
-.pan-section { justify-content: flex-start !important; gap: 0; }
-.pan-section #pan-inputs { margin-top: 18px; }
+.pan-section { justify-content: center !important; gap: 0; }
+.pan-section #pan-inputs { margin-top: 10px; }
 .pan-shape { display: flex; gap: 12px; flex-shrink: 0; margin-top: 6px; }
 .shape-btn {
   flex: 1;
@@ -191,11 +187,11 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
   html, body { overflow: auto; height: auto; }
   #page {
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
     height: auto;
     padding: 12px 16px;
-    gap: 16px;
+    gap: 10px;
   }
-  .card { overflow: visible; height: auto; }
   .section { flex: none; padding: 10px 14px; justify-content: flex-start; }
   .method-body { height: auto; overflow: visible; }
   .step-content { overflow: visible; height: auto; }
@@ -224,10 +220,7 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
 
 <div id="page">
 
-  <!-- LEFT: SETTINGS -->
-  <div class="card">
-    <div class="card-title">Settings</div>
-
+  <!-- ROW 1: SLIDERS | INGREDIENTS -->
     <div class="section">
       <div class="sec-label" id="hours-lbl">Total Time: 18 hours</div>
       <input type="range" min="6" max="24" step="1" value="18" id="hours-slider" oninput="update()">
@@ -246,41 +239,39 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
     </div>
 
     <div class="section">
-      <div class="sec-label">Ferment Type</div>
-      <div class="fopt sel" id="opt-cold" onclick="selectFerment('cold')">
-        <div class="fradio" id="radio-cold" style="border-color:#2a6898;background:#2a6898"></div>
-        <div><div class="flabel" id="lbl-cold" style="color:#2a6898">Cold Ferment</div><div class="fdesc">Room temp bulk, overnight fridge, room temp final proof.</div></div>
-      </div>
-      <div class="fopt" id="opt-room" onclick="selectFerment('room')">
-        <div class="fradio" id="radio-room" style="border-color:#b85c00"></div>
-        <div><div class="flabel" id="lbl-room" style="color:#2a1800">Room Temp</div><div class="fdesc">Same-day. All fermentation at room temperature.</div></div>
-      </div>
-    <div class="warning" id="cold-warn" style="display:none;margin-top:8px;"></div>
-    </div>
-
-    <div class="section pan-section">
-      <div class="sec-label">Pan</div>
-      <div class="pan-shape">
-        <button class="shape-btn" id="btn-rect" onclick="setShape('rect')">Square</button>
-        <button class="shape-btn sel" id="btn-round" onclick="setShape('round')">Round</button>
-      </div>
-      <div id="pan-inputs"></div>
-      <div class="pan-result" id="pan-result"></div>
-    </div>
-
-  </div>
-
-  <!-- RIGHT: INGREDIENTS + METHOD -->
-  <div class="card">
-
-    <div class="section" style="flex:0;margin-bottom:8px">
       <div class="card-title" id="rec-title" style="margin-bottom:4px">Ingredients</div>
       <table>
         <tbody id="rec-tbody"></tbody>
       </table>
     </div>
 
-    <div class="section" style="flex:1;margin-bottom:0;min-height:0">
+  <!-- ROW 2: FERMENT+PAN | METHOD -->
+    <div style="display:flex;flex-direction:column;gap:10px;min-height:0;overflow:hidden">
+      <div class="section" style="flex:1;margin-bottom:0">
+        <div class="sec-label">Ferment Type</div>
+        <div class="fopt sel" id="opt-cold" onclick="selectFerment('cold')">
+          <div class="fradio" id="radio-cold" style="border-color:#2a6898;background:#2a6898"></div>
+          <div><div class="flabel" id="lbl-cold" style="color:#2a6898">Cold Ferment</div><div class="fdesc">Room temp bulk, overnight fridge, room temp final proof.</div></div>
+        </div>
+        <div class="fopt" id="opt-room" onclick="selectFerment('room')">
+          <div class="fradio" id="radio-room" style="border-color:#b85c00"></div>
+          <div><div class="flabel" id="lbl-room" style="color:#2a1800">Room Temp</div><div class="fdesc">Same-day. All fermentation at room temperature.</div></div>
+        </div>
+        <div class="warning" id="cold-warn" style="display:none;margin-top:8px;"></div>
+      </div>
+
+      <div class="section pan-section" style="flex:1;margin-bottom:0">
+        <div class="sec-label">Pan</div>
+        <div class="pan-shape">
+          <button class="shape-btn sel" id="btn-rect" onclick="setShape('rect')">Square</button>
+          <button class="shape-btn" id="btn-round" onclick="setShape('round')">Round</button>
+        </div>
+        <div id="pan-inputs"></div>
+        <div class="pan-result" id="pan-result"></div>
+      </div>
+    </div>
+
+    <div class="section" style="flex:1;margin-bottom:0;min-height:0;display:flex;flex-direction:column">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-shrink:0">
         <div class="card-title" style="margin-bottom:0">Method</div>
         <button class="tl-toggle" id="tl-toggle" onclick="toggleTimeline()">☰ Timeline</button>
@@ -314,9 +305,7 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
     <!-- TIMELINE VIEW -->
     <div id="timeline-view"></div>
 
-    </div><!-- /method section -->
-
-  </div>
+    </div>
 
 </div>
 
@@ -342,7 +331,7 @@ function calcYeast(fid,rt,hrs,hyd){
 const FERMENTS={room:{color:'#b85c00'},cold:{color:'#2a6898'}};
 function minsToLabel(m){if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return r?h+'h '+r+'m':h+'h';}
 
-let S={hours:18,fid:'cold',hyd:90,rTemp:20,step:0,panShape:'round',panW:20,panH:20};
+let S={hours:18,fid:'cold',hyd:90,rTemp:20,step:0,panShape:'rect',panW:23,panH:23};
 let steps=[], timerInt=null, TS={total:0,rem:0,running:false,done:false};
 
 function setShape(shape) {
@@ -636,7 +625,7 @@ function renderTimeline(){
   }).join('');
 }
 
-setShape('round');
+setShape('rect');
 update();
 </script>
 </body>

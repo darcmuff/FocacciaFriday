@@ -154,17 +154,20 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
 .divider { border-top: 2px solid #a89060; margin: 26px 0 18px; flex-shrink: 0; }
 
 /* METHOD INLINE */
+#method-view { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+#method-view.hide { display: none; }
 .prog-row { display: flex; justify-content: space-between; font-size: 1rem; color: #3a2010; margin-bottom: 5px; flex-shrink: 0; }
 .restart { color: #8a4a00; cursor: pointer; font-weight: 600; }
 .prog-bg { height: 4px; background: #a89060; border-radius: 2px; overflow: hidden; margin-bottom: 6px; flex-shrink: 0; }
 .prog-fill { height: 100%; background: #8a4a00; border-radius: 2px; transition: width 0.3s; }
-.method-body { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-.step-content { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+.method-body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.step-content { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.nav-row { display: flex; gap: 8px; margin-top: 6px; flex-shrink: 0; }
 .m-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
 .m-icon { font-size: 34px; line-height: 1; flex-shrink: 0; }
 .m-step-lbl { font-size: 1rem; color: #3a2010; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 3px; }
 .m-title { font-size: 24px; font-weight: 700; color: #120a02; line-height: 1.2; }
-.m-body-text { font-size: 1rem; color: #120a02; line-height: 1.7; white-space: pre-line; flex: 1; }
+.m-body-text { font-size: 1rem; color: #120a02; line-height: 1.7; white-space: pre-line; flex: 1; min-height: 0; overflow: hidden; }
 .tip-box { margin-top: 6px; padding: 8px 10px; background: #e8dcc8; border-radius: 7px; border-left: 3px solid #8a4a00; }
 .tip-lbl { font-size: 1rem; color: #8a4a00; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 3px; font-weight: 700; }
 .tip-txt { font-size: 1rem; color: #1a0e04; line-height: 1.5; }
@@ -177,7 +180,6 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
 .t-btn { background: #8a4a00; color: #f5ead8; border: none; border-radius: 5px; padding: 7px 16px; font-size: 15px; cursor: pointer; font-family: inherit; font-weight: 700; }
 .t-lbl { font-size: 1rem; color: #3a2010; margin-top: 4px; }
 
-.nav-row { display: flex; gap: 8px; margin-top: 6px; flex-shrink: 0; }
 .nav-prev { flex: 1; padding: 12px; border: 1px solid #b8a070; border-radius: 7px; background: #e0d4be; color: #2a1800; font-size: 16px; cursor: pointer; font-family: inherit; }
 .nav-prev:disabled { background: #c8b890; color: #a89060; cursor: default; }
 .nav-next { flex: 2; padding: 12px; border: none; border-radius: 7px; background: #8a4a00; color: #f5ead8; font-size: 16px; cursor: pointer; font-family: inherit; font-weight: 700; }
@@ -195,6 +197,28 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
   .section { flex: none; padding: 10px 14px; justify-content: flex-start; }
   .method-body { height: auto; overflow: visible; }
   .step-content { overflow: visible; height: auto; }
+  #method-card {
+    height: calc(100dvh - 64px - 24px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #method-card > div:first-child { flex-shrink: 0; }
+  #method-card #method-view { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  #method-card #method-view.hide { display: none; }
+  #method-card .method-body { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  #method-card .step-content { flex: 1; overflow-y: auto; min-height: 0; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+  #method-card .nav-row { flex-shrink: 0; }
+  #method-card #timeline-view { display: none; flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  #method-card #timeline-view.show { display: block; }
+  .tl-icon { font-size: 22px; }
+  .tl-title { font-size: 16px; }
+  .tl-dur { font-size: 13px; }
+  .tl-desc { font-size: 13px; -webkit-line-clamp: 3; }
+  .tl-content { padding: 4px 8px 10px; }
+  .tl-dot { width: 14px; height: 14px; }
+  .tl-dot.active { width: 16px; height: 16px; }
+  .tl-stem { width: 5px; }
   #header { padding: 0 16px; }
   .h-title { font-size: 16px; }
   .shape-btn { height: 48px; font-size: 1rem; }
@@ -271,7 +295,7 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
       </div>
     </div>
 
-    <div class="section" style="flex:1;margin-bottom:0;min-height:0;display:flex;flex-direction:column">
+    <div id="method-card" class="section" style="flex:1;margin-bottom:0;min-height:0;display:flex;flex-direction:column">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-shrink:0">
         <div class="card-title" style="margin-bottom:0">Method</div>
         <button class="tl-toggle" id="tl-toggle" onclick="toggleTimeline()">☰ Timeline</button>
@@ -435,37 +459,31 @@ function buildSteps(ing,hyd,fid,hours){
     {title:'Transfer to Heavy Pan',icon:'🔲',timer:null,
      body:'Scrape dough onto your large heavy pan. It will spread flat. Leave it here for all four folds.',
      tip:'Pan stays on the counter. You lift the dough — the pan doesn\'t move.'},
-    {title:'Coil Fold 1 of 4',icon:'🔄',timer:null,
-     body:'Wet hands. Slide under centre, lift high, both ends fold underneath. Pan stays put. Rotate 90°, repeat.',
-     tip:'Building structure without degassing. Should feel slightly more resistant each fold.'},
-    {title:'Rest 30 Minutes',icon:'⏱',timer:30,body:'Cover and rest 30 minutes. Don\'t touch it.',tip:null},
-    {title:'Coil Fold 2 of 4',icon:'🔄',timer:null,body:'Wet hands. Lift, fold, rotate 90°, repeat.',tip:null},
-    {title:'Rest 30 Minutes',icon:'⏱',timer:30,body:'Cover and rest 30 minutes.',tip:null},
-    {title:'Coil Fold 3 of 4',icon:'🔄',timer:null,body:'Wet hands. Lift, fold, rotate. Dough should pull back slightly.',tip:'Fighting back = good structure.'},
-    {title:'Rest 30 Minutes',icon:'⏱',timer:30,body:'Cover and rest 30 minutes.',tip:null},
-    {title:'Coil Fold 4 of 4',icon:'🔄',timer:null,body:'Final fold. Smooth and springy. Leave it alone now.',tip:null},
+    {title:'Coil Folds — 4 × 30 min',icon:'🔄',coilFold:true,timer:null,
+     body:`4 folds, 30 minutes apart. Total: 2 hours.\n\nWet hands. Slide under the centre of the dough, lift high — let both ends fold underneath. Pan stays on the counter, you move the dough. Rotate 90°, repeat. That's one fold.\n\nThe dough will feel more resistant with each fold. By fold 4 it should be smooth and springy.\n\nNot sure of the technique? Watch a coil fold video before you start — it's worth 2 minutes.`,
+     tip:null},
     ...(fid==='cold'?[{title:'Into the Fridge',icon:'❄️',
       timer: Math.round(Math.max(4, hours - 5.5) * 60),
-      body:`Cover tightly with cling film. Fridge at 3–5°C.\n\nCold ferment: ${Math.max(4, hours - 5.5).toFixed(1)} hours. Start the timer and leave it alone.`,
+      body:`Lightly oil a sheet of clingfilm so it doesn't stick, and cover tightly. Fridge at 3–5°C.\n\nCold ferment: ${Math.max(4, hours - 5.5).toFixed(1)} hours. Start the timer and leave it alone.`,
       tip:'Cold slows yeast, develops flavour, and relaxes gluten for bigger voids.'}]:[]),
     ...(fid==='room'?[{title:'Bulk Ferment',icon:'⏱',
       timer: Math.round(Math.max(1, hours - 3.75) * 60),
-      body:`Cover the dough. Leave at room temperature for ${Math.max(1, hours - 3.75).toFixed(1)} hours until visibly puffy and roughly doubled.`,
+      body:`Lightly oil a sheet of clingfilm so it doesn't stick, and cover. Leave at room temperature for ${Math.max(1, hours - 3.75).toFixed(1)} hours until visibly puffy and roughly doubled.`,
       tip:'Room temp ferment — warmer kitchen = faster rise. Watch the dough, not just the clock.'}]:[]),
     {title:'Transfer to Baking Pan',icon:'🫙',timer:null,
-     body:'Line your baking pan with greaseproof paper, then pool olive oil on top. Tip dough in. Coax toward corners. If it springs back, wait 10 minutes.',
-     tip:'Greaseproof paper makes removal effortless and prevents sticking. The pooled oil on top creates the crispy fried underside.'},
+     body:'Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.',
+     tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'},
     {title:'Final Proof',icon:'🔍',timer:120,
-     body:'Cover loosely. Leave until doubled, puffy, bubbly. Jiggle test — wobble like jelly = ready.',tip:null},
+     body:'Lightly oil a sheet of clingfilm so it doesn\'t stick, and cover loosely. Leave until doubled, puffy, bubbly. Jiggle test — wobble like jelly = ready.',tip:null},
     {title:'Preheat Oven',icon:'🔥',timer:20,
-     body:'230°C, no fan. Prepare steam: small dish of water below, or spray bottle ready. Preheat 20 minutes.',
-     tip:'Steam keeps crust pliable so the bread expands fully before it sets.'},
+     body:'230°C, no fan. Place a small pan or ramekin on the oven floor now. It needs to be scorching hot when the bread goes in — that\'s what instantly vaporises the ice cube and floods the oven with steam. Preheat 20 minutes.',
+     tip:null},
     {title:'Dimple & Oil',icon:'👆',timer:null,
-     body:'Drizzle oil generously. Drive fingers almost to the base all over. Dramatic craters with pools of oil.\n\nAdd any toppings now — flaky salt, rosemary, olives, cherry tomatoes, sliced onion. Press them in lightly.\n\nStraight in the oven — do not wait.',
-     tip:'Dimple immediately before the oven. Waiting degasses everything.'},
+     body:'Add your toppings — flaky salt, rosemary, olives, cherry tomatoes, sliced onion.\n\nNow drizzle olive oil generously over everything. This coats the toppings so they don\'t burn in the high heat.\n\nThen dimple — drive fingers all the way to the base, pushing some of the toppings deep into the bread as you go. Dramatic craters with pools of oil.\n\nStraight in the oven — do not wait.',
+     tip:null},
     {title:'Bake 15 min at 230°C',icon:'🌡',timer:15,
-     body:'Into the oven. Spritz walls or ice cube in water dish. Close the door. Don\'t open it.',
-     tip:'Steam + high heat = explosive oven spring. Voids rip open now.'},
+     body:'Slide the bread in. Immediately toss an ice cube into the hot ramekin on the oven floor and close the door quickly. Don\'t open it for 15 minutes.\nThe ice cube hits the hot pan and instantly vaporises — flooding the oven with steam in the critical first few minutes. Steam keeps the crust soft and pliable long enough for the dough to fully expand before the crust sets. That\'s where your rise and open crumb come from.',
+     tip:null},
     {title:'Drop to 200°C — 10 min',icon:'🌡',timer:10,
      body:'Drop to 200°C. 10 more minutes. Deep golden top, edges pulling away, golden brown underside.',
      tip:'Finishes the interior without burning the surface.'},
@@ -486,14 +504,26 @@ function renderMethod(){
   document.getElementById('s-body').textContent=step.body;
 
   const ta=document.getElementById('timer-area');
-  if(step.timer){
+  if(step.coilFold){
+    // Coil fold interval timer — 4 x 30 min
+    CF={active:false,fold:0,totalFolds:4,intervalMins:30};
+    clearInterval(timerInt);
+    TS={total:30*60,rem:30*60,running:false,done:false};
+    ta.innerHTML=`
+      <div id="fold-indicator" style="font-size:1rem;font-weight:700;margin-bottom:8px;color:#8a4a00">Fold 1 of 4 — do your fold now, then start the timer.</div>
+      <div class="timer-box"><div class="timer-row">
+        <div class="t-disp" id="t-disp" style="color:#8a4a00">${fmt(TS.rem)}</div>
+        <div class="t-bar-bg"><div class="t-bar" id="t-bar"></div></div>
+        <button class="t-btn" id="t-btn" onclick="toggleTimer()">Start</button>
+      </div><div class="t-lbl">30 minute rest — then fold again</div></div>`;
+  } else if(step.timer){
     clearInterval(timerInt);
     TS={total:step.timer*60,rem:step.timer*60,running:false,done:false};
     ta.innerHTML=`<div class="timer-box"><div class="timer-row">
       <div class="t-disp" id="t-disp" style="color:#8a4a00">${fmt(TS.rem)}</div>
       <div class="t-bar-bg"><div class="t-bar" id="t-bar"></div></div>
       <button class="t-btn" id="t-btn" onclick="toggleTimer()">Start</button>
-    </div><div class="t-lbl">${step.timer} minute timer</div></div>`;
+    </div><div class="t-lbl">${minsToLabel(step.timer)} timer</div></div>`;
   } else { ta.innerHTML=''; clearInterval(timerInt); }
 
   document.getElementById('tip-area').innerHTML=step.tip?
@@ -505,8 +535,13 @@ function renderMethod(){
   nb.textContent=i===total-1?'Complete ✓':'Next Step →';
 }
 
-function fmt(s){const m=Math.floor(s/60),sec=s%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
+function fmt(s){
+  if(s>=3600){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
+  const m=Math.floor(s/60),sec=s%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
 
+let alarmInt=null;
+function stopAlarm(){if(alarmInt){clearInterval(alarmInt);alarmInt=null;}}
 function beep(){
   try{
     const ctx=new(window.AudioContext||window.webkitAudioContext)();
@@ -520,9 +555,59 @@ function beep(){
     });
   }catch(e){}
 }
+function startAlarm(){
+  stopAlarm();
+  beep();
+  let elapsed=0;
+  alarmInt=setInterval(()=>{
+    elapsed+=3;
+    if(elapsed>=60){stopAlarm();return;}
+    beep();
+  },3000);
+}
+
+// Coil fold interval tracker
+let CF={active:false,fold:0,totalFolds:4,intervalMins:30};
+
+function updateFoldDisplay(){
+  const el=document.getElementById('fold-indicator');
+  if(!el)return;
+  if(CF.fold>=CF.totalFolds){
+    el.textContent='All 4 folds done. Leave it alone now.';
+    el.style.color='#2a7a3a';
+  } else {
+    el.textContent=`Fold ${CF.fold+1} of ${CF.totalFolds} — do your fold now, then start the timer.`;
+    el.style.color='#8a4a00';
+  }
+}
+
 
 function toggleTimer(){
+  const step=steps[S.step];
+  const isCoilFold=step&&step.coilFold;
+
   if(TS.done){
+    stopAlarm();
+    if(isCoilFold && CF.fold < CF.totalFolds-1){
+      CF.fold++;
+      TS={total:30*60,rem:30*60,running:false,done:false};
+      document.getElementById('t-disp').textContent=fmt(TS.rem);
+      document.getElementById('t-disp').style.color='#8a4a00';
+      document.getElementById('t-bar').style.cssText='width:0%;background:#8a4a00';
+      document.getElementById('t-btn').style.background='#8a4a00';
+      document.getElementById('t-btn').textContent='Start';
+      const lbl=document.querySelector('.t-lbl');
+      if(lbl)lbl.textContent='30 minute rest — then fold again';
+      updateFoldDisplay();
+      return;
+    } else if(isCoilFold && CF.fold>=CF.totalFolds-1){
+      CF.fold=CF.totalFolds;
+      updateFoldDisplay();
+      document.getElementById('t-btn').style.background='#a89060';
+      document.getElementById('t-btn').textContent='Done ✓';
+      document.getElementById('t-btn').disabled=true;
+      return;
+    }
     TS={...TS,rem:TS.total,done:false,running:false}; clearInterval(timerInt);
     document.getElementById('t-disp').textContent=fmt(TS.total);
     document.getElementById('t-disp').style.color='#8a4a00';
@@ -539,20 +624,26 @@ function toggleTimer(){
       document.getElementById('t-bar').style.width=((TS.total-TS.rem)/TS.total*100)+'%';
       if(TS.rem<=0){
         clearInterval(timerInt); TS.done=true; TS.running=false;
-        beep();
-        document.getElementById('t-disp').textContent='Done ✓';
-        document.getElementById('t-disp').style.color='#2a7a3a';
-        document.getElementById('t-bar').style.cssText='width:100%;background:#2a7a3a';
-        document.getElementById('t-btn').style.background='#2a7a3a';
-        document.getElementById('t-btn').textContent='Reset';
+        startAlarm();
+        const allDone=isCoilFold && CF.fold>=CF.totalFolds-1;
+        document.getElementById('t-disp').textContent=allDone?'Done ✓':'Fold!';
+        document.getElementById('t-disp').style.color=allDone?'#2a7a3a':'#8a4a00';
+        document.getElementById('t-bar').style.cssText=`width:100%;background:${allDone?'#2a7a3a':'#8a4a00'}`;
+        document.getElementById('t-btn').style.background=allDone?'#2a7a3a':'#8a4a00';
+        document.getElementById('t-btn').textContent=allDone?'Reset':'Next Fold →';
+        if(isCoilFold){
+          updateFoldDisplay();
+          const lbl=document.querySelector('.t-lbl');
+          if(lbl&&!allDone)lbl.textContent='Time to fold — then press Next Fold';
+        }
       } else document.getElementById('t-disp').textContent=fmt(TS.rem);
     },1000);
   } else clearInterval(timerInt);
 }
 
-function prevStep(){if(S.step>0){S.step--;clearInterval(timerInt);renderMethod();}}
-function nextStep(){if(S.step<steps.length-1){S.step++;clearInterval(timerInt);renderMethod();}}
-function setStep(i){S.step=i;clearInterval(timerInt);renderMethod();showMethodView();}
+function prevStep(){if(S.step>0){S.step--;clearInterval(timerInt);stopAlarm();renderMethod();}}
+function nextStep(){if(S.step<steps.length-1){S.step++;clearInterval(timerInt);stopAlarm();renderMethod();}}
+function setStep(i){S.step=i;clearInterval(timerInt);stopAlarm();renderMethod();showMethodView();}
 
 let tlVisible=false;
 function toggleTimeline(){
@@ -585,27 +676,27 @@ function renderTimeline(){
     const isCurrent=i===S.step;
     const isLast=i===steps.length-1;
 
-    // Stem height proportional to timer duration
     let stemH=MIN_H;
-    if(s.timer){
+    if(s.coilFold){
+      stemH=Math.max(12,Math.round((120/maxTimer||1)*MAX_H));
+    } else if(s.timer){
       stemH=Math.max(12,Math.round((s.timer/maxTimer)*MAX_H));
     }
 
-    // Stem colour: cold ferment = blue, room ferment = red/warm, rest = neutral
     let stemCol='#b8a070';
     const titleLow=s.title.toLowerCase();
-    if(titleLow.includes('fridge')){stemCol='#2a6898';}
+    if(s.coilFold){stemCol='#6a8a40';}
+    else if(titleLow.includes('fridge')){stemCol='#2a6898';}
     else if(titleLow.includes('bulk ferment')){stemCol='#b85c00';}
     else if(titleLow.includes('final proof')){stemCol='#d4a840';}
     else if(titleLow.includes('bake')||titleLow.includes('200°c')||titleLow.includes('preheat')){stemCol='#c03020';}
     else if(s.timer){stemCol='#a89060';}
 
-    // Dot colour matches stem for timer steps
-    const dotCol=s.timer?stemCol:'#a89060';
+    const dotCol=(s.timer||s.coilFold)?stemCol:'#a89060';
     const dotClass=isCurrent?'tl-dot active':'tl-dot';
     const dotStyle=isCurrent?'':`background:${dotCol};border-color:${dotCol}`;
 
-    const dur=s.timer?minsToLabel(s.timer):'';
+    const dur=s.coilFold?'2h':s.timer?minsToLabel(s.timer):'';
     const desc=s.body.split('\n')[0];
 
     return `<div class="tl-item">

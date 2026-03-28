@@ -5,228 +5,104 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Focaccia Calculator — Focaccia Fridays</title>
 <meta name="description" content="Interactive focaccia calculator with baker's percentages, automatic yeast scaling, pan sizing, step-by-step method and built-in timers.">
-
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-41S3HVK20L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-41S3HVK20L');
-</script>
-
-<!-- Open Graph (Facebook, WhatsApp, iMessage, LinkedIn, Discord) -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://darcmuff.github.io/FocacciaFriday/">
 <meta property="og:title" content="Focaccia Calculator">
-<meta property="og:description" content="Baker's percentages, automatic yeast scaling, pan calculator, step-by-step method with timers. Everything you need for perfect focaccia.">
+<meta property="og:description" content="Baker's percentages, automatic yeast scaling, pan calculator, step-by-step method with timers.">
 <meta property="og:image" content="https://darcmuff.github.io/FocacciaFriday/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-
-<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Focaccia Calculator">
-<meta name="twitter:description" content="Baker's percentages, automatic yeast scaling, pan calculator, step-by-step method with timers.">
-<meta name="twitter:image" content="https://darcmuff.github.io/FocacciaFriday/og-image.png">
-
-<!-- Favicon -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫓</text></svg>">
 <meta name="theme-color" content="#ece8e0">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; font-family: 'Palatino Linotype', Palatino, serif; background: #ece8e0; color: #1a0e04; font-size: 16px; }
-
-#header {
-  height: 64px; background: #d4c4a0; border-bottom: 2px solid #a89060;
-  padding: 0 32px; display: flex; align-items: center; justify-content: space-between;
-}
-.h-left { display: flex; align-items: center; gap: 12px; }
-.h-emoji { font-size: 28px; }
-.h-title { font-size: 20px; font-weight: 700; color: #120a02; letter-spacing: 0.07em; text-transform: none; }
-.h-sub { font-size: 10px; color: #3a2010; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 2px; }
-
-#page {
-  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; gap: 10px;
-  padding: 20px 32px; height: calc(100vh - 64px);
-}
-
-.card-title {
-  font-size: 1rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: #3a2010; font-weight: 700; margin-bottom: 8px; flex-shrink: 0;
-}
-
-/* TILES */
-.section { display: flex; flex-direction: column; justify-content: center; padding: 14px 16px; background: #d4c4a0; border: 1px solid #a89060; border-radius: 10px; }
-.section:last-child { margin-bottom: 0; }
-.sec-label { font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: #3a2010; font-weight: 700; margin-bottom: 4px; }
-
-input[type=range] { width: 100%; accent-color: #8a4a00; cursor: pointer; display: block; margin: 3px 0 2px; height: 4px; }
-/* ── TIMELINE VIEW ── */
-.tl-toggle{font-size:11px;color:#8a4a00;cursor:pointer;font-weight:700;letter-spacing:0.3px;padding:3px 10px;border:1px solid #a89060;border-radius:5px;background:transparent;font-family:inherit;transition:all .15s}
-.tl-toggle:hover{background:#c8b890}
+* {box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:'Palatino Linotype',Palatino,serif;background:#ece8e0;color:#1a0e04;font-size:18.5px}
+#header{height:64px;background:#d4c4a0;border-bottom:2px solid #a89060;padding:0 32px;display:flex;align-items:center;justify-content:space-between}
+.h-left{display:flex;align-items:center;gap:12px}
+.h-logo{width:50px;height:50px;border-radius:50%;object-fit:cover}
+.h-title{font-size:24px;font-weight:700;color:#120a02;letter-spacing:.07em}
+.h-sub{font-size:14px;color:#3a2010;letter-spacing:.18em;margin-top:2px}
+.h-right{display:flex;align-items:center;gap:10px}
+#page{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto;gap:8px;padding:12px 32px;height:calc(100vh - 64px)}
+.card-title{font-size:1.08rem;letter-spacing:.14em;text-transform:uppercase;color:#3a2010;font-weight:700;margin-bottom:8px;flex-shrink:0}
+.section{display:flex;flex-direction:column;justify-content:center;padding:14px 16px;background:#d4c4a0;border:1px solid #a89060;border-radius:10px}
+.sec-label{font-size:1.08rem;letter-spacing:.06em;text-transform:uppercase;color:#3a2010;font-weight:700;margin-bottom:4px}
+input[type=range]{width:100%;accent-color:#8a4a00;cursor:pointer;display:block;margin:3px 0 2px;height:4px}
+.slider-labels{display:flex;justify-content:space-between;font-size:0.9rem;color:#5a3a18}
+.slider-labels .green{color:#2a7a3a;font-weight:700}
+.slider-labels .red{color:#c03020;font-weight:700}
+.toggle-group{display:flex;border:1px solid #a89060;border-radius:6px;overflow:hidden}
+.toggle-btn{background:transparent;border:none;padding:5px 11px;font-family:inherit;font-size:14px;font-weight:700;color:#5a3a18;cursor:pointer;transition:background .15s}
+.toggle-btn.active{background:#8a4a00;color:#f5ead8}
+.tl-toggle{font-size:13px;color:#8a4a00;cursor:pointer;font-weight:700;letter-spacing:.3px;padding:3px 10px;border:1px solid #a89060;border-radius:5px;background:transparent;transition:background .15s,color .15s,border-color .15s}
 .tl-toggle.active{background:#8a4a00;color:#f5ead8;border-color:#8a4a00}
-#timeline-view{display:none;flex:1;overflow-y:auto;min-height:0;scrollbar-width:thin;scrollbar-color:#a89060 #d4c4a0}
-#timeline-view.show{display:block}
-#timeline-view::-webkit-scrollbar{width:6px}
-#timeline-view::-webkit-scrollbar-track{background:#d4c4a0;border-radius:3px}
-#timeline-view::-webkit-scrollbar-thumb{background:#a89060;border-radius:3px}
-#timeline-view::-webkit-scrollbar-thumb:hover{background:#8a4a00}
+/* Method card spans rows 2 and 3 on the right */
+#method-card{grid-column:2;grid-row:2/4}
+#method-view{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
 #method-view.hide{display:none}
-.tl-item{display:flex;gap:10px;position:relative}
-.tl-line{position:relative;display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0}
-.tl-dot{width:10px;height:10px;border-radius:50%;background:#a89060;flex-shrink:0;z-index:1;border:2px solid #d4c4a0}
-.tl-dot.active{background:#8a4a00;width:12px;height:12px;border-color:#8a4a00}
-.tl-stem{width:4px;border-radius:2px;margin-top:2px;flex-shrink:0}
-.tl-item:last-child .tl-stem{display:none}
-.tl-content{flex:1;min-width:0;cursor:pointer;padding:2px 6px 6px;border-radius:6px;transition:background .12s}
-.tl-content:hover{background:#c8b890}
-.tl-head{display:flex;align-items:center;gap:8px}
-.tl-icon{font-size:24px;line-height:1}
-.tl-title{font-size:16px;font-weight:700;color:#1a0e04}
-.tl-dur{font-size:14px;color:#6a4a20;font-weight:600;margin-left:auto;flex-shrink:0}
-.tl-desc{font-size:14px;color:#3a2010;line-height:1.4;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-
-/* ── SCHEDULE ── */
-.slider-labels { display: flex; justify-content: space-between; font-size: 1rem; color: #3a2010; }
-.green { color: #2a7a3a !important; }
-.red { color: #c03020 !important; }
-
-.fopt { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 7px 10px; border-radius: 7px; border: 1px solid #b8a070; margin-bottom: 5px; background: #e0d4be; }
-.fopt.sel { background: #c8b890; border-color: #a89060; }
-.fradio { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; border: 2px solid #ccc; background: transparent; }
-.flabel { font-size: 1rem; font-weight: 600; }
-.fdesc { font-size: 1rem; color: #2a1800; margin-top: 1px; line-height: 1.3; }
-
-
-
-
-
-/* PAN SELECTOR */
-.pan-section { justify-content: center !important; gap: 0; }
-.pan-section #pan-inputs { margin-top: 10px; }
-.pan-shape { display: flex; gap: 12px; flex-shrink: 0; margin-top: 6px; }
-.shape-btn {
-  flex: 1;
-  height: 42px;
-  border: 2px solid #a89060;
-  border-radius: 10px;
-  background: transparent;
-  font-family: inherit;
-  font-size: 1.2rem;
-  color: #3a2010;
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.15s;
-}
-.shape-btn.sel { background: #c8b890; border-color: #8a4a00; color: #8a4a00; }
-.pan-inputs { margin-top: 10px; flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
-.pan-row { display: flex; align-items: center; gap: 12px; }
-.pan-row label { font-size: 1.1rem; color: #3a2010; font-weight: 600; min-width: 80px; }
-.pan-row input {
-  flex: 1;
-  padding: 7px 12px;
-  border: 1px solid #b8a070;
-  border-radius: 8px;
-  background: #e0d4be;
-  font-family: inherit;
-  font-size: 1.1rem;
-  color: #1a0e04;
-}
-.pan-row input:focus { outline: none; border-color: #8a4a00; }
-.pan-unit { font-size: 1.1rem; color: #6a4a20; font-weight: 600; }
-.pan-result { margin-top: 10px; font-size: 1.1rem; color: #3a2010; line-height: 1.5; }
-.pan-result strong { color: #8a4a00; }
-
-.warning { margin-top: 6px; font-size: 1rem; padding: 6px 10px; border-radius: 5px; background: #f5e0b8; color: #b85c00; border: 1px solid #d4a840; }
-
-/* RIGHT CARD */
-table { width: 100%; border-collapse: collapse; flex-shrink: 0; }
-th { padding: 4px 0; font-size: 1rem; color: #3a2010; letter-spacing: 0.14em; text-transform: uppercase; border-bottom: 2px solid #a89060; font-weight: 700; }
-th:first-child { text-align: left; }
-th:not(:first-child) { text-align: right; }
-td { padding: 5px 0; font-size: 1rem; color: #120a02; border-bottom: 1px solid #b8a070; }
-td.wt { font-size: 20px; font-weight: 700; color: #8a4a00; text-align: right; font-variant-numeric: tabular-nums; }
-td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
-.total-row td { font-size: 1rem; color: #3a2010; padding-top: 3px; border-bottom: none; }
-.total-row td.wt { font-size: 13px; color: #5a3a18; }
-
-.divider { border-top: 2px solid #a89060; margin: 26px 0 18px; flex-shrink: 0; }
-
-/* METHOD INLINE */
-#method-view { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-#method-view.hide { display: none; }
-.prog-row { display: flex; justify-content: space-between; font-size: 1rem; color: #3a2010; margin-bottom: 5px; flex-shrink: 0; }
-.restart { color: #8a4a00; cursor: pointer; font-weight: 600; }
-.prog-bg { height: 4px; background: #a89060; border-radius: 2px; overflow: hidden; margin-bottom: 6px; flex-shrink: 0; }
-.prog-fill { height: 100%; background: #8a4a00; border-radius: 2px; transition: width 0.3s; }
-.method-body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-.step-content { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-.nav-row { display: flex; gap: 8px; margin-top: 6px; flex-shrink: 0; }
-.m-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
-.m-icon { font-size: 34px; line-height: 1; flex-shrink: 0; }
-.m-step-lbl { font-size: 1rem; color: #3a2010; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 3px; }
-.m-title { font-size: 24px; font-weight: 700; color: #120a02; line-height: 1.2; }
-.m-body-text { font-size: 1rem; color: #120a02; line-height: 1.7; white-space: pre-line; flex: 1; min-height: 0; overflow: hidden; }
-.tip-box { margin-top: 6px; padding: 8px 10px; background: #e8dcc8; border-radius: 7px; border-left: 3px solid #8a4a00; }
-.tip-lbl { font-size: 1rem; color: #8a4a00; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 3px; font-weight: 700; }
-.tip-txt { font-size: 1rem; color: #1a0e04; line-height: 1.5; }
-
-.timer-box { margin-top: 6px; background: #e0d4be; border-radius: 7px; padding: 10px 14px; border: 1px solid #b8a070; flex-shrink: 0; }
-.timer-row { display: flex; align-items: center; gap: 10px; }
-.t-disp { font-size: 38px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 76px; }
-.t-bar-bg { flex: 1; height: 5px; background: #a89060; border-radius: 3px; overflow: hidden; }
-.t-bar { height: 100%; background: #8a4a00; border-radius: 3px; transition: width 1s linear; width: 0%; }
-.t-btn { background: #8a4a00; color: #f5ead8; border: none; border-radius: 5px; padding: 7px 16px; font-size: 15px; cursor: pointer; font-family: inherit; font-weight: 700; }
-.t-lbl { font-size: 1rem; color: #3a2010; margin-top: 4px; }
-
-.nav-prev { flex: 1; padding: 12px; border: 1px solid #b8a070; border-radius: 7px; background: #e0d4be; color: #2a1800; font-size: 16px; cursor: pointer; font-family: inherit; }
-.nav-prev:disabled { background: #c8b890; color: #a89060; cursor: default; }
-.nav-next { flex: 2; padding: 12px; border: none; border-radius: 7px; background: #8a4a00; color: #f5ead8; font-size: 16px; cursor: pointer; font-family: inherit; font-weight: 700; }
-.nav-next:disabled { background: #a89060; cursor: default; }
-
-@media (max-width: 768px) {
-  html, body { overflow: auto; height: auto; }
-  #page {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    height: auto;
-    padding: 12px 16px;
-    gap: 10px;
-  }
-  .section { flex: none; padding: 10px 14px; justify-content: flex-start; }
-  .method-body { height: auto; overflow: visible; }
-  .step-content { overflow: visible; height: auto; }
-  #method-card {
-    height: calc(100dvh - 64px - 24px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  #method-card > div:first-child { flex-shrink: 0; }
-  #method-card #method-view { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-  #method-card #method-view.hide { display: none; }
-  #method-card .method-body { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-  #method-card .step-content { flex: 1; overflow-y: auto; min-height: 0; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
-  #method-card .nav-row { flex-shrink: 0; }
-  #method-card #timeline-view { display: none; flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-  #method-card #timeline-view.show { display: block; }
-  .tl-icon { font-size: 26px; }
-  .tl-title { font-size: 17px; }
-  .tl-dur { font-size: 14px; }
-  .tl-desc { font-size: 14px; -webkit-line-clamp: 3; }
-  .tl-content { padding: 4px 8px 10px; }
-  .tl-dot { width: 14px; height: 14px; }
-  .tl-dot.active { width: 16px; height: 16px; }
-  .tl-stem { width: 5px; }
-  #header { padding: 0 16px; }
-  .h-title { font-size: 16px; }
-  .shape-btn { height: 48px; font-size: 1rem; }
-  input[type=range] { height: 8px; }
-  .nav-prev, .nav-next { padding: 14px; font-size: 1rem; }
-  .m-title { font-size: 20px; }
-  .m-body-text { font-size: 1rem; }
-  .t-disp { font-size: 28px; }
+#timeline-view{display:none;flex:1;overflow-y:auto;min-height:0;scrollbar-width:thin;scrollbar-color:#a89060 #d4c4a0;flex-direction:column}
+#timeline-view.show{display:flex}
+.fopt{display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:7px 10px;border-radius:7px;border:1px solid #b8a070;margin-bottom:10px;background:#e0d4be}
+.fopt.sel{background:#c8b890;border-color:#a89060}
+.fradio{width:14px;height:14px;border-radius:50%;border:2px solid #a89060;flex-shrink:0;margin-top:3px}
+.flabel{font-weight:700;font-size:1.08rem}
+.fdesc{font-size:1.05rem;color:#5a3a18;margin-top:2px}
+.pan-section{gap:0}
+.pan-shape{display:flex;gap:8px;margin-bottom:8px}
+.shape-btn{flex:1;height:42px;border:2px solid #a89060;border-radius:10px;background:transparent;font-family:inherit;font-size:1.25rem;color:#3a2010;cursor:pointer;font-weight:700;transition:all .15s}
+.shape-btn.sel{background:#c8b890;border-color:#8a4a00;color:#8a4a00}
+.pan-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.pan-row label{font-size:1.15rem;color:#3a2010;font-weight:600;min-width:80px}
+.pan-row input{flex:1;padding:7px 12px;border:1px solid #b8a070;border-radius:8px;background:#e0d4be;font-family:inherit;font-size:1.15rem;color:#1a0e04}
+.pan-unit{font-size:1rem;color:#5a3a18;min-width:30px}
+.pan-result{margin-top:4px;font-size:1.15rem;color:#3a2010;line-height:1.5}
+.pan-result strong{color:#8a4a00}
+.warning{margin-top:6px;font-size:1.05rem;padding:6px 10px;border-radius:5px;background:#f5e0b8;color:#b85c00;border:1px solid #d4a840}
+table{width:100%;border-collapse:collapse}
+th{padding:4px 0;font-size:1.08rem;color:#3a2010;letter-spacing:.14em;text-transform:uppercase;border-bottom:2px solid #a89060;font-weight:700}
+td{padding:5px 0;font-size:1.08rem;color:#120a02;border-bottom:1px solid #b8a070}
+td.wt{font-size:21px;font-weight:700;color:#8a4a00;text-align:right;font-variant-numeric:tabular-nums}
+td.pc{font-size:1.05rem;color:#5a3a18;text-align:right;padding-left:10px}
+.total-row td{font-size:1.08rem;color:#3a2010;padding-top:3px;border-bottom:none}
+.total-row td.wt{font-size:21px;color:#5a3a18}
+.prog-row{display:flex;justify-content:space-between;font-size:1.05rem;color:#3a2010;margin-bottom:5px}
+.restart{color:#8a4a00;cursor:pointer;font-weight:700}
+.prog-bg{height:4px;background:#a89060;border-radius:2px;overflow:hidden;margin-bottom:6px}
+.prog-fill{height:100%;background:#8a4a00;border-radius:2px;transition:width .3s}
+.method-body{display:flex;flex-direction:column;flex:1;min-height:0}
+.step-content{flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#a89060 #d4c4a0}
+#timer-area{flex-shrink:0;margin-top:auto}
+.m-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:6px}
+.m-icon{font-size:34px;line-height:1;flex-shrink:0}
+.m-step-lbl{font-size:0.9rem;text-transform:uppercase;letter-spacing:.1em;color:#5a3a18}
+.m-title{font-size:24px;font-weight:700;color:#120a02;line-height:1.2}
+.m-body-text{font-size:1.05rem;color:#120a02;line-height:1.6;white-space:pre-line;overflow:hidden}
+.timer-box{margin-top:4px;background:#e0d4be;border-radius:7px;padding:5px 10px;border:1px solid #b8a070}
+.timer-row{display:flex;align-items:center;gap:8px}
+.t-disp{font-size:27px;font-weight:700;font-variant-numeric:tabular-nums;min-width:60px}
+.t-bar-bg{flex:1;height:5px;background:#a89060;border-radius:3px;overflow:hidden}
+.t-bar{height:100%;background:#8a4a00;border-radius:3px;transition:width 1s linear;width:0%}
+.t-btn{background:#8a4a00;color:#f5ead8;border:none;border-radius:5px;padding:4px 12px;font-size:15px;cursor:pointer;font-family:inherit;font-weight:700}
+.nav-row{display:flex;gap:8px;margin-top:8px;flex-shrink:0}
+.nav-prev,.nav-next{padding:12px;border-radius:7px;font-size:18px;cursor:pointer;font-family:inherit;flex:1;text-align:center}
+.nav-prev{border:1px solid #b8a070;background:#e0d4be;color:#2a1800}
+.nav-next{border:none;background:#8a4a00;color:#f5ead8;font-weight:700}
+/* Timeline styles */
+.tl-item{display:flex;gap:10px;cursor:pointer}
+.tl-line{display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0}
+.tl-dot{width:12px;height:12px;border-radius:50%;border:2px solid #a89060;background:#a89060;flex-shrink:0}
+.tl-dot.active{background:#8a4a00;border-color:#8a4a00;box-shadow:0 0 0 3px rgba(138,74,0,0.3)}
+.tl-stem{width:3px;flex-shrink:0}
+.tl-content{flex:1;padding-bottom:6px}
+.tl-head{display:flex;align-items:center;gap:6px}
+.tl-icon{font-size:18px}
+.tl-title{font-weight:700;font-size:1rem;color:#120a02}
+.tl-dur{font-size:0.95rem;color:#8a4a00;font-weight:700;margin-left:auto}
+.tl-desc{font-size:0.9rem;color:#5a3a18;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:768px){
+  #header{height:auto;padding:12px 16px;flex-wrap:wrap}
+  .h-right{width:100%;justify-content:flex-end;margin-top:4px}
+  html,body{overflow:auto;height:auto}
+  #page{grid-template-columns:1fr;height:auto;padding:12px 16px}
+  #method-card{grid-column:1;grid-row:auto;order:10;height:80vh;flex:none!important}
+  .section{flex:none}
 }
 </style>
 </head>
@@ -234,81 +110,115 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
 
 <div id="header">
   <div class="h-left">
-    <span class="h-emoji">🫓</span>
+    <svg class="h-logo" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="border-radius:50%;width:50px;height:50px">
+      <rect x="0" y="0" width="300" height="300" rx="16" fill="#D4A848"/>
+      <rect x="20" y="20" width="260" height="260" rx="10" fill="#DCBA60" opacity="0.4"/>
+      <rect x="0" y="0" width="300" height="300" rx="16" fill="none" stroke="#C09030" stroke-width="3"/>
+      <ellipse cx="60" cy="60" rx="18" ry="16" fill="#C09030" opacity="0.6"/><ellipse cx="60" cy="60" rx="10" ry="8" fill="#D8B858" opacity="0.5"/>
+      <ellipse cx="130" cy="50" rx="20" ry="17" fill="#C09030" opacity="0.55"/><ellipse cx="130" cy="50" rx="11" ry="9" fill="#D8B858" opacity="0.45"/>
+      <ellipse cx="210" cy="65" rx="17" ry="18" fill="#C09030" opacity="0.6"/><ellipse cx="210" cy="65" rx="9" ry="10" fill="#D8B858" opacity="0.5"/>
+      <ellipse cx="50" cy="135" rx="19" ry="16" fill="#C09030" opacity="0.55"/><ellipse cx="50" cy="135" rx="10" ry="8" fill="#D8B858" opacity="0.45"/>
+      <ellipse cx="120" cy="125" rx="22" ry="19" fill="#C09030" opacity="0.6"/><ellipse cx="120" cy="125" rx="12" ry="10" fill="#D8B858" opacity="0.5"/>
+      <ellipse cx="205" cy="140" rx="18" ry="20" fill="#C09030" opacity="0.55"/><ellipse cx="205" cy="140" rx="10" ry="11" fill="#D8B858" opacity="0.45"/>
+      <ellipse cx="70" cy="215" rx="20" ry="17" fill="#C09030" opacity="0.6"/><ellipse cx="70" cy="215" rx="11" ry="9" fill="#D8B858" opacity="0.5"/>
+      <ellipse cx="160" cy="205" rx="17" ry="19" fill="#C09030" opacity="0.55"/><ellipse cx="160" cy="205" rx="9" ry="10" fill="#D8B858" opacity="0.45"/>
+      <ellipse cx="240" cy="220" rx="19" ry="16" fill="#C09030" opacity="0.6"/><ellipse cx="240" cy="220" rx="10" ry="8" fill="#D8B858" opacity="0.5"/>
+      <ellipse cx="260" cy="110" rx="16" ry="15" fill="#C09030" opacity="0.5"/><ellipse cx="260" cy="110" rx="8" ry="7" fill="#D8B858" opacity="0.4"/>
+      <ellipse cx="100" cy="270" rx="18" ry="15" fill="#C09030" opacity="0.55"/><ellipse cx="100" cy="270" rx="9" ry="7" fill="#D8B858" opacity="0.45"/>
+      <ellipse cx="200" cy="270" rx="16" ry="17" fill="#C09030" opacity="0.55"/><ellipse cx="200" cy="270" rx="8" ry="9" fill="#D8B858" opacity="0.45"/>
+      <g transform="translate(150,150) rotate(-30)">
+        <path d="M-100 0 Q-40 -4, 100 5" fill="none" stroke="#3A6530" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M-75 -1 Q-84 -11, -78 -18 Q-68 -9, -75 -1Z" fill="#5A9648" opacity="0.85"/>
+        <path d="M-75 -1 Q-84 9, -78 16 Q-68 8, -75 -1Z" fill="#4A8638" opacity="0.8"/>
+        <path d="M-50 -2 Q-59 -13, -53 -20 Q-43 -11, -50 -2Z" fill="#5A9648" opacity="0.85"/>
+        <path d="M-50 -2 Q-59 9, -53 16 Q-43 8, -50 -2Z" fill="#4A8638" opacity="0.8"/>
+        <path d="M-25 -3 Q-34 -15, -28 -22 Q-18 -13, -25 -3Z" fill="#5A9648" opacity="0.85"/>
+        <path d="M-25 -3 Q-34 9, -28 16 Q-18 8, -25 -3Z" fill="#4A8638" opacity="0.8"/>
+        <path d="M5 -3 Q-4 -16, 2 -23 Q12 -14, 5 -3Z" fill="#5A9648" opacity="0.8"/>
+        <path d="M5 -3 Q-4 9, 2 16 Q12 8, 5 -3Z" fill="#4A8638" opacity="0.75"/>
+        <path d="M32 -1 Q23 -13, 29 -20 Q39 -11, 32 -1Z" fill="#5A9648" opacity="0.8"/>
+        <path d="M32 -1 Q23 11, 29 18 Q39 10, 32 -1Z" fill="#4A8638" opacity="0.75"/>
+        <path d="M58 1 Q49 -11, 55 -18 Q65 -9, 58 1Z" fill="#5A9648" opacity="0.75"/>
+        <path d="M58 1 Q49 13, 55 20 Q65 12, 58 1Z" fill="#4A8638" opacity="0.7"/>
+        <path d="M80 3 Q71 -7, 77 -14 Q87 -5, 80 3Z" fill="#5A9648" opacity="0.7"/>
+        <path d="M80 3 Q71 13, 77 19 Q87 12, 80 3Z" fill="#4A8638" opacity="0.65"/>
+        <path d="M95 4 Q88 -3, 93 -9 Q100 -2, 95 4Z" fill="#5A9648" opacity="0.65"/>
+        <path d="M95 4 Q88 11, 93 16 Q100 10, 95 4Z" fill="#4A8638" opacity="0.6"/>
+      </g>
+      <rect x="40" y="30" width="5" height="3" rx="1" fill="#F8F2E4" opacity="0.75" transform="rotate(20,42,31)"/>
+      <rect x="250" y="90" width="4" height="2.5" rx="1" fill="#F8F2E4" opacity="0.7" transform="rotate(-15,252,91)"/>
+      <rect x="30" y="250" width="4.5" height="3" rx="1" fill="#F8F2E4" opacity="0.65" transform="rotate(30,32,251)"/>
+      <rect x="230" y="260" width="5" height="2.5" rx="1" fill="#F8F2E4" opacity="0.7"/>
+      <rect x="120" y="20" width="4" height="2.5" rx="1" fill="#F8F2E4" opacity="0.65" transform="rotate(10,122,21)"/>
+      <rect x="270" y="190" width="4.5" height="3" rx="1" fill="#F8F2E4" opacity="0.7"/>
+    </svg>
     <div>
       <div class="h-title">FocacciaFriday</div>
-      <div class="h-sub">The Focaccia Calculator</div>
+      <div class="h-sub">focaccia calculator</div>
+    </div>
+  </div>
+  <div class="h-right">
+    <div class="toggle-group">
+      <button class="toggle-btn active" id="btn-metric" onclick="setUnits('metric')">Metric</button>
+      <button class="toggle-btn" id="btn-imperial" onclick="setUnits('imperial')">Imperial</button>
+    </div>
+    <div class="toggle-group">
+      <button class="toggle-btn active" id="btn-c" onclick="setTempScale('C')">°C</button>
+      <button class="toggle-btn" id="btn-f" onclick="setTempScale('F')">°F</button>
     </div>
   </div>
 </div>
 
 <div id="page">
-
-  <!-- ROW 1: SLIDERS | INGREDIENTS -->
-    <div class="section">
-      <div class="sec-label" id="hours-lbl">Total Time: 18 hours</div>
-      <input type="range" min="6" max="24" step="1" value="18" id="hours-slider" oninput="update()">
-      <div class="slider-labels"><span>6h</span><span id="sweet-lbl">12–18h sweet spot</span><span>24h</span></div>
-      <div style="margin-top:6px">
-        <div class="sec-label" id="hyd-lbl">Hydration: 90%</div>
-        <input type="range" min="80" max="100" step="1" value="90" id="hyd-slider" oninput="update()">
-        <div class="slider-labels"><span>80%</span><span id="hyd-sweet">85–90% target</span><span id="yolo">100% yolo</span></div>
-        <div class="warning" id="hyd-warn" style="display:none"></div>
-      </div>
-      <div style="margin-top:6px">
-        <div class="sec-label" id="temp-lbl">Room Temperature: 20°C</div>
-        <input type="range" min="15" max="28" step="1" value="20" id="temp-slider" oninput="update()">
-        <div class="slider-labels"><span>15° cool</span><span id="temp-ideal">18–22° ideal</span><span>28° warm</span></div>
-      </div>
+  <!-- ROW 1 LEFT: SLIDERS -->
+  <div class="section">
+    <div class="sec-label" id="hours-lbl">Total Time: 8 hours</div>
+    <input type="range" min="0" max="100" step="1" value="14" id="hours-slider" oninput="update()">
+    <div class="slider-labels"><span>6h</span><span id="sweet-lbl">12–24h sweet spot</span><span>48h</span></div>
+    <div style="margin-top:14px">
+      <div class="sec-label" id="hyd-lbl">Hydration: 85%</div>
+      <input type="range" min="70" max="100" step="1" value="85" id="hyd-slider" oninput="update()">
+      <div class="slider-labels"><span>70%</span><span id="hyd-sweet">80–90% target</span><span id="yolo">100% yolo</span></div>
+      <div class="warning" id="hyd-warn" style="display:none"></div>
     </div>
-
-    <div class="section">
-      <div class="card-title" id="rec-title" style="margin-bottom:4px">Ingredients</div>
-      <table>
-        <tbody id="rec-tbody"></tbody>
-      </table>
+    <div style="margin-top:14px">
+      <div class="sec-label" id="temp-lbl">Room / Control Temp: 20°C</div>
+      <input type="range" min="15" max="28" step="1" value="20" id="temp-slider" oninput="update()">
+      <div class="slider-labels"><span>15° cool</span><span id="temp-ideal">18–22° ideal</span><span>28° warm</span></div>
     </div>
+  </div>
 
-  <!-- ROW 2: FERMENT+PAN | METHOD -->
-    <div style="display:flex;flex-direction:column;gap:10px;min-height:0;overflow:hidden">
-      <div class="section" style="flex:1;margin-bottom:0">
-        <div class="sec-label">Ferment Type</div>
-        <div class="fopt sel" id="opt-cold" onclick="selectFerment('cold')">
-          <div class="fradio" id="radio-cold" style="border-color:#2a6898;background:#2a6898"></div>
-          <div><div class="flabel" id="lbl-cold" style="color:#2a6898">Cold Ferment</div><div class="fdesc">Room temp bulk, overnight fridge, room temp final proof.</div></div>
-        </div>
-        <div class="fopt" id="opt-room" onclick="selectFerment('room')">
-          <div class="fradio" id="radio-room" style="border-color:#b85c00"></div>
-          <div><div class="flabel" id="lbl-room" style="color:#2a1800">Room Temp</div><div class="fdesc">Same-day. All fermentation at room temperature.</div></div>
-        </div>
-        <div class="warning" id="cold-warn" style="display:none;margin-top:8px;"></div>
-      </div>
+  <!-- ROW 1 RIGHT: INGREDIENTS -->
+  <div class="section">
+    <div class="card-title" id="rec-title" style="margin-bottom:4px">Ingredients</div>
+    <table><tbody id="rec-tbody"></tbody></table>
+  </div>
 
-      <div class="section pan-section" style="flex:1;margin-bottom:0">
-        <div class="sec-label">Pan</div>
-        <div class="pan-shape">
-          <button class="shape-btn sel" id="btn-rect" onclick="setShape('rect')">Square</button>
-          <button class="shape-btn" id="btn-round" onclick="setShape('round')">Round</button>
-        </div>
-        <div id="pan-inputs"></div>
-        <div class="pan-result" id="pan-result"></div>
-      </div>
+  <!-- ROW 2 LEFT: FERMENT TYPE -->
+  <div class="section">
+    <div class="sec-label">Ferment Type</div>
+    <div class="fopt" id="opt-cold" onclick="selectFerment('cold')">
+      <div class="fradio" id="radio-cold" style="border-color:#2a6898;background:transparent"></div>
+      <div><div class="flabel" id="lbl-cold" style="color:#2a6898">Cold Ferment</div><div class="fdesc">Room temp bulk, overnight fridge, room temp final proof.</div></div>
     </div>
+    <div class="fopt sel" id="opt-room" onclick="selectFerment('room')">
+      <div class="fradio" id="radio-room" style="border-color:#b85c00;background:#b85c00"></div>
+      <div><div class="flabel" id="lbl-room" style="color:#b85c00">Room Temp</div><div class="fdesc">All fermentation at room or controlled temp.</div></div>
+    </div>
+  </div>
 
-    <div id="method-card" class="section" style="flex:1;margin-bottom:0;min-height:0;display:flex;flex-direction:column">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-shrink:0">
-        <div class="card-title" style="margin-bottom:0">Method</div>
-        <button class="tl-toggle" id="tl-toggle" onclick="toggleTimeline()">☰ Timeline</button>
-      </div>
-
-    <!-- STEP-BY-STEP VIEW -->
+  <!-- ROW 2+3 RIGHT: METHOD (spans 2 rows) -->
+  <div id="method-card" class="section" style="min-height:0;display:flex;flex-direction:column;overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-shrink:0">
+      <div class="card-title" style="margin-bottom:0">Method</div>
+      <button class="tl-toggle" id="tl-toggle" onclick="toggleTimeline()">☰ Timeline</button>
+    </div>
     <div id="method-view">
       <div class="prog-row">
         <span id="step-counter"></span>
         <span class="restart" onclick="setStep(0)">↺ Restart</span>
       </div>
       <div class="prog-bg"><div class="prog-fill" id="prog-fill"></div></div>
-
       <div class="method-body">
         <div class="step-content">
           <div class="m-header">
@@ -316,47 +226,73 @@ td.pc { font-size: 1rem; color: #3a2010; text-align: right; }
             <div><div class="m-step-lbl" id="s-lbl"></div><div class="m-title" id="s-title"></div></div>
           </div>
           <div class="m-body-text" id="s-body"></div>
-          <div id="timer-area"></div>
           <div id="tip-area"></div>
         </div>
+        <div id="timer-area"></div>
         <div class="nav-row">
           <button class="nav-prev" id="prev-btn" onclick="prevStep()">← Previous</button>
           <button class="nav-next" id="next-btn" onclick="nextStep()">Next Step →</button>
         </div>
       </div>
     </div>
-
-    <!-- TIMELINE VIEW -->
     <div id="timeline-view"></div>
+  </div>
 
+  <!-- ROW 3 LEFT: PAN -->
+  <div class="section pan-section">
+    <div class="sec-label">Pan</div>
+    <div class="pan-shape">
+      <button class="shape-btn sel" id="btn-rect" onclick="setShape('rect')">Square</button>
+      <button class="shape-btn" id="btn-round" onclick="setShape('round')">Round</button>
     </div>
-
+    <div id="pan-inputs"></div>
+    <div class="pan-result" id="pan-result"></div>
+  </div>
 </div>
 
 <script>
-// Pan calculation — assumes 7cm depth
 const DEPTH_MM = 70;
-const REF_AREA = 229 * 229; // 9x9 reference
-const REF_FLOUR = 400;
+const REF_AREA = 229 * 229;
+const REF_FLOUR = 450;
 function calcPanFlour(shape, w, h) {
   const area = shape === 'round' ? Math.PI * (w/2) ** 2 : w * h;
   return Math.round((area / REF_AREA) * REF_FLOUR / 5) * 5;
 }
 
-function q10Rate(t){if(t>=40)return 0.01;if(t>32)return Math.pow(2,(32-24)/10)*(1-(t-32)/8);return Math.pow(2,(t-24)/10);}
-function calcYeast(fid,rt,hrs,hyd){
-  const hf=1+0.005*Math.max(0,hyd-65),r30=q10Rate(30); // hyd always >= 80
-  let raw;
-  if(fid==='room'){const rr=q10Rate(rt),b=2.5,p=Math.max(1,hrs-b-0.5);raw=1.0*(8.438/((b+p)*(rr/r30)))/hf;}
-  else{raw=(0.25*(18/Math.max(6,hrs))/hf)/(q10Rate(rt)/q10Rate(20));}
-  return Math.round(Math.min(2,Math.max(0.05,raw))*100)/100;
+function sliderToHours(pos){
+  const raw = 6 * Math.pow(8, pos / 100);
+  return Math.round(Math.min(48, Math.max(6, raw)));
+}
+function hoursToSlider(h){
+  return Math.round(Math.log(h / 6) / Math.log(8) * 100);
+}
+
+function calcYeast(fid, rt, hrs, hyd) {
+  const k = 3.53;
+  const tempMultiplier = Math.pow(2, (rt - 24) / 10);
+  const hydrationMultiplier = 1 + 0.005 * Math.max(0, hyd - 65);
+  let effectiveTime;
+  let coldLagMultiplier = 1.0;
+  if (fid === 'room') {
+    effectiveTime = hrs;
+  } else {
+    const roomTime = 5;
+    const fridgeTime = Math.max(0, hrs - roomTime);
+    const fridgeMultiplier = Math.pow(2, (7 - 24) / 10);
+    const fridgeEffectiveHours = fridgeTime * (fridgeMultiplier / tempMultiplier);
+    effectiveTime = roomTime + fridgeEffectiveHours;
+    coldLagMultiplier = 0.9;
+  }
+  const rawYeast = (k / (effectiveTime * tempMultiplier * hydrationMultiplier)) * coldLagMultiplier;
+  return Math.round(Math.min(2.0, Math.max(0.05, rawYeast)) * 100) / 100;
 }
 
 const FERMENTS={room:{color:'#b85c00'},cold:{color:'#2a6898'}};
 function minsToLabel(m){if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return r?h+'h '+r+'m':h+'h';}
 
-let S={hours:18,fid:'cold',hyd:90,rTemp:20,step:0,panShape:'rect',panW:23,panH:23};
+let S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,panShape:'rect',panW:23,panH:23};
 let steps=[], timerInt=null, TS={total:0,rem:0,running:false,done:false};
+let CF={active:false,fold:0,totalFolds:4,intervalMins:30};
 
 function setShape(shape) {
   S.panShape = shape;
@@ -370,18 +306,23 @@ function setShape(shape) {
 
 function renderPanInputs() {
   const el = document.getElementById('pan-inputs');
-  el.style.marginTop = '10px';
+  const imp = S.units === 'imperial';
+  const unit = imp ? 'in' : 'cm';
+  const r = v => imp ? (v/2.54).toFixed(1) : v;
+  const step = imp ? '0.5' : '1';
   if (S.panShape === 'round') {
-    el.innerHTML = `<div class="pan-row"><label>Diameter</label><input type="number" value="${S.panW}" min="10" max="60" oninput="S.panW=+this.value;S.panH=+this.value;update()"><span class="pan-unit">cm</span></div>`;
+    el.innerHTML = `<div class="pan-row"><label>Diameter</label><input type="number" value="${r(S.panW)}" min="${imp?4:10}" max="${imp?24:60}" step="${step}" oninput="S.panW=S.panH=${imp?'Math.round(+this.value*2.54)':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>`;
   } else {
     el.innerHTML = `
-      <div class="pan-row" style="margin-bottom:8px"><label>Width</label><input type="number" value="${S.panW}" min="10" max="80" oninput="S.panW=+this.value;update()"><span class="pan-unit">cm</span></div>
-      <div class="pan-row"><label>Length</label><input type="number" value="${S.panH}" min="10" max="80" oninput="S.panH=+this.value;update()"><span class="pan-unit">cm</span></div>`;
+      <div class="pan-row"><label>Width</label><input type="number" value="${r(S.panW)}" min="${imp?4:10}" max="${imp?32:80}" step="${step}" oninput="S.panW=${imp?'Math.round(+this.value*2.54)':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>
+      <div class="pan-row"><label>Length</label><input type="number" value="${r(S.panH)}" min="${imp?4:10}" max="${imp?32:80}" step="${step}" oninput="S.panH=${imp?'Math.round(+this.value*2.54)':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>`;
   }
 }
 
 function selectFerment(id){
   S.fid=id;
+  if(id==='cold' && S.hours<14){S.hours=14;document.getElementById('hours-slider').value=hoursToSlider(14);}
+  if(id==='room' && S.hours>24){S.hours=24;document.getElementById('hours-slider').value=hoursToSlider(24);}
   ['room','cold'].forEach(f=>{
     const col=FERMENTS[f].color, sel=f===id;
     document.getElementById('opt-'+f).classList.toggle('sel',sel);
@@ -392,12 +333,12 @@ function selectFerment(id){
   update();
 }
 
-
-
 function update(){
-  S.hours=+document.getElementById('hours-slider').value;
+  S.hours=sliderToHours(+document.getElementById('hours-slider').value);
   S.hyd=+document.getElementById('hyd-slider').value;
   S.rTemp=+document.getElementById('temp-slider').value;
+  if(S.fid==='room' && S.hours>24){S.hours=24;document.getElementById('hours-slider').value=hoursToSlider(24);}
+  if(S.fid==='cold' && S.hours<14){S.hours=14;document.getElementById('hours-slider').value=hoursToSlider(14);}
   const {hours,hyd,fid,rTemp,panShape,panW,panH}=S;
   const flour=calcPanFlour(panShape, panW*10, panH*10);
   const yp=calcYeast(fid,rTemp,hours,hyd);
@@ -406,90 +347,100 @@ function update(){
   const total=Math.round(ing.flour+ing.water+ing.salt+ing.yeast+ing.oil);
 
   document.getElementById('hours-lbl').textContent=`Total Time: ${hours} hours`;
-  document.getElementById('sweet-lbl').className=(hours>=12&&hours<=18)?'green':'';
+  document.getElementById('sweet-lbl').className=(hours>=12&&hours<=24)?'green':'';
   document.getElementById('hyd-lbl').textContent=`Hydration: ${hyd}%`;
-  document.getElementById('hyd-sweet').className=(hyd>=85&&hyd<=90)?'green':'';
-
-  // Cold ferment warning if hours too short
-  const coldWarn = document.getElementById('cold-warn');
-  if(fid==='cold' && hours < 10) {
-    coldWarn.style.display='block';
-    coldWarn.textContent=`⚠ Cold ferment needs at least 10 hours. At ${hours}h the fridge time is too short to be worth it — switch to Room Temp or add more time.`;
-  } else {
-    coldWarn.style.display='none';
-  }
+  document.getElementById('hyd-sweet').className=(hyd>=80&&hyd<=90)?'green':'';
   document.getElementById('yolo').className=hyd>95?'red':'';
-  document.getElementById('temp-lbl').textContent=`Room Temperature: ${rTemp}°C`;
+  document.getElementById('temp-lbl').textContent=`Room / Control Temp: ${dt(rTemp)}`;
   document.getElementById('temp-ideal').className=(rTemp>=18&&rTemp<=22)?'green':'';
+  document.getElementById('temp-ideal').textContent=S.tempScale==='F'?'64–72°F ideal':'18–22° ideal';
   const w=document.getElementById('hyd-warn');
   if(hyd>92){w.style.display='block';w.textContent='⚠ Above 92% — extremely slack. Respect.';}
   else if(hyd>90){w.style.display='block';w.textContent='⚠ Above 90% — handle the pan like a bomb after final proof.';}
-  
   else w.style.display='none';
 
-  document.getElementById('rec-title').textContent='Ingredients';
-  const panDesc = panShape==='round'?`${panW}cm round`:`${panW}×${panH}cm`;
-  document.getElementById('pan-result').innerHTML=`<strong>${flour}g</strong> flour — ${panDesc}, 7cm deep`;
+  let panDesc;
+  if(S.units==='imperial'){
+    if(panShape==='round') panDesc=`${(panW/2.54).toFixed(1)}" round`;
+    else panDesc=`${(panW/2.54).toFixed(1)}"×${(panH/2.54).toFixed(1)}"`;
+  } else {
+    panDesc = panShape==='round'?`${panW}cm round`:`${panW}×${panH}cm`;
+  }
+  document.getElementById('pan-result').innerHTML=`<strong>${dw(flour)}</strong> flour — ${panDesc}, ${S.units==='imperial'?'2.75" deep':'7cm deep'}`;
   document.getElementById('rec-tbody').innerHTML=[
-    ['Strong white bread flour',ing.flour+'g','100%'],
-    ['Water',ing.water+'g',hyd+'%'],
-    ['Fine sea salt',ing.salt+'g','2.5%'],
-    ['Instant dry yeast',ing.yeast+'g',yp+'%'],
-    ['Extra virgin olive oil',ing.oil+'g','2.5%'],
+    ['Strong white bread flour <span style="margin-left:6px;">(13–16% protein)</span>',dw(ing.flour),'100%'],
+    ['Water',dw(ing.water),hyd+'%'],
+    ['Fine sea salt',dw(ing.salt),'2.5%'],
+    [`Instant dry yeast <span style="margin-left:6px;">(${dw(Math.round(ing.yeast*3*10)/10)} fresh)</span>`,dw(ing.yeast),yp+'%'],
+    ['Extra virgin olive oil',dw(ing.oil),'2.5%'],
   ].map(([n,w,p])=>`<tr><td>${n}</td><td class="wt">${w}</td><td class="pc">${p}</td></tr>`).join('')
-  +`<tr class="total-row"><td>Total dough</td><td class="wt">~${total}g</td><td></td></tr>`;
+  +`<tr class="total-row"><td>Total dough</td><td class="wt">~${dw(total)}</td><td></td></tr>`;
 
   buildSteps(ing,hyd,fid,hours);
   renderMethod();
+  if (tlVisible) renderTimeline();
 }
+
+function setUnits(u){
+  S.units=u;
+  document.getElementById('btn-metric').classList.toggle('active',u==='metric');
+  document.getElementById('btn-imperial').classList.toggle('active',u==='imperial');
+  renderPanInputs();
+  update();
+}
+function setTempScale(t){
+  S.tempScale=t;
+  document.getElementById('btn-c').classList.toggle('active',t==='C');
+  document.getElementById('btn-f').classList.toggle('active',t==='F');
+  update();
+}
+function dw(g){ return S.units==='imperial'?(g/28.35).toFixed(1)+'oz':g+'g'; }
+function dt(c){ return S.tempScale==='F'?Math.round(c*9/5+32)+'°F':c+'°C'; }
 
 function buildSteps(ing,hyd,fid,hours){
   steps=[
     {title:'Gather Equipment',icon:'🛠',timer:null,tip:null,
      body:`• Large bowl\n• Digital scales\n• Baking pan — well oiled\n• Mixing utensil — hands, wooden spoon, or spatula\n• Spatula\n• Large heavy pan — fold surface, won't lift off the counter`},
     {title:'Combine Flour & Water',icon:'💧',timer:null,
-     body:`Add ${ing.flour}g flour to your bowl. Pour in ${ing.water}g water in one go.${fid==='room' ? ' Use warm water — 20 to 27°C. This helps kick off fermentation.' : ''}\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
+     body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} water in one go.${fid==='room' ? ` Use warm water — ${dt(20)} to ${dt(27)}. This helps kick off fermentation.` : ''}\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
      tip:'No mixer. Hand mixing keeps the gluten irregular — that irregularity becomes your voids.'},
     {title:'Autolyse',icon:'⏱',timer:fid==='room'?45:60,
-     body:`Cover and leave undisturbed for ${fid==='room'?'45':'60'} minutes.`,
+     body:`Autolyse is a simple rest period where the flour and water are mixed and left to sit before adding salt and yeast. This rest lets enzymes start breaking down starch and protein, making the dough easier to handle and improving gluten development, flavour, and crust and crumb quality.\n\nCover and leave undisturbed for ${fid==='room'?'45':'60'} minutes.`,
      tip:'Gluten develops passively. The most important step for open crumb.'},
     {title:'Add Salt, Yeast & Oil',icon:'🧂',timer:null,
-     body:`Add directly into the bowl:\n• ${ing.salt}g fine sea salt\n• ${ing.yeast}g instant dry yeast\n• ${ing.oil}g extra virgin olive oil\n\nSqueeze and fold 2–3 minutes. Very wet — do not add flour.`,
-     tip:`Yeast (${ing.yeast}g / ${(ing.yeast/ing.flour*100).toFixed(2)}%) is calculated for your exact settings.`},
-    {title:'Transfer to Heavy Pan',icon:'🔲',timer:null,
-     body:'Scrape dough onto your large heavy pan. It will spread flat. Leave it here for all four folds.',
-     tip:'Pan stays on the counter. You lift the dough — the pan doesn\'t move.'},
-    {title:'Coil Folds — 4',icon:'🔄',coilFold:true,timer:null,
-     body:`4 folds, 30 minutes apart. Total: 1.5 hours.\nWet hands. Slide under the centre of the dough, lift high — let both ends fold underneath. Pan stays on the counter, you move the dough. Rotate 90°, repeat. That's one fold.\nThe dough will feel more resistant with each fold. By fold 4 it should be smooth and springy.\nNot sure of the technique? Watch a coil fold video before you start — it's worth 2 minutes.`,
+     body:`Add directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\n\nThoroughly mix until all ingredients are incorporated.`,
+     tip:null},
+    {title:'Transfer to Heavy Pan',icon:'🔲',timer:30,
+     body:'Scrape dough onto your large heavy pan. It will spread flat.\n\nThe other option here is to leave the dough where it is and perform stretch and folds right there in the bowl. I prefer coil folds but both techniques work.\n\nCover loosely and rest for 30 minutes.',
+     tip:'When performing coil folds both hands are needed. If the dough is in a light metal or plastic container, it will lift with the dough. And you won\'t like that.'},
+    {title:'Coil or Stretch Folds 4',subtitle:'30 min apart · 1.5 hours',icon:'🔄',coilFold:true,timer:null,
+     body:`Coil folds: wet hands, slide under the dough centre, lift high, let both ends fold underneath. Pan stays still. Rotate 90°, repeat. Stretch and folds: wet hands, grab one edge, stretch up, fold to the opposite side, rotate the bowl, repeat 3–4 times. Each fold builds resistance. By fold 4 the dough should be smooth and springy.`,
      tip:null},
     ...(fid==='cold'?[{title:'Into the Fridge',icon:'❄️',
-      timer: Math.round(Math.max(4, hours - 5.5) * 60),
-      body:`Lightly oil a sheet of clingfilm so it doesn't stick, and cover tightly. Fridge at 3–5°C.\n\nCold ferment: ${Math.max(4, hours - 5.5).toFixed(1)} hours. Start the timer and leave it alone.`,
-      tip:'Cold slows yeast, develops flavour, and relaxes gluten for bigger voids.'}]:[]),
+      timer: Math.round(Math.max(240, (hours - 415/60) * 60)),
+      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.\nLightly oil a sheet of clingfilm so it doesn't stick, and cover tightly. Fridge at 3–5°C.\nCold ferment: ${Math.max(4, (hours - 415/60)).toFixed(1)} hours. Start the timer and leave it alone.`,
+      tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
     ...(fid==='room'?[{title:'Bulk Ferment',icon:'⏱',
-      timer: Math.round(Math.max(1, hours - 3.75) * 60),
-      body:`Lightly oil a sheet of clingfilm so it doesn't stick, and cover. Leave at room temperature for ${Math.max(1, hours - 3.75).toFixed(1)} hours until visibly puffy and roughly doubled.`,
-      tip:'Room temp ferment — warmer kitchen = faster rise. Watch the dough, not just the clock.'}]:[]),
-    {title:'Transfer to Baking Pan',icon:'🫙',timer:null,
-     body:'Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.',
-     tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'},
-    {title:'Final Proof',icon:'🔍',timer:120,
-     body:'Lightly oil a sheet of clingfilm so it doesn\'t stick, and cover loosely. Leave until doubled, puffy, bubbly. Jiggle test — wobble like jelly = ready.',tip:null},
-    {title:'Preheat Oven',icon:'🔥',timer:20,
-     body:'230°C, no fan. Place a small pan or ramekin on the oven floor now. It needs to be scorching hot when the bread goes in — that\'s what instantly vaporises the ice cube and floods the oven with steam. Preheat 20 minutes.',
+      timer: Math.round(Math.max(30, (hours - 250/60) * 60)),
+      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.\nLightly oil a sheet of clingfilm so it doesn't stick, and cover. Leave at room temperature until visibly puffy and roughly doubled.`,
+      tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
+    ...(fid==='cold'?[{title:'Final Proof',icon:'🔍',timer:150,
+     body:'Remove from the fridge and leave until doubled, puffy, bubbly. Jiggle test — wobble like jelly = ready.',tip:null}]:[]),
+    {title:'Preheat Oven',icon:'🔥',timer:30,
+     body:`${dt(230)}, no fan. Place a small pan or ramekin on the oven floor now. It needs to be scorching hot when the bread goes in — that's what instantly vaporises the ice cube and floods the oven with steam. Preheat 20 minutes.\n\nAdding moisture here is optional, I know it's a bit of a faff.\n\nThis time is included in your ${fid==='cold'?'final proof':'bulk ferment'}.`,
      tip:null},
     {title:'Dimple & Oil',icon:'👆',timer:null,
-     body:'Add your toppings — flaky salt, rosemary, olives, cherry tomatoes, sliced onion.\n\nNow drizzle olive oil generously over everything. This coats the toppings so they don\'t burn in the high heat.\n\nThen dimple — drive fingers all the way to the base, pushing some of the toppings deep into the bread as you go. Dramatic craters with pools of oil.\n\nStraight in the oven — do not wait.',
+     body:'Add your toppings — flaky salt, rosemary, olives, cherry tomatoes, sliced onion.\nNow drizzle olive oil generously over everything. This coats the toppings so they don\'t burn in the high heat.\nThen dimple — drive fingers all the way to the base, pushing some of the toppings deep into the bread as you go. Dramatic craters with pools of oil.',
      tip:null},
-    {title:'Bake 15 min at 230°C',icon:'🌡',timer:15,
+    {title:`Bake 15 min at ${dt(230)}`,icon:'🌡',timer:15,
      body:'Slide the bread in. Immediately toss an ice cube into the hot ramekin on the oven floor and close the door quickly. Don\'t open it for 15 minutes.\nThe ice cube hits the hot pan and instantly vaporises — flooding the oven with steam in the critical first few minutes. Steam keeps the crust soft and pliable long enough for the dough to fully expand before the crust sets. That\'s where your rise and open crumb come from.',
      tip:null},
-    {title:'Drop to 200°C — 10 min',icon:'🌡',timer:10,
-     body:'Drop to 200°C. 10 more minutes. Deep golden top, edges pulling away, golden brown underside.',
-     tip:'Finishes the interior without burning the surface.'},
+    {title:`Drop to ${dt(200)} — 10 min`,icon:'🌡',timer:10,
+     body:`Drop to ${dt(200)}. 10 more minutes until deep golden on top. Here, your oven will dictate doneness, this is you......'cooking'.`,
+     tip:null},
     {title:'Rest 30 Minutes',icon:'🍞',timer:30,
-     body:'Out of the pan immediately onto a wire rack. Leave alone 30 minutes. Then slice and eat.',
-     tip:'Crumb is still setting. Cutting early compresses the voids.'},
+     body:'Out of the pan immediately onto a wire rack. Leave alone 30 minutes. Then slice and eat.\n\nNobody has ever made it to 30 minutes. But good luck.',
+     tip:'I dare you to wait 30 minutes. Nobody ever has.'},
   ];
 }
 
@@ -500,12 +451,13 @@ function renderMethod(){
   document.getElementById('prog-fill').style.width=`${((i+1)/total)*100}%`;
   document.getElementById('s-icon').textContent=step.icon;
   document.getElementById('s-lbl').textContent=`Step ${i+1}`;
-  document.getElementById('s-title').textContent=step.title;
+  document.getElementById('s-title').innerHTML=step.subtitle
+    ? `${step.title} — <span style="font-size:0.85em;font-weight:600;color:#6a5a3a;letter-spacing:0.02em;">${step.subtitle}</span>`
+    : step.title;
   document.getElementById('s-body').textContent=step.body;
 
   const ta=document.getElementById('timer-area');
   if(step.coilFold){
-    // Coil fold interval timer — 4 x 30 min
     CF={active:false,fold:0,totalFolds:4,intervalMins:30};
     clearInterval(timerInt);
     TS={total:30*60,rem:30*60,running:false,done:false};
@@ -513,47 +465,67 @@ function renderMethod(){
       <div id="fold-indicator" style="font-size:1rem;font-weight:700;margin-bottom:8px;color:#8a4a00">Fold 1 of 4 — do your fold now, then start the timer.</div>
       <div id="timer-box-wrap"><div class="timer-box"><div class="timer-row">
         <div class="t-disp" id="t-disp" style="color:#8a4a00">${fmt(TS.rem)}</div>
-        <div class="t-bar-bg"><div class="t-bar" id="t-bar"></div></div>
+        <div class="t-bar-bg" style="position:relative;overflow:visible;">
+          <div class="t-bar" id="t-bar"></div>
+          <input type="range" min="0" max="${TS.total}" step="1" value="0" id="t-scrub"
+            style="position:absolute;inset:-6px 0;width:100%;height:calc(100% + 12px);background:transparent;cursor:pointer;margin:0;"
+            oninput="scrubTimer(+this.value)">
+        </div>
         <button class="t-btn" id="t-btn" onclick="toggleTimer()">Start</button>
-      </div><div class="t-lbl">30 minute rest — then fold again</div></div></div>`;
-    // Disable Next Step until fold 4 is reached
+      </div></div></div>`;
     document.getElementById('next-btn').disabled=true;
   } else if(step.timer){
     clearInterval(timerInt);
     TS={total:step.timer*60,rem:step.timer*60,running:false,done:false};
     ta.innerHTML=`<div class="timer-box"><div class="timer-row">
       <div class="t-disp" id="t-disp" style="color:#8a4a00">${fmt(TS.rem)}</div>
-      <div class="t-bar-bg"><div class="t-bar" id="t-bar"></div></div>
+      <div class="t-bar-bg" style="position:relative;overflow:visible;">
+        <div class="t-bar" id="t-bar"></div>
+        <input type="range" min="0" max="${TS.total}" step="1" value="0" id="t-scrub"
+          style="position:absolute;inset:-6px 0;width:100%;height:calc(100% + 12px);background:transparent;cursor:pointer;margin:0;"
+          oninput="scrubTimer(+this.value)">
+      </div>
       <button class="t-btn" id="t-btn" onclick="toggleTimer()">Start</button>
-    </div><div class="t-lbl">${minsToLabel(step.timer)} timer</div></div>`;
+    </div></div>`;
   } else { ta.innerHTML=''; clearInterval(timerInt); }
 
-  document.getElementById('tip-area').innerHTML=step.tip?
-    `<div class="tip-box"><div class="tip-lbl">Why this matters</div><div class="tip-txt">${step.tip}</div></div>`:'';
-
+  document.getElementById('tip-area').innerHTML='';
   document.getElementById('prev-btn').disabled=i===0;
   const nb=document.getElementById('next-btn');
   nb.disabled=i===total-1;
   nb.textContent=i===total-1?'Complete ✓':'Next Step →';
 }
 
+function scrubTimer(val){
+  if(TS.done)return;
+  clearInterval(timerInt);TS.running=false;TS.rem=TS.total-val;
+  document.getElementById('t-disp').textContent=fmt(TS.rem);
+  document.getElementById('t-bar').style.width=(val/TS.total*100)+'%';
+  document.getElementById('t-btn').textContent='Start';
+  document.getElementById('t-btn').style.background='#8a4a00';
+}
 function fmt(s){
   if(s>=3600){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
   const m=Math.floor(s/60),sec=s%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
 }
 
+let audioCtx = null;
+function initAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
 let alarmInt=null;
 function stopAlarm(){if(alarmInt){clearInterval(alarmInt);alarmInt=null;}}
 function beep(){
+  if(!audioCtx) return;
   try{
-    const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    [0,0.3,0.6].forEach(t=>{
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);
-      o.frequency.value=880;o.type='sine';
-      g.gain.setValueAtTime(0.3,ctx.currentTime+t);
-      g.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+t+0.25);
-      o.start(ctx.currentTime+t);o.stop(ctx.currentTime+t+0.25);
+    [0,0.25,0.5].forEach(t=>{
+      const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+      o.connect(g);g.connect(audioCtx.destination);
+      o.frequency.value=1760;o.type='sine';
+      g.gain.setValueAtTime(0.4,audioCtx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(0.01,audioCtx.currentTime+t+0.2);
+      o.start(audioCtx.currentTime+t);o.stop(audioCtx.currentTime+t+0.2);
     });
   }catch(e){}
 }
@@ -568,21 +540,18 @@ function startAlarm(){
   },3000);
 }
 
-// Coil fold interval tracker
-let CF={active:false,fold:0,totalFolds:4,intervalMins:30};
-
 function updateFoldDisplay(){
   const el=document.getElementById('fold-indicator');
   const tb=document.getElementById('timer-box-wrap');
   if(!el)return;
   if(CF.fold>=CF.totalFolds){
-    // All 4 folds done — hide timer, show next step
     el.textContent='All 4 folds done. Move on to the next step.';
     el.style.color='#2a7a3a';
     if(tb)tb.style.display='none';
     document.getElementById('next-btn').disabled=false;
+    document.getElementById('t-btn').textContent='Complete';
+    document.getElementById('t-btn').style.background='#2a7a3a';
   } else if(CF.fold===CF.totalFolds-1){
-    // Fold 4 — do the fold, no timer, just next step
     el.textContent='Fold 4 of 4 — last fold. When done, press Next Step.';
     el.style.color='#8a4a00';
     if(tb)tb.style.display='none';
@@ -594,25 +563,38 @@ function updateFoldDisplay(){
   }
 }
 
-
 function toggleTimer(){
+  initAudio();
   const step=steps[S.step];
   const isCoilFold=step&&step.coilFold;
-
   if(TS.done){
     stopAlarm();
     if(isCoilFold && CF.fold < CF.totalFolds-1){
-      // Advance to next fold — if it's fold 4, hide timer
       CF.fold++;
-      TS={total:30*60,rem:30*60,running:false,done:false};
+      TS={total:30*60,rem:30*60,running:true,done:false};
       document.getElementById('t-disp').textContent=fmt(TS.rem);
       document.getElementById('t-disp').style.color='#8a4a00';
       document.getElementById('t-bar').style.cssText='width:0%;background:#8a4a00';
-      document.getElementById('t-btn').style.background='#8a4a00';
-      document.getElementById('t-btn').textContent='Start';
-      const lbl=document.querySelector('.t-lbl');
-      if(lbl)lbl.textContent='30 minute rest — then fold again';
+      document.getElementById('t-btn').style.background='#c03020';
+      document.getElementById('t-btn').textContent='Pause';
       updateFoldDisplay();
+      timerInt=setInterval(()=>{
+        TS.rem--;
+        const _pct=((TS.total-TS.rem)/TS.total*100);
+        document.getElementById('t-bar').style.width=_pct+'%';
+        const _sc=document.getElementById('t-scrub');if(_sc)_sc.value=TS.total-TS.rem;
+        if(TS.rem<=0){
+          clearInterval(timerInt); TS.done=true; TS.running=false;
+          beep();
+          document.getElementById('t-disp').textContent='Fold!';
+          document.getElementById('t-disp').style.color='#8a4a00';
+          document.getElementById('t-bar').style.cssText='width:100%;background:#8a4a00';
+          const _isFinal=CF.fold>=CF.totalFolds-1;
+          document.getElementById('t-btn').style.background=_isFinal?'#2a7a3a':'#8a4a00';
+          document.getElementById('t-btn').textContent=_isFinal?'Last Fold Done ✓':'Fold Done ✓';
+          updateFoldDisplay();
+        } else document.getElementById('t-disp').textContent=fmt(TS.rem);
+      },1000);
       return;
     }
     TS={...TS,rem:TS.total,done:false,running:false}; clearInterval(timerInt);
@@ -622,27 +604,42 @@ function toggleTimer(){
     document.getElementById('t-btn').style.background='#8a4a00';
     document.getElementById('t-btn').textContent='Start'; return;
   }
+  
   TS.running=!TS.running;
   document.getElementById('t-btn').textContent=TS.running?'Pause':'Start';
   document.getElementById('t-btn').style.background=TS.running?'#c03020':'#8a4a00';
+  
   if(TS.running){
     timerInt=setInterval(()=>{
       TS.rem--;
-      document.getElementById('t-bar').style.width=((TS.total-TS.rem)/TS.total*100)+'%';
+      const _pct=((TS.total-TS.rem)/TS.total*100);
+      document.getElementById('t-bar').style.width=_pct+'%';
+      const _sc=document.getElementById('t-scrub');if(_sc)_sc.value=TS.total-TS.rem;
+      
       if(TS.rem<=0){
         clearInterval(timerInt); TS.done=true; TS.running=false;
-        startAlarm();
-        document.getElementById('t-disp').textContent='Fold!';
-        document.getElementById('t-disp').style.color='#8a4a00';
-        document.getElementById('t-bar').style.cssText='width:100%;background:#8a4a00';
-        document.getElementById('t-btn').style.background='#8a4a00';
-        document.getElementById('t-btn').textContent='Next Fold →';
         if(isCoilFold){
+          beep();
+          document.getElementById('t-disp').textContent='Fold!';
+          document.getElementById('t-disp').style.color='#8a4a00';
+          document.getElementById('t-bar').style.cssText='width:100%;background:#8a4a00';
+          const _isFinal=CF.fold>=CF.totalFolds-1;
+          document.getElementById('t-btn').style.background=_isFinal?'#2a7a3a':'#8a4a00';
+          document.getElementById('t-btn').textContent=_isFinal?'Last Fold Done ✓':'Fold Done ✓';
           updateFoldDisplay();
+        } else {
+          startAlarm();
+          document.getElementById('t-disp').textContent='Done ✓';
+          document.getElementById('t-disp').style.color='#2a7a3a';
+          document.getElementById('t-bar').style.cssText='width:100%;background:#2a7a3a';
+          document.getElementById('t-btn').style.background='#2a7a3a';
+          document.getElementById('t-btn').textContent='Silence Alarm';
         }
       } else document.getElementById('t-disp').textContent=fmt(TS.rem);
     },1000);
-  } else clearInterval(timerInt);
+  } else {
+    clearInterval(timerInt);
+  }
 }
 
 function prevStep(){if(S.step>0){S.step--;clearInterval(timerInt);stopAlarm();renderMethod();}}
@@ -653,7 +650,6 @@ let tlVisible=false;
 function toggleTimeline(){
   tlVisible=!tlVisible;
   document.getElementById('tl-toggle').classList.toggle('active',tlVisible);
-  document.getElementById('tl-toggle').textContent=tlVisible?'← Steps':'☰ Timeline';
   document.getElementById('method-view').classList.toggle('hide',tlVisible);
   document.getElementById('timeline-view').classList.toggle('show',tlVisible);
   if(tlVisible) renderTimeline();
@@ -663,7 +659,6 @@ function showMethodView(){
   if(!tlVisible)return;
   tlVisible=false;
   document.getElementById('tl-toggle').classList.remove('active');
-  document.getElementById('tl-toggle').textContent='☰ Timeline';
   document.getElementById('method-view').classList.remove('hide');
   document.getElementById('timeline-view').classList.remove('show');
 }
@@ -671,39 +666,29 @@ function showMethodView(){
 function renderTimeline(){
   if(!steps.length)return;
   const el=document.getElementById('timeline-view');
-  // Calculate proportional heights — min 8px for instant steps, scale timer steps
   const MIN_H=4;
   const maxTimer=Math.max(...steps.map(s=>s.timer||0));
-  const MAX_H=120; // tallest stem (the big ferment)
-
+  const MAX_H=120;
   el.innerHTML=steps.map((s,i)=>{
     const isCurrent=i===S.step;
     const isLast=i===steps.length-1;
-
     let stemH=MIN_H;
-    if(s.coilFold){
-      stemH=Math.max(12,Math.round((120/maxTimer||1)*MAX_H));
-    } else if(s.timer){
-      stemH=Math.max(12,Math.round((s.timer/maxTimer)*MAX_H));
-    }
-
+    if(s.coilFold) stemH=Math.max(12,Math.round((120/maxTimer||1)*MAX_H));
+    else if(s.timer) stemH=Math.max(12,Math.round((s.timer/maxTimer)*MAX_H));
     let stemCol='#b8a070';
     const titleLow=s.title.toLowerCase();
-    if(s.coilFold){stemCol='#6a8a40';}
-    else if(titleLow.includes('fridge')){stemCol='#2a6898';}
-    else if(titleLow.includes('bulk ferment')){stemCol='#b85c00';}
-    else if(titleLow.includes('final proof')){stemCol='#d4a840';}
-    else if(titleLow.includes('bake')||titleLow.includes('200°c')||titleLow.includes('preheat')){stemCol='#c03020';}
-    else if(s.timer){stemCol='#a89060';}
-
+    if(s.coilFold) stemCol='#6a8a40';
+    else if(titleLow.includes('fridge')) stemCol='#2a6898';
+    else if(titleLow.includes('bulk ferment')) stemCol='#b85c00';
+    else if(titleLow.includes('final proof')) stemCol='#d4a840';
+    else if(titleLow.includes('bake')||titleLow.includes('200°c')||titleLow.includes('preheat')) stemCol='#c03020';
+    else if(s.timer) stemCol='#a89060';
     const dotCol=(s.timer||s.coilFold)?stemCol:'#a89060';
     const dotClass=isCurrent?'tl-dot active':'tl-dot';
     const dotStyle=isCurrent?'':`background:${dotCol};border-color:${dotCol}`;
-
     const dur=s.coilFold?'1.5h':s.timer?minsToLabel(s.timer):'';
     const desc=s.body.split('\n')[0];
     const displayTitle=s.coilFold?'Coil Folds ×4':s.title;
-
     return `<div class="tl-item">
       <div class="tl-line">
         <div class="${dotClass}" ${dotStyle?`style="${dotStyle}"`:''} ></div>
@@ -722,7 +707,7 @@ function renderTimeline(){
 }
 
 setShape('rect');
-update();
+selectFerment('room');
 </script>
 </body>
 </html>

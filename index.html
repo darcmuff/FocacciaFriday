@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive focaccia calculator with baker's percentages, automatic yeast scaling, pan sizing, step-by-step method and built-in timers.">
 <meta property="og:title" content="Focaccia Calculator">
 <meta property="og:description" content="Baker's percentages, automatic yeast scaling, pan calculator, step-by-step method with timers.">
-<meta property="og:image" content="https://darcmuff.github.io/FocacciaFriday/og-image.png">
+<meta property="og:image" content="https://darcmuff.github.io/FocacciaFriday/og-image-v2.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫓</text></svg>">
 <meta name="theme-color" content="#ece8e0">
@@ -309,7 +309,7 @@ function calcYeast(fid, rt, hrs, hyd) {
 const FERMENTS={room:{color:'#b85c00'},cold:{color:'#2a6898'}};
 function minsToLabel(m){if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return r?h+'h '+r+'m':h+'h';}
 
-let S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,panShape:'rect',panW:23,panH:23};
+let S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,panShape:'rect',panW:23,panH:23,saltPc:2.5,oilPc:2.5};
 let steps=[], timerInt=null, TS={total:0,rem:0,running:false,done:false,endTime:0};
 let CF={active:false,fold:0,totalFolds:4,intervalMins:30};
 
@@ -359,11 +359,11 @@ function update(){
   S.rTemp=+document.getElementById('temp-slider').value;
   if(S.fid==='room' && S.hours>24){S.hours=24;document.getElementById('hours-slider').value=hoursToSlider(24);}
   if(S.fid==='cold' && S.hours<14){S.hours=14;document.getElementById('hours-slider').value=hoursToSlider(14);}
-  const {hours,hyd,fid,rTemp,panShape,panW,panH}=S;
+  const {hours,hyd,fid,rTemp,panShape,panW,panH,saltPc,oilPc}=S;
   const flour=calcPanFlour(panShape, panW*10, panH*10, hyd);
   const yp=calcYeast(fid,rTemp,hours,hyd);
   const r=v=>Math.round(v*10)/10;
-  const ing={flour,water:r(flour*hyd/100),salt:r(flour*2.5/100),yeast:r(flour*yp/100),oil:r(flour*2.5/100)};
+  const ing={flour,water:r(flour*hyd/100),salt:r(flour*saltPc/100),yeast:r(flour*yp/100),oil:r(flour*oilPc/100)};
   const total=Math.round(ing.flour+ing.water+ing.salt+ing.yeast+ing.oil);
 
   document.getElementById('hours-lbl').textContent=`Total Time: ${hours} hours`;
@@ -783,7 +783,7 @@ function renderTimeline(){
 }
 
 function savePrefs(){
-  try{localStorage.setItem('ff_prefs',JSON.stringify({units:S.units,tempScale:S.tempScale,fid:S.fid,panShape:S.panShape,panW:S.panW,panH:S.panH,dark:document.body.classList.contains('dark')}));}catch(e){}
+  try{localStorage.setItem('ff_prefs',JSON.stringify({units:S.units,tempScale:S.tempScale,fid:S.fid,panShape:S.panShape,panW:S.panW,panH:S.panH,saltPc:S.saltPc,oilPc:S.oilPc,dark:document.body.classList.contains('dark')}));}catch(e){}
 }
 function loadPrefs(){
   try{
@@ -792,6 +792,8 @@ function loadPrefs(){
     if(p.units){S.units=p.units;setUnits(p.units);}
     if(p.tempScale){S.tempScale=p.tempScale;setTempScale(p.tempScale);}
     if(p.panShape){S.panShape=p.panShape;S.panW=p.panW||23;S.panH=p.panH||23;setShape(p.panShape);}
+    if(p.saltPc!=null)S.saltPc=p.saltPc;
+    if(p.oilPc!=null)S.oilPc=p.oilPc;
     if(p.fid)selectFerment(p.fid);
     if(p.dark)toggleDark();
   }catch(e){}
@@ -802,7 +804,7 @@ function toggleDark(){
   savePrefs();
 }
 function resetDefaults(){
-  S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,panShape:'rect',panW:23,panH:23};
+  S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,panShape:'rect',panW:23,panH:23,saltPc:2.5,oilPc:2.5};
   document.getElementById('hours-slider').value=hoursToSlider(8);
   document.getElementById('hyd-slider').value=85;
   document.getElementById('temp-slider').value=20;
@@ -813,11 +815,11 @@ function resetDefaults(){
   savePrefs();
 }
 function shareRecipe(){
-  const {hours,hyd,fid,rTemp,panShape,panW,panH,units,tempScale}=S;
+  const {hours,hyd,fid,rTemp,panShape,panW,panH,units,tempScale,saltPc,oilPc}=S;
   const flour=calcPanFlour(panShape,panW*10,panH*10,hyd);
   const yp=calcYeast(fid,rTemp,hours,hyd);
   const r=v=>Math.round(v*10)/10;
-  const ing={flour,water:r(flour*hyd/100),salt:r(flour*2.5/100),yeast:r(flour*yp/100),oil:r(flour*2.5/100)};
+  const ing={flour,water:r(flour*hyd/100),salt:r(flour*saltPc/100),yeast:r(flour*yp/100),oil:r(flour*oilPc/100)};
   const panDesc=panShape==='round'?`${panW}cm round`:`${panW}×${panH}cm`;
   const text=`🫓 FocacciaFriday Recipe\n\n${fid==='cold'?'Cold':'Room temp'} ferment · ${hours}h · ${hyd}% hydration · ${rTemp}°C\nPan: ${panDesc}\n\nFlour: ${ing.flour}g\nWater: ${ing.water}g\nSalt: ${ing.salt}g\nYeast: ${ing.yeast}g (${yp}%)\nOlive oil: ${ing.oil}g\n\nhttps://darcmuff.github.io/FocacciaFriday/`;
   if(navigator.share){navigator.share({title:'FocacciaFriday Recipe',text}).catch(()=>{});}

@@ -11,6 +11,11 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫓</text></svg>">
 <meta name="theme-color" content="#ece8e0">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="FocacciaFriday">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
 :root{--bg:#ece8e0;--bg2:#d4c4a0;--bg3:#e0d4be;--bg4:#c8b890;--border:#a89060;--border2:#b8a070;--text:#1a0e04;--text2:#3a2010;--text3:#5a3a18;--text4:#120a02;--accent:#8a4a00;--accent2:#f5ead8;--green:#2a7a3a;--red:#c03020;--warn-bg:#f5e0b8;--warn-text:#b85c00;--warn-border:#d4a840;--cold:#2a6898;--warm:#b85c00}
 body.dark{--bg:#1a1814;--bg2:#2a2520;--bg3:#352f28;--bg4:#443d34;--border:#6a5a40;--border2:#5a4a30;--text:#e8e0d4;--text2:#c8b8a0;--text3:#a89878;--text4:#f0e8d8;--accent:#d4a040;--accent2:#2a2218;--green:#4aba6a;--red:#e05040;--warn-bg:#3a3020;--warn-text:#e0a030;--warn-border:#6a5020;--cold:#4a9ad0;--warm:#d88020}
@@ -413,18 +418,18 @@ function dt(c){ return S.tempScale==='F'?Math.round(c*9/5+32)+'°F':c+'°C'; }
 function buildSteps(ing,hyd,fid,hours){
   steps=[
     {title:'Gather Equipment',icon:'🛠',timer:null,tip:null,
-     body:`• Large bowl\n• Digital scales\n• Baking pan — well oiled\n• Mixing utensil — hands, wooden spoon, or spatula\n• Spatula\n• Heavy pan — for performing coil folds in`},
+     body:`• Large bowl\n• Digital scales\n• Baking pan — well oiled\n• Mixing utensil — hands, wooden spoon, or spatula\n• Spatula\n• Large heavy pan — fold surface, won't lift off the counter`},
     {title:'Combine Flour & Water',icon:'💧',timer:null,
      body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} water in one go. Use warm water — ${dt(20)} to ${dt(27)}. This helps kick off fermentation.\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
      tip:'No mixer. Hand mixing keeps the gluten irregular — that irregularity becomes your voids.'},
     {title:'Autolyse',icon:'⏱',timer:fid==='room'?45:60,
      body:`Autolyse is a simple rest period where the flour and water are mixed and left to sit before adding salt and yeast. This rest lets enzymes start breaking down starch and protein, making the dough easier to handle and improving gluten development, flavour, and crust and crumb quality.\n\nCover and leave undisturbed for ${fid==='room'?'45':'60'} minutes.`,
      tip:'Gluten develops passively. The most important step for open crumb.'},
-    {title:'Add Salt, Yeast & Oil',icon:'🧂',timer:30,
-     body:`Add directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\n\nThoroughly mix until all ingredients are incorporated.\n\nRest for 30 minutes. This rest lets the gluten relax after handling, making the dough easier to fold and shape.`,
+    {title:'Add Salt, Yeast & Oil',icon:'🧂',timer:null,
+     body:`Add directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\n\nThoroughly mix until all ingredients are incorporated.`,
      tip:null},
-    {title:'Transfer to Heavy Pan',icon:'🔲',timer:null,
-     body:'Scrape dough onto your large heavy pan. It will spread flat.\n\nThe other option here is to leave the dough where it is and perform stretch and folds right there in the bowl. I prefer coil folds but both techniques work.',
+    {title:'Transfer to Heavy Pan',icon:'🔲',timer:30,
+     body:'Scrape dough onto your large heavy pan. It will spread flat.\n\nThe other option here is to leave the dough where it is and perform stretch and folds right there in the bowl. I prefer coil folds but both techniques work.\n\nCover loosely and rest for 30 minutes.',
      tip:'When performing coil folds both hands are needed. If the dough is in a light metal or plastic container, it will lift with the dough. And you won\'t like that.'},
     {title:'Coil or Stretch Folds 4',subtitle:'30 min apart · 1.5 hours',icon:'🔄',coilFold:true,timer:null,
      body:`Coil folds: wet hands, slide under the dough centre, lift high, let both ends fold underneath. Pan stays still. Rotate 90°, repeat. Stretch and folds: wet hands, grab one edge, stretch up, fold to the opposite side, rotate the bowl, repeat 3–4 times. Each fold builds resistance. By fold 4 the dough should be smooth and springy.`,
@@ -511,7 +516,9 @@ function renderMethod(){
 
 function scrubTimer(val){
   if(TS.done)return;
-  clearInterval(timerInt);TS.running=false;TS.rem=TS.total-val;TS.endTime=0;
+  clearInterval(timerInt);TS.running=false;
+  TS.rem=TS.total-val;
+  TS.endTime=Date.now()+TS.rem*1000;
   document.getElementById('t-disp').textContent=fmt(TS.rem);
   document.getElementById('t-bar').style.width=(val/TS.total*100)+'%';
   document.getElementById('t-btn').textContent='Start';
@@ -522,6 +529,7 @@ function fmt(s){
   const m=Math.floor(s/60),sec=s%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
 }
 
+/* === Audio === */
 let audioCtx = null;
 function initAudio() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -553,6 +561,92 @@ function startAlarm(){
   },3000);
 }
 
+/* === Wake Lock — keeps screen on while timer runs === */
+let wakeLock=null;
+async function acquireWakeLock(){
+  if(!('wakeLock' in navigator))return;
+  try{wakeLock=await navigator.wakeLock.request('screen');}catch(e){}
+}
+function releaseWakeLock(){
+  if(wakeLock){wakeLock.release().catch(()=>{});wakeLock=null;}
+}
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&TS.running&&!TS.done) acquireWakeLock();
+});
+
+/* === Notifications === */
+let notifPermission='default';
+async function requestNotifPermission(){
+  if(!('Notification' in window))return;
+  if(Notification.permission==='granted'){notifPermission='granted';return;}
+  if(Notification.permission==='denied'){notifPermission='denied';return;}
+  try{const r=await Notification.requestPermission();notifPermission=r;}catch(e){}
+}
+function fireNotification(title,body){
+  if(notifPermission!=='granted')return;
+  try{
+    if(navigator.serviceWorker&&navigator.serviceWorker.controller){
+      navigator.serviceWorker.ready.then(reg=>{
+        reg.showNotification(title,{body,icon:'icons/icon-192.png',tag:'ff-timer',renotify:true,vibrate:[200,100,200,100,200]});
+      });
+    } else {
+      new Notification(title,{body,icon:'icons/icon-192.png',tag:'ff-timer'});
+    }
+  }catch(e){}
+}
+
+/* === Visibility change — catch up timer on resume === */
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&TS.running&&!TS.done){
+    timerTick();
+  }
+});
+
+/* === Core timer tick — wall-clock based === */
+function timerTick(){
+  const now=Date.now();
+  TS.rem=Math.max(0,Math.round((TS.endTime-now)/1000));
+  const elapsed=TS.total-TS.rem;
+  const pct=(elapsed/TS.total)*100;
+  const disp=document.getElementById('t-disp');
+  const bar=document.getElementById('t-bar');
+  const scrub=document.getElementById('t-scrub');
+  const btn=document.getElementById('t-btn');
+  if(bar)bar.style.width=pct+'%';
+  if(scrub)scrub.value=elapsed;
+
+  const step=steps[S.step];
+  const isCoilFold=step&&step.coilFold;
+
+  if(TS.rem<=0){
+    clearInterval(timerInt);TS.done=true;TS.running=false;
+    releaseWakeLock();
+    if(isCoilFold){
+      beep();
+      if(disp){disp.textContent='Fold!';disp.style.color='#8a4a00';}
+      if(bar)bar.style.cssText='width:100%;background:#8a4a00';
+      const _isFinal=CF.fold>=CF.totalFolds-1;
+      if(btn){btn.style.background=_isFinal?'#2a7a3a':'#8a4a00';btn.textContent=_isFinal?'Last Fold Done ✓':'Fold Done ✓';}
+      updateFoldDisplay();
+      fireNotification('FocacciaFriday',`Fold ${CF.fold+1} of ${CF.totalFolds} — time to fold!`);
+    } else {
+      startAlarm();
+      if(disp){disp.textContent='Done ✓';disp.style.color='#2a7a3a';}
+      if(bar)bar.style.cssText='width:100%;background:#2a7a3a';
+      if(btn){btn.style.background='#2a7a3a';btn.textContent='Silence Alarm';}
+      fireNotification('FocacciaFriday',`${step?step.title:'Timer'} — done!`);
+    }
+  } else {
+    if(disp)disp.textContent=fmt(TS.rem);
+  }
+}
+
+/* === Start the interval ticker === */
+function startTicker(){
+  clearInterval(timerInt);
+  timerInt=setInterval(timerTick,1000);
+}
+
 function updateFoldDisplay(){
   const el=document.getElementById('fold-indicator');
   const tb=document.getElementById('timer-box-wrap');
@@ -576,52 +670,28 @@ function updateFoldDisplay(){
   }
 }
 
-function startCountdown(onTick, onDone){
-  clearInterval(timerInt);
-  TS.endTime = Date.now() + TS.rem * 1000;
-  timerInt=setInterval(()=>{
-    TS.rem = Math.max(0, Math.ceil((TS.endTime - Date.now()) / 1000));
-    const _pct=((TS.total-TS.rem)/TS.total*100);
-    document.getElementById('t-bar').style.width=_pct+'%';
-    const _sc=document.getElementById('t-scrub');if(_sc)_sc.value=TS.total-TS.rem;
-    if(TS.rem<=0){
-      clearInterval(timerInt); TS.done=true; TS.running=false;
-      onDone();
-    } else onTick();
-  },1000);
-}
-
 function toggleTimer(){
   initAudio();
+  requestNotifPermission();
   const step=steps[S.step];
   const isCoilFold=step&&step.coilFold;
   if(TS.done){
     stopAlarm();
     if(isCoilFold && CF.fold < CF.totalFolds-1){
       CF.fold++;
-      TS={total:30*60,rem:30*60,running:true,done:false,endTime:0};
+      TS={total:30*60,rem:30*60,running:true,done:false,endTime:Date.now()+30*60*1000};
       document.getElementById('t-disp').textContent=fmt(TS.rem);
       document.getElementById('t-disp').style.color='#8a4a00';
       document.getElementById('t-bar').style.cssText='width:0%;background:#8a4a00';
       document.getElementById('t-btn').style.background='#c03020';
       document.getElementById('t-btn').textContent='Pause';
       updateFoldDisplay();
-      startCountdown(
-        ()=> document.getElementById('t-disp').textContent=fmt(TS.rem),
-        ()=>{
-          beep();
-          document.getElementById('t-disp').textContent='Fold!';
-          document.getElementById('t-disp').style.color='#8a4a00';
-          document.getElementById('t-bar').style.cssText='width:100%;background:#8a4a00';
-          const _isFinal=CF.fold>=CF.totalFolds-1;
-          document.getElementById('t-btn').style.background=_isFinal?'#2a7a3a':'#8a4a00';
-          document.getElementById('t-btn').textContent=_isFinal?'Last Fold Done ✓':'Fold Done ✓';
-          updateFoldDisplay();
-        }
-      );
+      acquireWakeLock();
+      startTicker();
       return;
     }
     TS={...TS,rem:TS.total,done:false,running:false,endTime:0}; clearInterval(timerInt);
+    releaseWakeLock();
     document.getElementById('t-disp').textContent=fmt(TS.total);
     document.getElementById('t-disp').style.color='#8a4a00';
     document.getElementById('t-bar').style.cssText='width:0%;background:#8a4a00';
@@ -634,46 +704,19 @@ function toggleTimer(){
   document.getElementById('t-btn').style.background=TS.running?'#c03020':'#8a4a00';
   
   if(TS.running){
-    startCountdown(
-      ()=> document.getElementById('t-disp').textContent=fmt(TS.rem),
-      ()=>{
-        if(isCoilFold){
-          beep();
-          document.getElementById('t-disp').textContent='Fold!';
-          document.getElementById('t-disp').style.color='#8a4a00';
-          document.getElementById('t-bar').style.cssText='width:100%;background:#8a4a00';
-          const _isFinal=CF.fold>=CF.totalFolds-1;
-          document.getElementById('t-btn').style.background=_isFinal?'#2a7a3a':'#8a4a00';
-          document.getElementById('t-btn').textContent=_isFinal?'Last Fold Done ✓':'Fold Done ✓';
-          updateFoldDisplay();
-        } else {
-          startAlarm();
-          document.getElementById('t-disp').textContent='Done ✓';
-          document.getElementById('t-disp').style.color='#2a7a3a';
-          document.getElementById('t-bar').style.cssText='width:100%;background:#2a7a3a';
-          document.getElementById('t-btn').style.background='#2a7a3a';
-          document.getElementById('t-btn').textContent='Silence Alarm';
-        }
-      }
-    );
+    TS.endTime=Date.now()+TS.rem*1000;
+    acquireWakeLock();
+    startTicker();
   } else {
     clearInterval(timerInt);
+    TS.rem=Math.max(0,Math.round((TS.endTime-Date.now())/1000));
+    releaseWakeLock();
   }
 }
 
-function prevStep(){if(S.step>0){S.step--;clearInterval(timerInt);stopAlarm();renderMethod();}}
-function nextStep(){if(S.step<steps.length-1){S.step++;clearInterval(timerInt);stopAlarm();renderMethod();}}
-function setStep(i){S.step=i;clearInterval(timerInt);stopAlarm();renderMethod();showMethodView();}
-
-document.addEventListener('visibilitychange',()=>{
-  if(!document.hidden && TS.running && TS.endTime){
-    TS.rem=Math.max(0,Math.ceil((TS.endTime-Date.now())/1000));
-    const _pct=((TS.total-TS.rem)/TS.total*100);
-    document.getElementById('t-bar').style.width=_pct+'%';
-    const _sc=document.getElementById('t-scrub');if(_sc)_sc.value=TS.total-TS.rem;
-    document.getElementById('t-disp').textContent=TS.rem<=0?'':''+fmt(TS.rem);
-  }
-});
+function prevStep(){if(S.step>0){S.step--;clearInterval(timerInt);stopAlarm();releaseWakeLock();renderMethod();}}
+function nextStep(){if(S.step<steps.length-1){S.step++;clearInterval(timerInt);stopAlarm();releaseWakeLock();renderMethod();}}
+function setStep(i){S.step=i;clearInterval(timerInt);stopAlarm();releaseWakeLock();renderMethod();showMethodView();}
 
 let tlVisible=false;
 function toggleTimeline(){
@@ -780,6 +823,10 @@ function shareRecipe(){
 setShape('rect');
 selectFerment('room');
 loadPrefs();
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
 </script>
 </body>
 </html>

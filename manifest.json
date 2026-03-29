@@ -1,0 +1,25 @@
+{
+  "name": "FocacciaFriday — Focaccia Calculator",
+  "short_name": "FocacciaFriday",
+  "description": "Baker's percentages, automatic yeast scaling, pan calculator, step-by-step method with timers.",
+  "start_url": "/FocacciaFriday/",
+  "scope": "/FocacciaFriday/",
+  "display": "standalone",
+  "background_color": "#ece8e0",
+  "theme_color": "#ece8e0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

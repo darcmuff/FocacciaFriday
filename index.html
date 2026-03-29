@@ -591,7 +591,7 @@ function fireNotification(title,body){
   try{
     if(navigator.serviceWorker&&navigator.serviceWorker.controller){
       navigator.serviceWorker.ready.then(reg=>{
-        reg.showNotification(title,{body,icon:'icons/icon-192.png',tag:'ff-timer',renotify:true,vibrate:[200,100,200,100,200]});
+        reg.showNotification(title,{body,icon:'icons/icon-192.png',tag:'ff-timer',renotify:true,vibrate:[200,100,200,100,200],requireInteraction:true});
       });
     } else {
       new Notification(title,{body,icon:'icons/icon-192.png',tag:'ff-timer'});
@@ -599,10 +599,31 @@ function fireNotification(title,body){
   }catch(e){}
 }
 
+/* === Schedule timer in Service Worker (survives screen off) === */
+function scheduleSwTimer(endTime,title){
+  if(!navigator.serviceWorker||!navigator.serviceWorker.controller)return;
+  navigator.serviceWorker.controller.postMessage({type:'SCHEDULE_TIMER',endTime,title});
+}
+function cancelSwTimer(){
+  if(!navigator.serviceWorker||!navigator.serviceWorker.controller)return;
+  navigator.serviceWorker.controller.postMessage({type:'CANCEL_TIMER'});
+}
+
 /* === Visibility change — catch up timer on resume === */
 document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='visible'&&TS.running&&!TS.done){
-    timerTick();
+  if(document.visibilityState==='visible'){
+    if(TS.running&&!TS.done){
+      timerTick();
+      acquireWakeLock();
+    }
+    // Check if timer expired while we were away
+    if(TS.endTime&&!TS.done&&TS.running&&Date.now()>=TS.endTime){
+      timerTick();
+    }
+    // Restore from session if page was killed and reloaded
+    if(!TS.running&&!TS.done&&TS.total===0){
+      loadSession();
+    }
   }
 });
 
@@ -679,6 +700,7 @@ function toggleTimer(){
   requestNotifPermission();
   const step=steps[S.step];
   const isCoilFold=step&&step.coilFold;
+  const stepTitle=step?step.title:'Timer';
   if(TS.done){
     stopAlarm();
     if(isCoilFold && CF.fold < CF.totalFolds-1){
@@ -691,11 +713,13 @@ function toggleTimer(){
       document.getElementById('t-btn').textContent='Pause';
       updateFoldDisplay();
       acquireWakeLock();
+      scheduleSwTimer(TS.endTime,`Fold ${CF.fold+1} of ${CF.totalFolds} — time to fold!`);
       startTicker();
       return;
     }
     TS={...TS,rem:TS.total,done:false,running:false,endTime:0}; clearInterval(timerInt);
     releaseWakeLock();
+    cancelSwTimer();
     document.getElementById('t-disp').textContent=fmt(TS.total);
     document.getElementById('t-disp').style.color='#8a4a00';
     document.getElementById('t-bar').style.cssText='width:0%;background:#8a4a00';
@@ -710,17 +734,19 @@ function toggleTimer(){
   if(TS.running){
     TS.endTime=Date.now()+TS.rem*1000;
     acquireWakeLock();
+    scheduleSwTimer(TS.endTime,`${stepTitle} — done!`);
     startTicker();
   } else {
     clearInterval(timerInt);
     TS.rem=Math.max(0,Math.round((TS.endTime-Date.now())/1000));
     releaseWakeLock();
+    cancelSwTimer();
   }
 }
 
-function prevStep(){if(S.step>0){S.step--;clearInterval(timerInt);stopAlarm();releaseWakeLock();renderMethod();}}
-function nextStep(){if(S.step<steps.length-1){S.step++;clearInterval(timerInt);stopAlarm();releaseWakeLock();renderMethod();}}
-function setStep(i){S.step=i;clearInterval(timerInt);stopAlarm();releaseWakeLock();renderMethod();showMethodView();}
+function prevStep(){if(S.step>0){S.step--;clearInterval(timerInt);stopAlarm();releaseWakeLock();cancelSwTimer();renderMethod();}}
+function nextStep(){if(S.step<steps.length-1){S.step++;clearInterval(timerInt);stopAlarm();releaseWakeLock();cancelSwTimer();renderMethod();}}
+function setStep(i){S.step=i;clearInterval(timerInt);stopAlarm();releaseWakeLock();cancelSwTimer();renderMethod();showMethodView();}
 
 let tlVisible=false;
 function toggleTimeline(){

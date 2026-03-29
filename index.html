@@ -830,6 +830,63 @@ setShape('rect');
 selectFerment('room');
 loadPrefs();
 
+/* === Session state — survives page reload on app resume === */
+function saveSession(){
+  try{sessionStorage.setItem('ff_session',JSON.stringify({
+    step:S.step,
+    endTime:TS.endTime,
+    total:TS.total,
+    running:TS.running,
+    done:TS.done,
+    fold:CF.fold,
+    totalFolds:CF.totalFolds
+  }));}catch(e){}
+}
+function loadSession(){
+  try{
+    const ss=JSON.parse(sessionStorage.getItem('ff_session'));
+    if(!ss||ss.step==null)return;
+    S.step=ss.step;
+    renderMethod();
+    if(ss.endTime&&ss.running&&!ss.done){
+      const now=Date.now();
+      const rem=Math.max(0,Math.round((ss.endTime-now)/1000));
+      TS={total:ss.total,rem,running:true,done:false,endTime:ss.endTime};
+      if(ss.fold!=null){CF.fold=ss.fold;CF.totalFolds=ss.totalFolds||4;updateFoldDisplay();}
+      if(rem<=0){
+        TS.done=true;TS.running=false;
+        timerTick();
+      } else {
+        const disp=document.getElementById('t-disp');
+        const bar=document.getElementById('t-bar');
+        const btn=document.getElementById('t-btn');
+        if(disp)disp.textContent=fmt(rem);
+        const pct=((TS.total-rem)/TS.total)*100;
+        if(bar)bar.style.width=pct+'%';
+        if(btn){btn.textContent='Pause';btn.style.background='#c03020';}
+        acquireWakeLock();
+        startTicker();
+      }
+    } else if(ss.done){
+      TS.done=true;TS.running=false;TS.total=ss.total;TS.rem=0;
+      if(ss.fold!=null){CF.fold=ss.fold;CF.totalFolds=ss.totalFolds||4;updateFoldDisplay();}
+    }
+  }catch(e){}
+}
+loadSession();
+
+/* Save session on every timer tick and step change */
+const _origTickFn=timerTick;
+timerTick=function(){_origTickFn();saveSession();};
+const _origSetStep=setStep;
+setStep=function(i){_origSetStep(i);saveSession();};
+const _origPrev=prevStep;
+prevStep=function(){_origPrev();saveSession();};
+const _origNext=nextStep;
+nextStep=function(){_origNext();saveSession();};
+const _origToggle=toggleTimer;
+toggleTimer=function(){_origToggle();saveSession();};
+
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
 }

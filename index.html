@@ -301,7 +301,7 @@ const FERMENTS={room:{color:'#b85c00'},cold:{color:'#2a6898'}};
 function minsToLabel(m){if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return r?h+'h '+r+'m':h+'h';}
 
 let S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,panShape:'rect',panW:23,panH:23};
-let steps=[], timerInt=null, TS={total:0,rem:0,running:false,done:false};
+let steps=[], timerInt=null, TS={total:0,rem:0,running:false,done:false,endTime:0};
 let CF={active:false,fold:0,totalFolds:4,intervalMins:30};
 
 function setShape(shape) {
@@ -413,18 +413,18 @@ function dt(c){ return S.tempScale==='F'?Math.round(c*9/5+32)+'°F':c+'°C'; }
 function buildSteps(ing,hyd,fid,hours){
   steps=[
     {title:'Gather Equipment',icon:'🛠',timer:null,tip:null,
-     body:`• Large bowl\n• Digital scales\n• Baking pan — well oiled\n• Mixing utensil — hands, wooden spoon, or spatula\n• Spatula\n• Large heavy pan — fold surface, won't lift off the counter`},
+     body:`• Large bowl\n• Digital scales\n• Baking pan — well oiled\n• Mixing utensil — hands, wooden spoon, or spatula\n• Spatula\n• Heavy pan — for performing coil folds in`},
     {title:'Combine Flour & Water',icon:'💧',timer:null,
      body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} water in one go. Use warm water — ${dt(20)} to ${dt(27)}. This helps kick off fermentation.\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
      tip:'No mixer. Hand mixing keeps the gluten irregular — that irregularity becomes your voids.'},
     {title:'Autolyse',icon:'⏱',timer:fid==='room'?45:60,
      body:`Autolyse is a simple rest period where the flour and water are mixed and left to sit before adding salt and yeast. This rest lets enzymes start breaking down starch and protein, making the dough easier to handle and improving gluten development, flavour, and crust and crumb quality.\n\nCover and leave undisturbed for ${fid==='room'?'45':'60'} minutes.`,
      tip:'Gluten develops passively. The most important step for open crumb.'},
-    {title:'Add Salt, Yeast & Oil',icon:'🧂',timer:null,
-     body:`Add directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\n\nThoroughly mix until all ingredients are incorporated.`,
+    {title:'Add Salt, Yeast & Oil',icon:'🧂',timer:30,
+     body:`Add directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\n\nThoroughly mix until all ingredients are incorporated.\n\nRest for 30 minutes. This rest lets the gluten relax after handling, making the dough easier to fold and shape.`,
      tip:null},
-    {title:'Transfer to Heavy Pan',icon:'🔲',timer:30,
-     body:'Scrape dough onto your large heavy pan. It will spread flat.\n\nThe other option here is to leave the dough where it is and perform stretch and folds right there in the bowl. I prefer coil folds but both techniques work.\n\nCover loosely and rest for 30 minutes.',
+    {title:'Transfer to Heavy Pan',icon:'🔲',timer:null,
+     body:'Scrape dough onto your large heavy pan. It will spread flat.\n\nThe other option here is to leave the dough where it is and perform stretch and folds right there in the bowl. I prefer coil folds but both techniques work.',
      tip:'When performing coil folds both hands are needed. If the dough is in a light metal or plastic container, it will lift with the dough. And you won\'t like that.'},
     {title:'Coil or Stretch Folds 4',subtitle:'30 min apart · 1.5 hours',icon:'🔄',coilFold:true,timer:null,
      body:`Coil folds: wet hands, slide under the dough centre, lift high, let both ends fold underneath. Pan stays still. Rotate 90°, repeat. Stretch and folds: wet hands, grab one edge, stretch up, fold to the opposite side, rotate the bowl, repeat 3–4 times. Each fold builds resistance. By fold 4 the dough should be smooth and springy.`,
@@ -473,7 +473,7 @@ function renderMethod(){
   if(step.coilFold){
     CF={active:false,fold:0,totalFolds:4,intervalMins:30};
     clearInterval(timerInt);
-    TS={total:30*60,rem:30*60,running:false,done:false};
+    TS={total:30*60,rem:30*60,running:false,done:false,endTime:0};
     ta.innerHTML=`
       <div id="fold-indicator" style="font-size:1rem;font-weight:700;margin-bottom:8px;color:#8a4a00">Fold 1 of 4 — do your fold now, then start the timer.</div>
       <div id="timer-box-wrap"><div class="timer-box"><div class="timer-row">
@@ -489,7 +489,7 @@ function renderMethod(){
     document.getElementById('next-btn').disabled=true;
   } else if(step.timer){
     clearInterval(timerInt);
-    TS={total:step.timer*60,rem:step.timer*60,running:false,done:false};
+    TS={total:step.timer*60,rem:step.timer*60,running:false,done:false,endTime:0};
     ta.innerHTML=`<div class="timer-box"><div class="timer-row">
       <div class="t-disp" id="t-disp" style="color:#8a4a00">${fmt(TS.rem)}</div>
       <div class="t-bar-bg" style="position:relative;overflow:visible;">
@@ -511,7 +511,7 @@ function renderMethod(){
 
 function scrubTimer(val){
   if(TS.done)return;
-  clearInterval(timerInt);TS.running=false;TS.rem=TS.total-val;
+  clearInterval(timerInt);TS.running=false;TS.rem=TS.total-val;TS.endTime=0;
   document.getElementById('t-disp').textContent=fmt(TS.rem);
   document.getElementById('t-bar').style.width=(val/TS.total*100)+'%';
   document.getElementById('t-btn').textContent='Start';
@@ -576,6 +576,21 @@ function updateFoldDisplay(){
   }
 }
 
+function startCountdown(onTick, onDone){
+  clearInterval(timerInt);
+  TS.endTime = Date.now() + TS.rem * 1000;
+  timerInt=setInterval(()=>{
+    TS.rem = Math.max(0, Math.ceil((TS.endTime - Date.now()) / 1000));
+    const _pct=((TS.total-TS.rem)/TS.total*100);
+    document.getElementById('t-bar').style.width=_pct+'%';
+    const _sc=document.getElementById('t-scrub');if(_sc)_sc.value=TS.total-TS.rem;
+    if(TS.rem<=0){
+      clearInterval(timerInt); TS.done=true; TS.running=false;
+      onDone();
+    } else onTick();
+  },1000);
+}
+
 function toggleTimer(){
   initAudio();
   const step=steps[S.step];
@@ -584,20 +599,16 @@ function toggleTimer(){
     stopAlarm();
     if(isCoilFold && CF.fold < CF.totalFolds-1){
       CF.fold++;
-      TS={total:30*60,rem:30*60,running:true,done:false};
+      TS={total:30*60,rem:30*60,running:true,done:false,endTime:0};
       document.getElementById('t-disp').textContent=fmt(TS.rem);
       document.getElementById('t-disp').style.color='#8a4a00';
       document.getElementById('t-bar').style.cssText='width:0%;background:#8a4a00';
       document.getElementById('t-btn').style.background='#c03020';
       document.getElementById('t-btn').textContent='Pause';
       updateFoldDisplay();
-      timerInt=setInterval(()=>{
-        TS.rem--;
-        const _pct=((TS.total-TS.rem)/TS.total*100);
-        document.getElementById('t-bar').style.width=_pct+'%';
-        const _sc=document.getElementById('t-scrub');if(_sc)_sc.value=TS.total-TS.rem;
-        if(TS.rem<=0){
-          clearInterval(timerInt); TS.done=true; TS.running=false;
+      startCountdown(
+        ()=> document.getElementById('t-disp').textContent=fmt(TS.rem),
+        ()=>{
           beep();
           document.getElementById('t-disp').textContent='Fold!';
           document.getElementById('t-disp').style.color='#8a4a00';
@@ -606,11 +617,11 @@ function toggleTimer(){
           document.getElementById('t-btn').style.background=_isFinal?'#2a7a3a':'#8a4a00';
           document.getElementById('t-btn').textContent=_isFinal?'Last Fold Done ✓':'Fold Done ✓';
           updateFoldDisplay();
-        } else document.getElementById('t-disp').textContent=fmt(TS.rem);
-      },1000);
+        }
+      );
       return;
     }
-    TS={...TS,rem:TS.total,done:false,running:false}; clearInterval(timerInt);
+    TS={...TS,rem:TS.total,done:false,running:false,endTime:0}; clearInterval(timerInt);
     document.getElementById('t-disp').textContent=fmt(TS.total);
     document.getElementById('t-disp').style.color='#8a4a00';
     document.getElementById('t-bar').style.cssText='width:0%;background:#8a4a00';
@@ -623,14 +634,9 @@ function toggleTimer(){
   document.getElementById('t-btn').style.background=TS.running?'#c03020':'#8a4a00';
   
   if(TS.running){
-    timerInt=setInterval(()=>{
-      TS.rem--;
-      const _pct=((TS.total-TS.rem)/TS.total*100);
-      document.getElementById('t-bar').style.width=_pct+'%';
-      const _sc=document.getElementById('t-scrub');if(_sc)_sc.value=TS.total-TS.rem;
-      
-      if(TS.rem<=0){
-        clearInterval(timerInt); TS.done=true; TS.running=false;
+    startCountdown(
+      ()=> document.getElementById('t-disp').textContent=fmt(TS.rem),
+      ()=>{
         if(isCoilFold){
           beep();
           document.getElementById('t-disp').textContent='Fold!';
@@ -648,8 +654,8 @@ function toggleTimer(){
           document.getElementById('t-btn').style.background='#2a7a3a';
           document.getElementById('t-btn').textContent='Silence Alarm';
         }
-      } else document.getElementById('t-disp').textContent=fmt(TS.rem);
-    },1000);
+      }
+    );
   } else {
     clearInterval(timerInt);
   }
@@ -658,6 +664,16 @@ function toggleTimer(){
 function prevStep(){if(S.step>0){S.step--;clearInterval(timerInt);stopAlarm();renderMethod();}}
 function nextStep(){if(S.step<steps.length-1){S.step++;clearInterval(timerInt);stopAlarm();renderMethod();}}
 function setStep(i){S.step=i;clearInterval(timerInt);stopAlarm();renderMethod();showMethodView();}
+
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden && TS.running && TS.endTime){
+    TS.rem=Math.max(0,Math.ceil((TS.endTime-Date.now())/1000));
+    const _pct=((TS.total-TS.rem)/TS.total*100);
+    document.getElementById('t-bar').style.width=_pct+'%';
+    const _sc=document.getElementById('t-scrub');if(_sc)_sc.value=TS.total-TS.rem;
+    document.getElementById('t-disp').textContent=TS.rem<=0?'':''+fmt(TS.rem);
+  }
+});
 
 let tlVisible=false;
 function toggleTimeline(){

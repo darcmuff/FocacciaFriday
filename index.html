@@ -268,10 +268,13 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
 <script>
 const DEPTH_MM = 70;
 const REF_AREA = 229 * 229;
-const REF_FLOUR = 450;
-function calcPanFlour(shape, w, h) {
+const REF_FLOUR = 500;
+const REF_HYD = 90;
+function calcPanFlour(shape, w, h, hyd) {
   const area = shape === 'round' ? Math.PI * (w/2) ** 2 : w * h;
-  return Math.round((area / REF_AREA) * REF_FLOUR / 5) * 5;
+  const baseFlour = (area / REF_AREA) * REF_FLOUR;
+  const adjusted = baseFlour * (1 + REF_HYD/100) / (1 + hyd/100);
+  return Math.round(adjusted / 5) * 5;
 }
 
 function sliderToHours(pos){
@@ -283,19 +286,20 @@ function hoursToSlider(h){
 }
 
 function calcYeast(fid, rt, hrs, hyd) {
+  const DEAD_TIME = 1.7;
   const k = 3.53;
   const tempMultiplier = Math.pow(2, (rt - 24) / 10);
   const hydrationMultiplier = 1 + 0.005 * Math.max(0, hyd - 65);
   let effectiveTime;
   let coldLagMultiplier = 1.0;
   if (fid === 'room') {
-    effectiveTime = hrs;
+    effectiveTime = Math.max(4, hrs - DEAD_TIME);
   } else {
     const roomTime = 5;
     const fridgeTime = Math.max(0, hrs - roomTime);
     const fridgeMultiplier = Math.pow(2, (7 - 24) / 10);
     const fridgeEffectiveHours = fridgeTime * (fridgeMultiplier / tempMultiplier);
-    effectiveTime = roomTime + fridgeEffectiveHours;
+    effectiveTime = Math.max(4, roomTime - DEAD_TIME + fridgeEffectiveHours);
     coldLagMultiplier = 0.9;
   }
   const rawYeast = (k / (effectiveTime * tempMultiplier * hydrationMultiplier)) * coldLagMultiplier;
@@ -356,7 +360,7 @@ function update(){
   if(S.fid==='room' && S.hours>24){S.hours=24;document.getElementById('hours-slider').value=hoursToSlider(24);}
   if(S.fid==='cold' && S.hours<14){S.hours=14;document.getElementById('hours-slider').value=hoursToSlider(14);}
   const {hours,hyd,fid,rTemp,panShape,panW,panH}=S;
-  const flour=calcPanFlour(panShape, panW*10, panH*10);
+  const flour=calcPanFlour(panShape, panW*10, panH*10, hyd);
   const yp=calcYeast(fid,rTemp,hours,hyd);
   const r=v=>Math.round(v*10)/10;
   const ing={flour,water:r(flour*hyd/100),salt:r(flour*2.5/100),yeast:r(flour*yp/100),oil:r(flour*2.5/100)};
@@ -420,7 +424,7 @@ function buildSteps(ing,hyd,fid,hours){
     {title:'Gather Equipment',icon:'🛠',timer:null,tip:null,
      body:`• Large bowl\n• Digital scales\n• Baking pan — well oiled\n• Mixing utensil — hands, wooden spoon, or spatula\n• Spatula\n• Large heavy pan — fold surface, won't lift off the counter`},
     {title:'Combine Flour & Water',icon:'💧',timer:null,
-     body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} water in one go. Use warm water — ${dt(20)} to ${dt(27)}. This helps kick off fermentation.\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
+     body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} water in one go. Use warm water — ${dt(25)} to ${dt(30)}. This helps kick off fermentation.\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
      tip:'No mixer. Hand mixing keeps the gluten irregular — that irregularity becomes your voids.'},
     {title:'Autolyse',icon:'⏱',timer:fid==='room'?45:60,
      body:`Autolyse is a simple rest period where the flour and water are mixed and left to sit before adding salt and yeast. This rest lets enzymes start breaking down starch and protein, making the dough easier to handle and improving gluten development, flavour, and crust and crumb quality.\n\nCover and leave undisturbed for ${fid==='room'?'45':'60'} minutes.`,
@@ -810,7 +814,7 @@ function resetDefaults(){
 }
 function shareRecipe(){
   const {hours,hyd,fid,rTemp,panShape,panW,panH,units,tempScale}=S;
-  const flour=calcPanFlour(panShape,panW*10,panH*10);
+  const flour=calcPanFlour(panShape,panW*10,panH*10,hyd);
   const yp=calcYeast(fid,rTemp,hours,hyd);
   const r=v=>Math.round(v*10)/10;
   const ing={flour,water:r(flour*hyd/100),salt:r(flour*2.5/100),yeast:r(flour*yp/100),oil:r(flour*2.5/100)};

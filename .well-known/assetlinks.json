@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "io.github.darcmuff.twa",
+    "sha256_cert_fingerprints": [
+      "10:03:93:85:79:38:70:D0:47:73:90:94:41:08:73:72:68:7F:31:D8:81:3B:7D:52:F0:AE:8E:98:5C:D3:43:29"
+    ]
+  }
+}]

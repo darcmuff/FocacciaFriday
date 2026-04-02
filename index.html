@@ -36,10 +36,11 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;display:b
 .slider-labels .green{color:var(--green);font-weight:700}
 .slider-labels .red{color:var(--red);font-weight:700}
 .toggle-group{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
-.toggle-btn{background:transparent;border:none;padding:5px 11px;font-family:inherit;font-size:14px;font-weight:700;color:var(--text3);cursor:pointer;transition:background .15s}
+.toggle-btn{background:transparent;border:none;padding:5px 11px;font-family:inherit;font-size:14px;font-weight:700;color:var(--text3);cursor:pointer;transition:background .15s;text-align:center;display:flex;align-items:center;justify-content:center}
 .toggle-btn.active{background:var(--accent);color:var(--accent2)}
 .tl-toggle{font-size:13px;color:var(--accent);cursor:pointer;font-weight:700;letter-spacing:.3px;padding:3px 10px;border:1px solid var(--border);border-radius:5px;background:transparent;transition:background .15s,color .15s,border-color .15s}
 .tl-toggle.active{background:var(--accent);color:var(--accent2);border-color:var(--accent)}
+.method-btn{flex:1;text-align:center;min-width:0}
 /* Method card spans rows 2 and 3 on the right */
 #method-card{grid-column:2;grid-row:2/4}
 #method-view{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
@@ -53,8 +54,9 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;display:b
 .fdesc{font-size:1.05rem;color:var(--text3);margin-top:2px}
 .pan-section{gap:0}
 .pan-shape{display:flex;gap:8px;margin-bottom:8px}
-.shape-btn{flex:1;height:42px;border:2px solid var(--border);border-radius:10px;background:transparent;font-family:inherit;font-size:1.25rem;color:var(--text2);cursor:pointer;font-weight:700;transition:all .15s}
+.shape-btn{flex:1;height:42px;border:2px solid var(--border);border-radius:10px;background:transparent;font-family:inherit;font-size:1.25rem;color:var(--text2);cursor:pointer;font-weight:700;transition:all .15s;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 6px;white-space:nowrap;overflow:hidden}
 .shape-btn.sel{background:var(--bg4);border-color:var(--accent);color:var(--accent)}
+.shape-short{display:none}
 .pan-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
 .pan-row label{font-size:1.15rem;color:var(--text2);font-weight:600;min-width:80px}
 .pan-row input{flex:1;padding:7px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--bg3);font-family:inherit;font-size:1.15rem;color:var(--text)}
@@ -70,7 +72,6 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
 .total-row td{font-size:1.08rem;color:var(--text2);padding-top:3px;border-bottom:none}
 .total-row td.wt{font-size:21px;color:var(--text3)}
 .prog-row{display:flex;justify-content:space-between;font-size:1.05rem;color:var(--text2);margin-bottom:5px}
-.restart{color:var(--accent);cursor:pointer;font-weight:700}
 .prog-bg{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:6px}
 .prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
 .method-body{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
@@ -113,7 +114,47 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
   #page{grid-template-columns:1fr;height:auto;padding:12px 16px}
   #method-card{grid-column:1;grid-row:auto;order:10;height:80vh;flex:none!important}
   .section{flex:none}
+  .shape-btn{font-size:1rem;height:38px}
+  .shape-full{display:none}
+  .shape-short{display:inline}
+  .toggle-btn{padding:5px 8px;font-size:13px}
 }
+/* Guide modal */
+.guide-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s;pointer-events:none}
+.guide-overlay.show{opacity:1;pointer-events:auto}
+.guide-box{background:var(--bg);border:2px solid var(--border);border-radius:14px;max-width:860px;width:100%;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.guide-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border2);flex-shrink:0}
+.guide-header h2{font-size:1.3rem;color:var(--text4);letter-spacing:.08em;margin:0}
+.guide-close{background:transparent;border:1px solid var(--border);border-radius:6px;width:32px;height:32px;font-size:18px;cursor:pointer;color:var(--text3);display:flex;align-items:center;justify-content:center;font-family:inherit}
+.guide-close:hover{background:var(--bg3)}
+.guide-body{overflow-y:auto;padding:16px 20px 20px;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg)}
+.guide-body h3{font-size:1.1rem;color:var(--accent);letter-spacing:.08em;margin:18px 0 6px;text-transform:uppercase}
+.guide-body h3:first-child{margin-top:0}
+.guide-body p{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:10px}
+.guide-body .g-em{color:var(--text4);font-weight:700}
+.guide-body .g-green{color:var(--green);font-weight:700}
+.guide-body .g-warm{color:var(--warm);font-weight:700}
+.guide-body .g-cold{color:var(--cold);font-weight:700}
+/* Saved recipes modal */
+.saved-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s;pointer-events:none}
+.saved-overlay.show{opacity:1;pointer-events:auto}
+.saved-box{background:var(--bg);border:2px solid var(--border);border-radius:14px;max-width:520px;width:100%;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.saved-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border2);flex-shrink:0}
+.saved-header h2{font-size:1.3rem;color:var(--text4);letter-spacing:.08em;margin:0}
+.saved-body{overflow-y:auto;padding:16px 20px 20px;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg)}
+.save-current{width:100%;padding:12px;border:2px dashed var(--border);border-radius:10px;background:transparent;font-family:inherit;font-size:1rem;color:var(--accent);cursor:pointer;font-weight:700;margin-bottom:14px;transition:background .15s}
+.save-current:hover{background:var(--bg3)}
+.saved-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border2);border-radius:10px;margin-bottom:8px;background:var(--bg3);cursor:pointer;transition:background .15s}
+.saved-item:hover{background:var(--bg4)}
+.saved-item-info{flex:1;min-width:0}
+.saved-item-name{font-weight:700;font-size:1.05rem;color:var(--text4)}
+.saved-item-desc{font-size:0.9rem;color:var(--text3);margin-top:2px}
+.saved-item-del{background:transparent;border:1px solid var(--border);border-radius:6px;width:30px;height:30px;font-size:14px;cursor:pointer;color:var(--text3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s}
+.saved-item-del:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.saved-empty{font-size:1rem;color:var(--text3);text-align:center;padding:20px 0}
+.save-name-row{display:flex;gap:8px;margin-bottom:14px}
+.save-name-input{flex:1;padding:10px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--bg3);font-family:inherit;font-size:1rem;color:var(--text)}
+.save-name-btn{padding:10px 16px;border:none;border-radius:8px;background:var(--accent);color:var(--accent2);font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
@@ -168,7 +209,9 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
     </div>
   </div>
   <div class="h-right">
+    <button class="h-icon-btn" onclick="showGuide()" title="How to use" style="font-size:20px;font-weight:700;font-family:inherit">?</button>
     <button class="h-icon-btn" onclick="shareRecipe()" title="Share recipe"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+    <button class="h-icon-btn" onclick="showSaved()" title="Saved recipes"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="none"/></svg></button>
     <button class="h-icon-btn" id="dark-btn" onclick="toggleDark()" title="Dark mode">🌙</button>
     <div class="toggle-group">
       <button class="toggle-btn active" id="btn-metric" onclick="setUnits('metric')">Metric</button>
@@ -186,17 +229,16 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
   <div class="section">
     <div class="sec-label" id="hours-lbl">Total Time: 8 hours</div>
     <input type="range" min="0" max="100" step="1" value="14" id="hours-slider" oninput="update()">
-    <div class="slider-labels"><span>6h</span><span id="sweet-lbl">12–24h sweet spot</span><span>48h</span></div>
+    <div class="slider-labels"><span id="start-time-lbl">6h</span><span id="sweet-lbl">12–24h sweet spot</span><span>48h</span></div>
     <div style="margin-top:14px">
       <div class="sec-label" id="hyd-lbl">Hydration: 85%</div>
       <input type="range" min="70" max="100" step="1" value="85" id="hyd-slider" oninput="update()">
       <div class="slider-labels"><span>70%</span><span id="hyd-sweet">80–90% target</span><span id="yolo">100% yolo</span></div>
-      <div class="warning" id="hyd-warn" style="display:none"></div>
     </div>
     <div style="margin-top:14px">
       <div class="sec-label" id="temp-lbl">Room / Control Temp: 20°C</div>
       <input type="range" min="15" max="28" step="1" value="20" id="temp-slider" oninput="update()">
-      <div class="slider-labels"><span>15° cool</span><span id="temp-ideal">18–22° ideal</span><span>28° warm</span></div>
+      <div class="slider-labels"><span id="temp-cool">15°C cool</span><span id="temp-ideal">18–22°C ideal</span><span id="temp-warm">28°C warm</span></div>
     </div>
   </div>
 
@@ -206,17 +248,15 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
     <table><tbody id="rec-tbody"></tbody></table>
   </div>
 
-  <!-- ROW 2 LEFT: FERMENT TYPE -->
-  <div class="section">
-    <div class="sec-label">Ferment Type</div>
-    <div class="fopt" id="opt-cold" onclick="selectFerment('cold')">
-      <div class="fradio" id="radio-cold" style="border-color:#2a6898;background:transparent"></div>
-      <div><div class="flabel" id="lbl-cold" style="color:#2a6898">Cold Ferment</div><div class="fdesc">Room temp bulk, overnight fridge, room temp final proof.</div></div>
+  <!-- ROW 2 LEFT: PAN -->
+  <div class="section pan-section">
+    <div class="sec-label">Pan</div>
+    <div class="pan-shape">
+      <button class="shape-btn sel" id="btn-rect" onclick="setShape('rect')"><span class="shape-full">Square / Rectangle</span><span class="shape-short">Rectangle</span></button>
+      <button class="shape-btn" id="btn-round" onclick="setShape('round')">Round</button>
     </div>
-    <div class="fopt sel" id="opt-room" onclick="selectFerment('room')">
-      <div class="fradio" id="radio-room" style="border-color:#b85c00;background:#b85c00"></div>
-      <div><div class="flabel" id="lbl-room" style="color:#b85c00">Room Temp</div><div class="fdesc">All fermentation at room or controlled temp.</div></div>
-    </div>
+    <div id="pan-inputs"></div>
+    <div class="pan-result" id="pan-result"></div>
   </div>
 
   <!-- ROW 2+3 RIGHT: METHOD (spans 2 rows) -->
@@ -224,14 +264,14 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-shrink:0">
       <div class="card-title" style="margin-bottom:0">Method</div>
       <div style="display:flex;gap:6px">
-        <button class="tl-toggle" onclick="resetDefaults()">↺ Reset</button>
-        <button class="tl-toggle" id="tl-toggle" onclick="toggleTimeline()">☰ Timeline</button>
+        <button class="tl-toggle method-btn" onclick="resetDefaults()"><span style="font-size:28px;font-weight:300;display:inline-flex;align-items:center;vertical-align:middle;line-height:1;margin-top:-4px">↺</span> Reset</button>
+        <button class="tl-toggle method-btn" id="start-bake-btn" onclick="startBake()">▶ Begin</button>
+        <button class="tl-toggle method-btn" id="tl-toggle" onclick="toggleTimeline()">☰ Timeline</button>
       </div>
     </div>
     <div id="method-view">
       <div class="prog-row">
         <span id="step-counter"></span>
-        <span class="restart" onclick="setStep(0)">↺ Restart</span>
       </div>
       <div class="prog-bg"><div class="prog-fill" id="prog-fill"></div></div>
       <div class="method-body">
@@ -253,19 +293,190 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
     <div id="timeline-view"></div>
   </div>
 
-  <!-- ROW 3 LEFT: PAN -->
-  <div class="section pan-section">
-    <div class="sec-label">Pan</div>
-    <div class="pan-shape">
-      <button class="shape-btn sel" id="btn-rect" onclick="setShape('rect')">Square</button>
-      <button class="shape-btn" id="btn-round" onclick="setShape('round')">Round</button>
+  <!-- ROW 3 LEFT: FERMENT TYPE -->
+  <div class="section">
+    <div class="sec-label">Ferment Type</div>
+    <div class="fopt" id="opt-cold" onclick="selectFerment('cold')">
+      <div class="fradio" id="radio-cold" style="border-color:#2a6898;background:transparent"></div>
+      <div><div class="flabel" id="lbl-cold" style="color:#2a6898">Cold Ferment</div><div class="fdesc">Room temp prep, overnight fridge, room temp final proof.</div></div>
     </div>
-    <div id="pan-inputs"></div>
-    <div class="pan-result" id="pan-result"></div>
+    <div class="fopt sel" id="opt-room" onclick="selectFerment('room')">
+      <div class="fradio" id="radio-room" style="border-color:#b85c00;background:#b85c00"></div>
+      <div><div class="flabel" id="lbl-room" style="color:#b85c00">Room Temp</div><div class="fdesc">All fermentation at room or controlled temp.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="guide-overlay" id="guide-overlay" onclick="if(event.target===this)hideGuide()">
+  <div class="guide-box">
+    <div class="guide-header">
+      <h2>How to Use</h2>
+      <button class="guide-close" onclick="hideGuide()">✕</button>
+    </div>
+    <div class="guide-body">
+
+      <h3>Start With the End</h3>
+      <p>When do you want to eat? Work backwards from there. The <span class="g-em">Total Time slider</span> is how many hours from mixing to eating. Set it, and the calculator figures out everything else — the yeast quantity, your fermentation times, and the method steps. The <span class="g-green">green sweet spot</span> marks 12–24 hours. Longer fermentation develops a more complex flavour, a better texture, and an open crumb. But it is a sweet spot, <span class="g-em">not a rule</span>. An 8-hour bake still makes great focaccia — you are just trading some depth for convenience. For shorter bakes, a warmer fermentation environment will help the dough along — the oven light trick mentioned below is ideal for this.</p>
+
+      <h3>What Pan Have You Got?</h3>
+      <p>Enter your pan dimensions and the calculator scales the flour (and everything else) to fit. The 7cm (2.75in) depth is a rough guide — we are aiming for a focaccia around 6cm (2.5in) tall, so any pan in that ballpark (give or take a centimetre) will hold the dough just fine. A cookie tray will not.</p>
+
+      <h3>What Flour?</h3>
+      <p>Use a <span class="g-em">strong white bread flour with 12–15% protein</span>. The protein content is what forms gluten, and gluten is what gives focaccia its structure, its chew, and its ability to hold all that water and gas without collapsing. A low-protein plain flour will not develop enough gluten — your dough will be weak, tear easily, and the crumb will be flat and dense. The higher the protein, the more water the flour can absorb and the stronger the gluten network. That is what lets you push the hydration up into the 85–90% range and still get a dough that holds together. Check the label — most supermarket bread flours sit around 12–13%, which is fine. If you can find something closer to 14–15%, even better.</p>
+
+      <h3>How Wet Do You Want It?</h3>
+      <p>Hydration is the ratio of water to flour and it changes everything. <span class="g-em">Higher hydration (85%+) gives you a lighter, airier crumb with bigger voids</span> — the kind of focaccia that looks like it came from a bakery. But it is harder to handle. The dough is slack, sticky, and wants to run everywhere.</p>
+      <p><span class="g-em">Lower hydration (70–80%) is much easier to work with</span> — the dough behaves, shapes nicely, and forgives mistakes. The trade-off is a denser, tighter crumb. Still delicious, just a different bread.</p>
+      <p>If you are new, start around 80% and work up as your confidence grows. If you are comfortable with wet dough, 85–90% is where the magic happens.</p>
+
+      <h3>What Is Your Kitchen Like?</h3>
+      <p>Room temperature controls how fast your yeast works. Warmer = faster, cooler = slower. The calculator compensates automatically, but <span class="g-green">18–22°C (64–72°F)</span> is the comfortable zone where timing is predictable and flavour develops well. Just set the slider to match your kitchen and the yeast model does the rest.</p>
+
+      <h3>Room Temp or Cold Ferment?</h3>
+      <p><span class="g-warm">Room temp</span> — all fermentation happens at ambient temperature. It is simpler, faster, and gives great results. If you have a proofer, this is also your controlled-temp mode — dial in exactly what you want. Pro tip: your oven light generates gentle, consistent warmth around 22–26°C (72–79°F). Close the door, leave the light on, and you have got yourself a DIY proofer. The time slider will not go past 24 hours in room temp mode — beyond that, the dough will over-ferment and collapse on itself. If you want longer than 24 hours, that is what the fridge is for.</p>
+      <p><span class="g-cold">Cold ferment</span> — bulk rise at room temp, then overnight in the fridge. The cold slows everything down and develops deeper, more complex flavour. Worth it if you have the time. The time slider will not go below 14 hours in cold ferment mode — you need enough time for the room temperature bulk rise, the fridge time, and the final proof to all do their job. Anything shorter than that and you are better off staying at room temp.</p>
+
+      <h3>Now You Are Baking</h3>
+      <p>Once you have set your sliders and you are ready to go, hit <span class="g-em">▶ Begin</span>. This stamps your start time and turns the whole calculator into a live schedule. The method panel walks you through every step with built-in timers, and once the bake is started, every step shows its actual wall-clock time — so instead of just knowing a step takes 45 minutes, you can see it starts at 9:15pm and the next one begins at 10:00pm.</p>
+      <p>Hit <span class="g-em">☰ Timeline</span> for the full overview. Before you begin, the timeline shows durations only. After you hit Begin, each step gets a real clock time alongside its duration — your entire bake laid out as an actual schedule. Tap any step to jump straight to it.</p>
+      <p>Everything recalculates live, so if you change your mind on a slider mid-bake, the remaining steps update with new times. The sliders above the time label still show the eat time preview so you always know when the bread hits the table.</p>
+      <p>If you close the app or your phone goes to sleep, do not worry — the session is saved automatically. When you come back, your start time, your current step, and any running timers will all be exactly where you left them. Hit <span class="g-em">↺ Reset</span> to clear everything and start fresh.</p>
+
+      <h3>Coil Folds vs Stretch and Folds</h3>
+      <p>Both techniques build gluten structure without traditional kneading, and both work well. The difference is practical.</p>
+      <p><span class="g-em">Stretch and folds</span> are done in the bowl. You grab one edge of the dough, stretch it upward, and fold it over to the opposite side. Rotate the bowl and repeat three or four times. It is simple, intuitive, and a great place to start if you are new to bread making. No special equipment needed — just the bowl you mixed in.</p>
+      <p><span class="g-em">Coil folds</span> are done on a heavy flat surface like a large cast iron pan or a heavy baking tray. You slide wet hands under the centre of the dough, lift it high, and let both ends fold underneath as it drops. Rotate 90° and repeat. The pan stays on the counter — that is why it needs to be heavy. If you try this on a light metal tray or a plastic container, it will lift with the dough and you will not enjoy the experience.</p>
+      <p>Coil folds are the preferred technique here because they are gentler on the gas structure, which matters more as the dough develops. They also give you a better feel for how the gluten is progressing — each fold you will notice the dough tightening and gaining strength. But if you are just starting out, stretch and folds in the bowl are perfectly fine. You will still get great bread.</p>
+      <p>The fold timer guides you through 4 folds at 30-minute intervals, whichever method you choose.</p>
+
+      <h3>In the Oven</h3>
+      <p><span class="g-em">No fan.</span> Fan dries the surface before the dough has fully expanded. You want a still, humid oven for maximum rise.</p>
+      <p><span class="g-em">Steam helps, but it is not essential.</span> Place a small metal pan on the oven floor during preheat. When the bread goes in, toss an ice cube into that hot pan and close the door quickly. The ice vaporises instantly and floods the oven with steam in the first few minutes. Steam keeps the crust soft long enough for the dough to spring up before the surface sets. We are just trying to maximise the oven spring — if you skip it, you will still get good focaccia.</p>
+      <p>If you have a steam oven — even better. Use it.</p>
+
+      <h3>The Hardest Part</h3>
+      <p>It is out of the oven. Your kitchen smells incredible. The crust is golden, crackly, glistening with oil. Every instinct you have is telling you to tear into it right now.</p>
+      <p><span class="g-em">Do not.</span></p>
+      <p>The inside of the bread is still setting. The crumb is still firming up, the starches are still gelling, and the moisture is still redistributing from the centre outward. If you cut it now, the inside will be gummy and the steam that escapes will take all that texture with it. You have spent hours getting to this point — the last 30 minutes is where the crumb goes from wet and doughy to light and pillowy.</p>
+      <p>Put it on a wire rack. Walk away. Make a coffee. Argue with someone on the internet. Do whatever you need to do to survive the next half hour. Nobody in the history of focaccia has ever actually made it to 30 minutes, but the closer you get, the better the bread will be.</p>
+
+    </div>
+  </div>
+</div>
+
+<div class="saved-overlay" id="saved-overlay" onclick="if(event.target===this)hideSaved()">
+  <div class="saved-box">
+    <div class="saved-header">
+      <h2>Saved Recipes</h2>
+      <button class="guide-close" onclick="hideSaved()">✕</button>
+    </div>
+    <div class="saved-body" id="saved-body"></div>
   </div>
 </div>
 
 <script>
+function showGuide(){document.getElementById('guide-overlay').classList.add('show');}
+function hideGuide(){document.getElementById('guide-overlay').classList.remove('show');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){hideGuide();hideSaved();}});
+
+function showSaved(){renderSavedList();document.getElementById('saved-overlay').classList.add('show');}
+function hideSaved(){document.getElementById('saved-overlay').classList.remove('show');}
+
+function getSavedRecipes(){
+  try{return JSON.parse(localStorage.getItem('ff_saved'))||[];}catch(e){return [];}
+}
+function setSavedRecipes(arr){
+  try{localStorage.setItem('ff_saved',JSON.stringify(arr));}catch(e){}
+}
+
+let savingNew=false;
+function renderSavedList(){
+  const recipes=getSavedRecipes();
+  const el=document.getElementById('saved-body');
+  let html='';
+  if(savingNew){
+    html+=`<div class="save-name-row">
+      <input class="save-name-input" id="save-name-input" placeholder="Name this recipe..." autofocus>
+      <button class="save-name-btn" onclick="confirmSave()">Save</button>
+    </div>`;
+  } else {
+    html+=`<button class="save-current" onclick="startSave()">+ Save Current Recipe</button>`;
+  }
+  if(recipes.length===0){
+    html+=`<div class="saved-empty">No saved recipes yet.</div>`;
+  } else {
+    recipes.forEach((r,i)=>{
+      const fermentLabel=r.fid==='cold'?'Cold':'Room';
+      let panDesc;
+      if(S.units==='imperial'){
+        panDesc=r.panShape==='round'?(r.panW/2.54).toFixed(1)+'" round':(r.panW/2.54).toFixed(1)+'"×'+(r.panH/2.54).toFixed(1)+'"';
+      } else {
+        panDesc=r.panShape==='round'?r.panW+'cm round':r.panW+'×'+r.panH+'cm';
+      }
+      html+=`<div class="saved-item" onclick="loadRecipe(${i})">
+        <div class="saved-item-info">
+          <div class="saved-item-name">${r.name}</div>
+          <div class="saved-item-desc">${r.hours}h · ${r.hyd}% · ${fermentLabel} · ${dt(r.rTemp)} · ${panDesc}</div>
+        </div>
+        <button class="saved-item-del" onclick="event.stopPropagation();deleteRecipe(${i})" title="Delete">✕</button>
+      </div>`;
+    });
+  }
+  el.innerHTML=html;
+  if(savingNew){
+    const inp=document.getElementById('save-name-input');
+    if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter')confirmSave();});}
+  }
+}
+
+function startSave(){savingNew=true;renderSavedList();}
+
+function confirmSave(){
+  const inp=document.getElementById('save-name-input');
+  const name=(inp?inp.value:'').trim();
+  if(!name)return;
+  const recipes=getSavedRecipes();
+  recipes.push({
+    name,
+    hours:S.hours,
+    hyd:S.hyd,
+    fid:S.fid,
+    rTemp:S.rTemp,
+    panShape:S.panShape,
+    panW:S.panW,
+    panH:S.panH,
+    saltPc:S.saltPc,
+    oilPc:S.oilPc
+  });
+  setSavedRecipes(recipes);
+  savingNew=false;
+  renderSavedList();
+}
+
+function loadRecipe(i){
+  const recipes=getSavedRecipes();
+  const r=recipes[i];
+  if(!r)return;
+  S.hours=r.hours;S.hyd=r.hyd;S.fid=r.fid;S.rTemp=r.rTemp;
+  S.panShape=r.panShape;S.panW=r.panW;S.panH=r.panH;
+  if(r.saltPc!=null)S.saltPc=r.saltPc;
+  if(r.oilPc!=null)S.oilPc=r.oilPc;
+  document.getElementById('hours-slider').value=hoursToSlider(r.hours);
+  document.getElementById('hyd-slider').value=r.hyd;
+  document.getElementById('temp-slider').value=r.rTemp;
+  setShape(r.panShape);
+  selectFerment(r.fid);
+  update();
+  hideSaved();
+}
+
+function deleteRecipe(i){
+  const recipes=getSavedRecipes();
+  recipes.splice(i,1);
+  setSavedRecipes(recipes);
+  renderSavedList();
+}
+
 const DEPTH_MM = 70;
 const REF_AREA = 229 * 229;
 const REF_FLOUR = 500;
@@ -286,20 +497,38 @@ function hoursToSlider(h){
 }
 
 function calcYeast(fid, rt, hrs, hyd) {
-  const DEAD_TIME = 1.7;
+  /* Derived from actual method step durations */
+  const PRE_YEAST_MINS = 55;        /* gather(5) + combine(5) + autolyse(45) */
+  const WARM_BEFORE_FRIDGE_MINS = 120; /* transfer(30) + folds(90) */
+  const FINAL_PROOF_MINS = 150;      /* cold ferment only */
+  const POST_FOLD_STATIC_MINS = 30;  /* dimple(5) + bake1(15) + bake2(10) — yeast still active until oven kills it */
+  const ROOM_STATIC_MINS = 245;      /* total static steps for room path */
+  const COLD_STATIC_MINS = 395;      /* total static steps for cold path */
+
   const k = 3.53;
   const tempMultiplier = Math.pow(2, (rt - 24) / 10);
   const hydrationMultiplier = 1 + 0.005 * Math.max(0, hyd - 65);
+  const deadTimeHrs = PRE_YEAST_MINS / 60;
   let effectiveTime;
   let coldLagMultiplier = 1.0;
+
   if (fid === 'room') {
-    effectiveTime = Math.max(4, hrs - DEAD_TIME);
+    /* Yeast works from addition through to oven */
+    /* Dynamic bulk = total hours - static steps, yeast active during bulk + post-fold static */
+    effectiveTime = Math.max(2, hrs - deadTimeHrs);
   } else {
-    const roomTime = 5;
-    const fridgeTime = Math.max(0, hrs - roomTime);
+    /* Warm time before fridge */
+    const warmBeforeHrs = WARM_BEFORE_FRIDGE_MINS / 60;
+    /* Fridge time = total - all static steps */
+    const fridgeMins = Math.max(240, (hrs * 60) - COLD_STATIC_MINS);
+    const fridgeHrs = fridgeMins / 60;
+    /* Final proof warm time */
+    const finalProofHrs = FINAL_PROOF_MINS / 60;
+    /* Fridge fermentation at reduced rate */
     const fridgeMultiplier = Math.pow(2, (7 - 24) / 10);
-    const fridgeEffectiveHours = fridgeTime * (fridgeMultiplier / tempMultiplier);
-    effectiveTime = Math.max(4, roomTime - DEAD_TIME + fridgeEffectiveHours);
+    const fridgeEffectiveHours = fridgeHrs * (fridgeMultiplier / tempMultiplier);
+    /* Total effective = warm before + fridge equivalent + final proof */
+    effectiveTime = Math.max(2, warmBeforeHrs + fridgeEffectiveHours + finalProofHrs);
     coldLagMultiplier = 0.9;
   }
   const rawYeast = (k / (effectiveTime * tempMultiplier * hydrationMultiplier)) * coldLagMultiplier;
@@ -310,8 +539,80 @@ const FERMENTS={room:{color:'#b85c00'},cold:{color:'#2a6898'}};
 function minsToLabel(m){if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return r?h+'h '+r+'m':h+'h';}
 
 let S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,panShape:'rect',panW:23,panH:23,saltPc:2.5,oilPc:2.5};
+let startTime=Date.now();
+let bakeStarted=false;
 let steps=[], timerInt=null, TS={total:0,rem:0,running:false,done:false,endTime:0};
 let CF={active:false,fold:0,totalFolds:4,intervalMins:30};
+
+function fmtClock(date){
+  let h=date.getHours(),m=date.getMinutes();
+  const ampm=h>=12?'pm':'am';
+  h=h%12||12;
+  return h+':'+String(m).padStart(2,'0')+ampm;
+}
+function getEatTime(hours){
+  const eat=new Date(startTime+hours*3600000);
+  const now=new Date(startTime);
+  const dayDiff=Math.floor((eat-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/(86400000));
+  let suffix='';
+  if(dayDiff===1) suffix=' tomorrow';
+  else if(dayDiff>1) suffix=' +'+dayDiff+'d';
+  return fmtClock(eat)+suffix;
+}
+function updateTimeLabels(hours){
+  if(bakeStarted){
+    document.getElementById('start-time-lbl').textContent='Start '+fmtClock(new Date(startTime));
+  } else {
+    document.getElementById('start-time-lbl').textContent='6h';
+  }
+}
+
+/* Active time estimates per step (minutes) for steps without timers */
+const ACTIVE_MINS=5;
+
+function calcStepTimes(){
+  if(!bakeStarted||!steps.length) return null;
+  const times=[];
+  let elapsed=0;
+  for(let i=0;i<steps.length;i++){
+    const t=new Date(startTime+elapsed*60000);
+    times.push(t);
+    const s=steps[i];
+    if(s.concurrent) continue;
+    if(s.coilFold) elapsed+=90;
+    else if(s.timer) elapsed+=s.timer;
+    else elapsed+=ACTIVE_MINS;
+  }
+  return times;
+}
+
+function startBake(){
+  if(bakeStarted) return;
+  bakeStarted=true;
+  startTime=Date.now();
+  S.step=0;
+  const btn=document.getElementById('start-bake-btn');
+  btn.textContent='▶ '+fmtClock(new Date(startTime));
+  btn.style.background='var(--accent)';
+  btn.style.color='var(--accent2)';
+  btn.style.borderColor='var(--accent)';
+  btn.style.cursor='default';
+  update();
+  renderMethod();
+  if(tlVisible) renderTimeline();
+  try{saveSession();}catch(e){}
+}
+
+function resetBakeState(){
+  bakeStarted=false;
+  startTime=Date.now();
+  const btn=document.getElementById('start-bake-btn');
+  btn.textContent='▶ Begin';
+  btn.style.background='';
+  btn.style.color='';
+  btn.style.borderColor='';
+  btn.style.cursor='';
+}
 
 function setShape(shape) {
   S.panShape = shape;
@@ -330,18 +631,18 @@ function renderPanInputs() {
   const r = v => imp ? (v/2.54).toFixed(1) : v;
   const step = imp ? '0.5' : '1';
   if (S.panShape === 'round') {
-    el.innerHTML = `<div class="pan-row"><label>Diameter</label><input type="number" value="${r(S.panW)}" min="${imp?4:10}" max="${imp?24:60}" step="${step}" oninput="S.panW=S.panH=${imp?'Math.round(+this.value*2.54)':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>`;
+    el.innerHTML = `<div class="pan-row"><label>Diameter</label><input type="number" value="${r(S.panW)}" min="${imp?4:10}" max="${imp?24:60}" step="${step}" oninput="S.panW=S.panH=${imp?'Math.round(+this.value*2.54*10)/10':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>`;
   } else {
     el.innerHTML = `
-      <div class="pan-row"><label>Width</label><input type="number" value="${r(S.panW)}" min="${imp?4:10}" max="${imp?32:80}" step="${step}" oninput="S.panW=${imp?'Math.round(+this.value*2.54)':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>
-      <div class="pan-row"><label>Length</label><input type="number" value="${r(S.panH)}" min="${imp?4:10}" max="${imp?32:80}" step="${step}" oninput="S.panH=${imp?'Math.round(+this.value*2.54)':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>`;
+      <div class="pan-row"><label>Width</label><input type="number" value="${r(S.panW)}" min="${imp?4:10}" max="${imp?32:80}" step="${step}" oninput="S.panW=${imp?'Math.round(+this.value*2.54*10)/10':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>
+      <div class="pan-row"><label>Length</label><input type="number" value="${r(S.panH)}" min="${imp?4:10}" max="${imp?32:80}" step="${step}" oninput="S.panH=${imp?'Math.round(+this.value*2.54*10)/10':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>`;
   }
 }
 
 function selectFerment(id){
   S.fid=id;
-  if(id==='cold' && S.hours<14){S.hours=14;document.getElementById('hours-slider').value=hoursToSlider(14);document.getElementById('hours-lbl').textContent=`Total Time: 14 hours`;}
-  if(id==='room' && S.hours>24){S.hours=24;document.getElementById('hours-slider').value=hoursToSlider(24);document.getElementById('hours-lbl').textContent=`Total Time: 24 hours`;}
+  if(id==='cold' && S.hours<14){S.hours=14;document.getElementById('hours-slider').value=hoursToSlider(14);}
+  if(id==='room' && S.hours>24){S.hours=24;document.getElementById('hours-slider').value=hoursToSlider(24);}
   ['room','cold'].forEach(f=>{
     const col=FERMENTS[f].color, sel=f===id;
     document.getElementById('opt-'+f).classList.toggle('sel',sel);
@@ -363,21 +664,26 @@ function update(){
   const flour=calcPanFlour(panShape, panW*10, panH*10, hyd);
   const yp=calcYeast(fid,rTemp,hours,hyd);
   const r=v=>Math.round(v*10)/10;
-  const ing={flour,water:r(flour*hyd/100),salt:r(flour*saltPc/100),yeast:r(flour*yp/100),oil:r(flour*oilPc/100)};
+  const ing={flour,water:Math.round(flour*hyd/100),salt:r(flour*saltPc/100),yeast:r(flour*yp/100),oil:r(flour*oilPc/100)};
   const total=Math.round(ing.flour+ing.water+ing.salt+ing.yeast+ing.oil);
 
-  document.getElementById('hours-lbl').textContent=`Total Time: ${hours} hours`;
+  document.getElementById('hours-lbl').textContent=`${hours} hours · Eat at ${getEatTime(hours)}`;
+  updateTimeLabels(hours);
   document.getElementById('sweet-lbl').className=(hours>=12&&hours<=24)?'green':'';
   document.getElementById('hyd-lbl').textContent=`Hydration: ${hyd}%`;
   document.getElementById('hyd-sweet').className=(hyd>=80&&hyd<=90)?'green':'';
   document.getElementById('yolo').className=hyd>95?'red':'';
   document.getElementById('temp-lbl').textContent=`Room / Control Temp: ${dt(rTemp)}`;
   document.getElementById('temp-ideal').className=(rTemp>=18&&rTemp<=22)?'green':'';
-  document.getElementById('temp-ideal').textContent=S.tempScale==='F'?'64–72°F ideal':'18–22° ideal';
-  const w=document.getElementById('hyd-warn');
-  if(hyd>92){w.style.display='block';w.textContent='⚠ Above 92% — extremely slack. Respect.';}
-  else if(hyd>90){w.style.display='block';w.textContent='⚠ Above 90% — handle the pan like a bomb after final proof.';}
-  else w.style.display='none';
+  if(S.tempScale==='F'){
+    document.getElementById('temp-cool').textContent='59°F cool';
+    document.getElementById('temp-ideal').textContent='64–72°F ideal';
+    document.getElementById('temp-warm').textContent='82°F warm';
+  } else {
+    document.getElementById('temp-cool').textContent='15°C cool';
+    document.getElementById('temp-ideal').textContent='18–22°C ideal';
+    document.getElementById('temp-warm').textContent='28°C warm';
+  }
 
   let panDesc;
   if(S.units==='imperial'){
@@ -388,7 +694,7 @@ function update(){
   }
   document.getElementById('pan-result').innerHTML=`<strong>${dw(flour)}</strong> flour — ${panDesc}, ${S.units==='imperial'?'2.75" deep':'7cm deep'}`;
   document.getElementById('rec-tbody').innerHTML=[
-    ['Strong white bread flour <span style="margin-left:6px;">(13–16% protein)</span>',dw(ing.flour),'100%'],
+    ['Strong white bread flour <span style="margin-left:6px;">(12–15% protein)</span>',dw(ing.flour),'100%'],
     ['Water',dw(ing.water),hyd+'%'],
     ['Fine sea salt',dw(ing.salt),'2.5%'],
     [`Instant dry yeast <span style="margin-left:6px;">(${dw(Math.round(ing.yeast*3*10)/10)} fresh)</span>`,dw(ing.yeast),yp+'%'],
@@ -426,8 +732,8 @@ function buildSteps(ing,hyd,fid,hours){
     {title:'Combine Flour & Water',icon:'💧',timer:null,
      body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} water in one go. Use warm water — ${dt(25)} to ${dt(30)}. This helps kick off fermentation.\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
      tip:'No mixer. Hand mixing keeps the gluten irregular — that irregularity becomes your voids.'},
-    {title:'Autolyse',icon:'⏱',timer:fid==='room'?45:60,
-     body:`Autolyse is a simple rest period where the flour and water are mixed and left to sit before adding salt and yeast. This rest lets enzymes start breaking down starch and protein, making the dough easier to handle and improving gluten development, flavour, and crust and crumb quality.\n\nCover and leave undisturbed for ${fid==='room'?'45':'60'} minutes.`,
+    {title:'Autolyse',icon:'⏱',timer:45,
+     body:`Autolyse is a simple rest period where the flour and water are mixed and left to sit before adding salt and yeast. This rest lets enzymes start breaking down starch and protein, making the dough easier to handle and improving gluten development, flavour, and crust and crumb quality.\n\nCover and leave undisturbed for 45 minutes.`,
      tip:'Gluten develops passively. The most important step for open crumb.'},
     {title:'Add Salt, Yeast & Oil',icon:'🧂',timer:null,
      body:`Add directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\n\nThoroughly mix until all ingredients are incorporated.`,
@@ -439,23 +745,23 @@ function buildSteps(ing,hyd,fid,hours){
      body:`Coil folds: wet hands, slide under the dough centre, lift high, let both ends fold underneath. Pan stays still. Rotate 90°, repeat. Stretch and folds: wet hands, grab one edge, stretch up, fold to the opposite side, rotate the bowl, repeat 3–4 times. Each fold builds resistance. By fold 4 the dough should be smooth and springy.`,
      tip:null},
     ...(fid==='cold'?[{title:'Into the Fridge',icon:'❄️',
-      timer: Math.round(Math.max(240, (hours - 445/60) * 60)),
-      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.\nLightly oil a sheet of clingfilm so it doesn't stick, and cover tightly. Fridge at 3–5°C.\nCold ferment: ${Math.max(4, (hours - 445/60)).toFixed(1)} hours. Start the timer and leave it alone.`,
+      timer: Math.round(Math.max(240, (hours - 395/60) * 60)),
+      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.\nLightly oil a sheet of clingfilm so it doesn't stick, and cover tightly. Fridge at ${dt(3)}–${dt(5)}.\nCold ferment: ${Math.max(4, (hours - 395/60)).toFixed(1)} hours. Start the timer and leave it alone.`,
       tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
     ...(fid==='room'?[{title:'Bulk Ferment',icon:'⏱',
-      timer: Math.round(Math.max(30, (hours - 280/60) * 60)),
+      timer: Math.round(Math.max(30, (hours - 245/60) * 60)),
       body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.\nLightly oil a sheet of clingfilm so it doesn't stick, and cover. Leave at room temperature until visibly puffy and roughly doubled.`,
       tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
     ...(fid==='cold'?[{title:'Final Proof',icon:'🔍',timer:150,
      body:'Remove from the fridge and leave until doubled, puffy, bubbly. Jiggle test — wobble like jelly = ready.',tip:null}]:[]),
-    {title:'Preheat Oven',icon:'🔥',timer:null,
-     body:`${dt(230)}, no fan. Place a small pan or ramekin on the oven floor now. It needs to be scorching hot when the bread goes in — that's what instantly vaporises the ice cube and floods the oven with steam. Preheat 20 minutes.\n\nAdding moisture here is optional, I know it's a bit of a faff.\n\nThis time is included in your ${fid==='cold'?'final proof':'bulk ferment'}.`,
+    {title:'Preheat Oven',icon:'🔥',timer:null,concurrent:true,
+     body:`${dt(230)}, no fan. Place a small metal pan on the oven floor now — under or next to where the bread will sit. It needs to be scorching hot when the bread goes in — that's what instantly vaporises the ice cube and floods the oven with steam. Preheat 20 minutes.\n\nAdding moisture here is optional, I know it's a bit of a faff.\n\nThis time is included in your ${fid==='cold'?'final proof':'bulk ferment'}.`,
      tip:null},
     {title:'Dimple & Oil',icon:'👆',timer:null,
      body:'Add your toppings — flaky salt, rosemary, olives, cherry tomatoes, sliced onion.\nNow drizzle olive oil generously over everything. This coats the toppings so they don\'t burn in the high heat.\nThen dimple — drive fingers all the way to the base, pushing some of the toppings deep into the bread as you go. Dramatic craters with pools of oil.',
      tip:null},
     {title:`Bake 15 min at ${dt(230)}`,icon:'🌡',timer:15,
-     body:'Slide the bread in. Immediately toss an ice cube into the hot ramekin on the oven floor and close the door quickly. Don\'t open it for 15 minutes.\nThe ice cube hits the hot pan and instantly vaporises — flooding the oven with steam in the critical first few minutes. Steam keeps the crust soft and pliable long enough for the dough to fully expand before the crust sets. That\'s where your rise and open crumb come from.',
+     body:'Slide the bread in. Immediately toss an ice cube into the hot metal pan on the oven floor and close the door quickly. Don\'t open it for 15 minutes.\nThe ice cube hits the hot pan and instantly vaporises — flooding the oven with steam in the critical first few minutes. Steam keeps the crust soft and pliable long enough for the dough to fully expand before the crust sets. That\'s where your rise and open crumb come from.',
      tip:null},
     {title:`Drop to ${dt(200)} — 10 min`,icon:'🌡',timer:10,
      body:`Drop to ${dt(200)}. 10 more minutes until deep golden on top. Here, your oven will dictate doneness, this is you......'cooking'.`,
@@ -469,10 +775,12 @@ function buildSteps(ing,hyd,fid,hours){
 function renderMethod(){
   if(!steps.length)return;
   const i=S.step, step=steps[i], total=steps.length;
+  const stepTimes=calcStepTimes();
+  const timeStr=stepTimes?'  ·  '+fmtClock(stepTimes[i]):'';
   document.getElementById('step-counter').textContent=`Step ${i+1} of ${total}`;
   document.getElementById('prog-fill').style.width=`${((i+1)/total)*100}%`;
   document.getElementById('s-icon').textContent=step.icon;
-  document.getElementById('s-lbl').textContent=`Step ${i+1}`;
+  document.getElementById('s-lbl').textContent=`Step ${i+1}${timeStr}`;
   document.getElementById('s-title').innerHTML=step.subtitle
     ? `${step.title} — <span style="font-size:0.85em;font-weight:600;color:#6a5a3a;letter-spacing:0.02em;">${step.subtitle}</span>`
     : step.title;
@@ -768,6 +1076,7 @@ function showMethodView(){
 function renderTimeline(){
   if(!steps.length)return;
   const el=document.getElementById('timeline-view');
+  const stepTimes=calcStepTimes();
   const MIN_H=4;
   const maxTimer=Math.max(...steps.map(s=>s.timer||0));
   const MAX_H=120;
@@ -783,12 +1092,14 @@ function renderTimeline(){
     else if(titleLow.includes('fridge')) stemCol='#2a6898';
     else if(titleLow.includes('bulk ferment')) stemCol='#b85c00';
     else if(titleLow.includes('final proof')) stemCol='#d4a840';
-    else if(titleLow.includes('bake')||titleLow.includes('200°c')||titleLow.includes('preheat')) stemCol='#c03020';
+    else if(titleLow.includes('bake')||titleLow.includes('drop to')||titleLow.includes('preheat')) stemCol='#c03020';
     else if(s.timer) stemCol='#a89060';
     const dotCol=(s.timer||s.coilFold)?stemCol:'#a89060';
     const dotClass=isCurrent?'tl-dot active':'tl-dot';
     const dotStyle=isCurrent?'':`background:${dotCol};border-color:${dotCol}`;
     const dur=s.coilFold?'1.5h':s.timer?minsToLabel(s.timer):'';
+    const clockStr=stepTimes?fmtClock(stepTimes[i]):'';
+    const durDisplay=stepTimes?(clockStr+(dur?' · '+dur:'')):(dur||'');
     const desc=s.body;
     const displayTitle=s.coilFold?'Coil Folds ×4':s.title;
     return `<div class="tl-item">
@@ -800,7 +1111,7 @@ function renderTimeline(){
         <div class="tl-head">
           <span class="tl-icon">${s.icon}</span>
           <span class="tl-title">${displayTitle}</span>
-          ${dur?`<span class="tl-dur">${dur}</span>`:''}
+          ${durDisplay?`<span class="tl-dur">${durDisplay}</span>`:''}
         </div>
         <div class="tl-desc">${desc}</div>
       </div>
@@ -831,6 +1142,7 @@ function toggleDark(){
 }
 function resetDefaults(){
   S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,panShape:'rect',panW:23,panH:23,saltPc:2.5,oilPc:2.5};
+  resetBakeState();
   document.getElementById('hours-slider').value=hoursToSlider(8);
   document.getElementById('hyd-slider').value=85;
   document.getElementById('temp-slider').value=20;
@@ -845,9 +1157,14 @@ function shareRecipe(){
   const flour=calcPanFlour(panShape,panW*10,panH*10,hyd);
   const yp=calcYeast(fid,rTemp,hours,hyd);
   const r=v=>Math.round(v*10)/10;
-  const ing={flour,water:r(flour*hyd/100),salt:r(flour*saltPc/100),yeast:r(flour*yp/100),oil:r(flour*oilPc/100)};
-  const panDesc=panShape==='round'?`${panW}cm round`:`${panW}×${panH}cm`;
-  const text=`🫓 FocacciaFriday Recipe\n\n${fid==='cold'?'Cold':'Room temp'} ferment · ${hours}h · ${hyd}% hydration · ${rTemp}°C\nPan: ${panDesc}\n\nFlour: ${ing.flour}g\nWater: ${ing.water}g\nSalt: ${ing.salt}g\nYeast: ${ing.yeast}g (${yp}%)\nOlive oil: ${ing.oil}g\n\nhttps://darcmuff.github.io/FocacciaFriday/`;
+  const ing={flour,water:Math.round(flour*hyd/100),salt:r(flour*saltPc/100),yeast:r(flour*yp/100),oil:r(flour*oilPc/100)};
+  let panDesc;
+  if(units==='imperial'){
+    panDesc=panShape==='round'?`${(panW/2.54).toFixed(1)}" round`:`${(panW/2.54).toFixed(1)}"×${(panH/2.54).toFixed(1)}"`;
+  } else {
+    panDesc=panShape==='round'?`${panW}cm round`:`${panW}×${panH}cm`;
+  }
+  const text=`🫓 FocacciaFriday Recipe\n\n${fid==='cold'?'Cold':'Room temp'} ferment · ${hours}h · ${hyd}% hydration · ${dt(rTemp)}\nPan: ${panDesc}\n\nFlour: ${dw(ing.flour)}\nWater: ${dw(ing.water)}\nSalt: ${dw(ing.salt)}\nYeast: ${dw(ing.yeast)} (${yp}%)\nOlive oil: ${dw(ing.oil)}\n\nhttps://darcmuff.github.io/FocacciaFriday/`;
   if(navigator.share){navigator.share({title:'FocacciaFriday Recipe',text}).catch(()=>{});}
   else{navigator.clipboard.writeText(text).then(()=>{const b=document.querySelector('[onclick="shareRecipe()"]');const orig=b.innerHTML;b.innerHTML='✓';setTimeout(()=>b.innerHTML=orig,1500);}).catch(()=>{});}
 }
@@ -865,7 +1182,9 @@ function saveSession(){
     running:TS.running,
     done:TS.done,
     fold:CF.fold,
-    totalFolds:CF.totalFolds
+    totalFolds:CF.totalFolds,
+    bakeStarted:bakeStarted,
+    bakeStartTime:startTime
   }));}catch(e){}
 }
 function loadSession(){
@@ -873,6 +1192,16 @@ function loadSession(){
     const ss=JSON.parse(sessionStorage.getItem('ff_session'));
     if(!ss||ss.step==null)return;
     S.step=ss.step;
+    if(ss.bakeStarted&&ss.bakeStartTime){
+      bakeStarted=true;
+      startTime=ss.bakeStartTime;
+      const btn=document.getElementById('start-bake-btn');
+      btn.textContent='▶ '+fmtClock(new Date(startTime));
+      btn.style.background='var(--accent)';
+      btn.style.color='var(--accent2)';
+      btn.style.borderColor='var(--accent)';
+      btn.style.cursor='default';
+    }
     renderMethod();
     if(ss.endTime&&ss.running&&!ss.done){
       const now=Date.now();

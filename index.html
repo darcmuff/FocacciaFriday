@@ -789,7 +789,7 @@ function renderMethod(){
     const lbl=step.coilFold?'30m between folds (×4)':minsToLabel(timerMins);
     const msg=encodeURIComponent(step.coilFold?'Focaccia - Fold':('Focaccia - '+step.title));
     const fallback=encodeURIComponent('https://clock.google.com/timer?duration='+timerMins+'m');
-    const intentUrl='intent:#Intent;action=android.intent.action.SET_TIMER;i.android.intent.extra.alarm.LENGTH='+secs+';S.android.intent.extra.alarm.MESSAGE='+msg+';S.browser_fallback_url='+fallback+';end';
+    const intentUrl='intent://timer#Intent;action=android.intent.action.SET_TIMER;category=android.intent.category.BROWSABLE;i.android.intent.extra.alarm.LENGTH='+secs+';S.android.intent.extra.alarm.MESSAGE='+msg+';S.browser_fallback_url='+fallback+';end';
     ta.innerHTML='<a href="'+intentUrl+'" class="set-timer-btn">⏰ Set '+lbl+' timer</a>';
   } else { ta.innerHTML=''; }
 

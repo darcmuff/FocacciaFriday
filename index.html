@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Focaccia Calculator — Focaccia Fridays</title>
-<meta name="description" content="Interactive focaccia calculator with baker's percentages, automatic yeast scaling, pan sizing, step-by-step method and built-in timers.">
+<meta name="description" content="Interactive focaccia calculator with baker's percentages, automatic yeast scaling, pan sizing, and step-by-step method with real clock times.">
 <meta property="og:title" content="Focaccia Calculator">
-<meta property="og:description" content="Baker's percentages, automatic yeast scaling, pan calculator, step-by-step method with timers.">
+<meta property="og:description" content="Baker's percentages, automatic yeast scaling, pan calculator, step-by-step method with real clock times.">
 <meta property="og:image" content="https://darcmuff.github.io/FocacciaFriday/og-image-v2.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫓</text></svg>">
@@ -82,12 +82,6 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
 .m-step-lbl{font-size:0.9rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3)}
 .m-title{font-size:24px;font-weight:700;color:var(--text4);line-height:1.2}
 .m-body-text{font-size:1.05rem;color:var(--text4);line-height:1.6;white-space:pre-line;overflow:visible;word-wrap:break-word}
-.timer-box{margin-top:4px;background:var(--bg3);border-radius:7px;padding:5px 10px;border:1px solid var(--border2)}
-.timer-row{display:flex;align-items:center;gap:8px}
-.t-disp{font-size:27px;font-weight:700;font-variant-numeric:tabular-nums;min-width:60px}
-.t-bar-bg{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
-.t-bar{height:100%;background:var(--accent);border-radius:3px;transition:width 1s linear;width:0%}
-.t-btn{background:var(--accent);color:var(--accent2);border:none;border-radius:5px;padding:4px 12px;font-size:15px;cursor:pointer;font-family:inherit;font-weight:700}
 .nav-row{display:flex;gap:8px;margin-top:8px;flex-shrink:0}
 .nav-prev,.nav-next{padding:12px;border-radius:7px;font-size:18px;cursor:pointer;font-family:inherit;flex:1;text-align:center}
 .nav-prev{border:1px solid var(--border2);background:var(--bg3);color:var(--text)}
@@ -104,6 +98,8 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
 .tl-title{font-weight:700;font-size:1rem;color:var(--text4)}
 .tl-dur{font-size:0.95rem;color:var(--accent);font-weight:700;margin-left:auto}
 .tl-desc{font-size:0.9rem;color:var(--text3);margin-top:2px;white-space:pre-line;word-wrap:break-word}
+.set-timer-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:10px 18px;background:var(--accent);color:var(--accent2);border-radius:8px;font-size:1rem;font-weight:700;text-decoration:none;letter-spacing:.03em;transition:opacity .15s}
+.set-timer-btn:hover{opacity:0.85}
 .h-icon-btn{background:transparent;border:1px solid var(--border);border-radius:6px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);transition:background .15s;font-size:20px;padding:0}
 .h-icon-btn:hover{background:var(--bg3)}
 .h-icon-btn svg{width:18px;height:18px;stroke:var(--text3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -337,17 +333,17 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
       <p><span class="g-cold">Cold ferment</span> — bulk rise at room temp, then overnight in the fridge. The cold slows everything down and develops deeper, more complex flavour. Worth it if you have the time. The time slider will not go below 14 hours in cold ferment mode — you need enough time for the room temperature bulk rise, the fridge time, and the final proof to all do their job. Anything shorter than that and you are better off staying at room temp.</p>
 
       <h3>Now You Are Baking</h3>
-      <p>Once you have set your sliders and you are ready to go, hit <span class="g-em">▶ Begin</span>. This stamps your start time and turns the whole calculator into a live schedule. The method panel walks you through every step with built-in timers, and once the bake is started, every step shows its actual wall-clock time — so instead of just knowing a step takes 45 minutes, you can see it starts at 9:15pm and the next one begins at 10:00pm.</p>
+      <p>Once you have set your sliders and you are ready to go, hit <span class="g-em">▶ Begin</span>. This stamps your start time and turns the whole calculator into a live schedule. The method panel walks you through every step, and once the bake is started, every step shows its actual wall-clock time — so instead of just knowing a step takes 45 minutes, you can see it starts at 9:15pm and the next one begins at 10:00pm. Steps that need timing show a <span class="g-em">⏰ Set timer</span> button that opens your phone's clock app with the right duration already filled in — your phone handles the alarm, so it works even if the screen is off or you are using another app.</p>
       <p>Hit <span class="g-em">☰ Timeline</span> for the full overview. Before you begin, the timeline shows durations only. After you hit Begin, each step gets a real clock time alongside its duration — your entire bake laid out as an actual schedule. Tap any step to jump straight to it.</p>
       <p>Everything recalculates live, so if you change your mind on a slider mid-bake, the remaining steps update with new times. The sliders above the time label still show the eat time preview so you always know when the bread hits the table.</p>
-      <p>If you close the app or your phone goes to sleep, do not worry — the session is saved automatically. When you come back, your start time, your current step, and any running timers will all be exactly where you left them. Hit <span class="g-em">↺ Reset</span> to clear everything and start fresh.</p>
+      <p>If you close the app or your phone goes to sleep, do not worry — the session is saved automatically. When you come back, your start time and your current step will be exactly where you left them. Hit <span class="g-em">↺ Reset</span> to clear everything and start fresh.</p>
 
       <h3>Coil Folds vs Stretch and Folds</h3>
       <p>Both techniques build gluten structure without traditional kneading, and both work well. The difference is practical.</p>
       <p><span class="g-em">Stretch and folds</span> are done in the bowl. You grab one edge of the dough, stretch it upward, and fold it over to the opposite side. Rotate the bowl and repeat three or four times. It is simple, intuitive, and a great place to start if you are new to bread making. No special equipment needed — just the bowl you mixed in.</p>
       <p><span class="g-em">Coil folds</span> are done on a heavy flat surface like a large cast iron pan or a heavy baking tray. You slide wet hands under the centre of the dough, lift it high, and let both ends fold underneath as it drops. Rotate 90° and repeat. The pan stays on the counter — that is why it needs to be heavy. If you try this on a light metal tray or a plastic container, it will lift with the dough and you will not enjoy the experience.</p>
       <p>Coil folds are the preferred technique here because they are gentler on the gas structure, which matters more as the dough develops. They also give you a better feel for how the gluten is progressing — each fold you will notice the dough tightening and gaining strength. But if you are just starting out, stretch and folds in the bowl are perfectly fine. You will still get great bread.</p>
-      <p>The fold timer guides you through 4 folds at 30-minute intervals, whichever method you choose.</p>
+      <p>The method calls for 4 folds at 30-minute intervals, whichever technique you choose. Each fold step has a <span class="g-em">⏰ Set 30m timer</span> button to set your phone alarm between folds.</p>
 
       <h3>In the Oven</h3>
       <p><span class="g-em">No fan.</span> Fan dries the surface before the dough has fully expanded. You want a still, humid oven for maximum rise.</p>
@@ -541,8 +537,7 @@ function minsToLabel(m){if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;ret
 let S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,panShape:'rect',panW:23,panH:23,saltPc:2.5,oilPc:2.5};
 let startTime=Date.now();
 let bakeStarted=false;
-let steps=[], timerInt=null, TS={total:0,rem:0,running:false,done:false,endTime:0};
-let CF={active:false,fold:0,totalFolds:4,intervalMins:30};
+let steps=[];
 
 function fmtClock(date){
   let h=date.getHours(),m=date.getMinutes();
@@ -606,6 +601,7 @@ function startBake(){
 function resetBakeState(){
   bakeStarted=false;
   startTime=Date.now();
+  try{localStorage.removeItem('ff_session');}catch(e){}
   const btn=document.getElementById('start-bake-btn');
   btn.textContent='▶ Begin';
   btn.style.background='';
@@ -746,7 +742,7 @@ function buildSteps(ing,hyd,fid,hours){
      tip:null},
     ...(fid==='cold'?[{title:'Into the Fridge',icon:'❄️',
       timer: Math.round(Math.max(240, (hours - 395/60) * 60)),
-      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.\nLightly oil a sheet of clingfilm so it doesn't stick, and cover tightly. Fridge at ${dt(3)}–${dt(5)}.\nCold ferment: ${Math.max(4, (hours - 395/60)).toFixed(1)} hours. Start the timer and leave it alone.`,
+      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.\nLightly oil a sheet of clingfilm so it doesn't stick, and cover tightly. Fridge at ${dt(3)}–${dt(5)}.\nCold ferment: ${Math.max(4, (hours - 395/60)).toFixed(1)} hours. Set your phone timer and leave it alone.`,
       tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
     ...(fid==='room'?[{title:'Bulk Ferment',icon:'⏱',
       timer: Math.round(Math.max(30, (hours - 245/60) * 60)),
@@ -787,37 +783,15 @@ function renderMethod(){
   document.getElementById('s-body').textContent=step.body;
 
   const ta=document.getElementById('timer-area');
-  if(step.coilFold){
-    CF={active:false,fold:0,totalFolds:4,intervalMins:30};
-    clearInterval(timerInt);
-    TS={total:30*60,rem:30*60,running:false,done:false,endTime:0};
-    ta.innerHTML=`
-      <div id="fold-indicator" style="font-size:1rem;font-weight:700;margin-bottom:8px;color:#8a4a00">Fold 1 of 4 — do your fold now, then start the timer.</div>
-      <div id="timer-box-wrap"><div class="timer-box"><div class="timer-row">
-        <div class="t-disp" id="t-disp" style="color:#8a4a00">${fmt(TS.rem)}</div>
-        <div class="t-bar-bg" style="position:relative;overflow:visible;">
-          <div class="t-bar" id="t-bar"></div>
-          <input type="range" min="0" max="${TS.total}" step="1" value="0" id="t-scrub"
-            style="position:absolute;inset:-6px 0;width:100%;height:calc(100% + 12px);background:transparent;cursor:pointer;margin:0;"
-            oninput="scrubTimer(+this.value)">
-        </div>
-        <button class="t-btn" id="t-btn" onclick="toggleTimer()">Start</button>
-      </div></div></div>`;
-    document.getElementById('next-btn').disabled=true;
-  } else if(step.timer){
-    clearInterval(timerInt);
-    TS={total:step.timer*60,rem:step.timer*60,running:false,done:false,endTime:0};
-    ta.innerHTML=`<div class="timer-box"><div class="timer-row">
-      <div class="t-disp" id="t-disp" style="color:#8a4a00">${fmt(TS.rem)}</div>
-      <div class="t-bar-bg" style="position:relative;overflow:visible;">
-        <div class="t-bar" id="t-bar"></div>
-        <input type="range" min="0" max="${TS.total}" step="1" value="0" id="t-scrub"
-          style="position:absolute;inset:-6px 0;width:100%;height:calc(100% + 12px);background:transparent;cursor:pointer;margin:0;"
-          oninput="scrubTimer(+this.value)">
-      </div>
-      <button class="t-btn" id="t-btn" onclick="toggleTimer()">Start</button>
-    </div></div>`;
-  } else { ta.innerHTML=''; clearInterval(timerInt); }
+  const timerMins=step.coilFold?30:step.timer;
+  if(timerMins){
+    const secs=timerMins*60;
+    const lbl=step.coilFold?'30m between folds (×4)':minsToLabel(timerMins);
+    const msg=encodeURIComponent(step.coilFold?'Focaccia - Fold':('Focaccia - '+step.title));
+    const fallback=encodeURIComponent('https://clock.google.com/timer?duration='+timerMins+'m');
+    const intentUrl='intent:#Intent;action=android.intent.action.SET_TIMER;i.android.intent.extra.alarm.LENGTH='+secs+';S.android.intent.extra.alarm.MESSAGE='+msg+';S.browser_fallback_url='+fallback+';end';
+    ta.innerHTML='<a href="'+intentUrl+'" class="set-timer-btn">⏰ Set '+lbl+' timer</a>';
+  } else { ta.innerHTML=''; }
 
   document.getElementById('tip-area').innerHTML='';
   document.getElementById('prev-btn').disabled=i===0;
@@ -825,236 +799,9 @@ function renderMethod(){
   nb.disabled=i===total-1;
   nb.textContent=i===total-1?'Complete ✓':'Next Step →';
 }
-
-function scrubTimer(val){
-  if(TS.done)return;
-  clearInterval(timerInt);TS.running=false;
-  TS.rem=TS.total-val;
-  TS.endTime=Date.now()+TS.rem*1000;
-  document.getElementById('t-disp').textContent=fmt(TS.rem);
-  document.getElementById('t-bar').style.width=(val/TS.total*100)+'%';
-  document.getElementById('t-btn').textContent='Start';
-  document.getElementById('t-btn').style.background='#8a4a00';
-}
-function fmt(s){
-  if(s>=3600){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
-  const m=Math.floor(s/60),sec=s%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
-}
-
-/* === Audio === */
-let audioCtx = null;
-function initAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-}
-let alarmInt=null;
-function stopAlarm(){if(alarmInt){clearInterval(alarmInt);alarmInt=null;}}
-function beep(){
-  if(!audioCtx) return;
-  try{
-    [0,0.25,0.5].forEach(t=>{
-      const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-      o.connect(g);g.connect(audioCtx.destination);
-      o.frequency.value=1760;o.type='sine';
-      g.gain.setValueAtTime(0.4,audioCtx.currentTime+t);
-      g.gain.exponentialRampToValueAtTime(0.01,audioCtx.currentTime+t+0.2);
-      o.start(audioCtx.currentTime+t);o.stop(audioCtx.currentTime+t+0.2);
-    });
-  }catch(e){}
-}
-function startAlarm(){
-  stopAlarm();
-  beep();
-  let elapsed=0;
-  alarmInt=setInterval(()=>{
-    elapsed+=3;
-    if(elapsed>=60){stopAlarm();return;}
-    beep();
-  },3000);
-}
-
-/* === Wake Lock — keeps screen on while timer runs === */
-let wakeLock=null;
-async function acquireWakeLock(){
-  if(!('wakeLock' in navigator))return;
-  try{wakeLock=await navigator.wakeLock.request('screen');}catch(e){}
-}
-function releaseWakeLock(){
-  if(wakeLock){wakeLock.release().catch(()=>{});wakeLock=null;}
-}
-document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='visible'&&TS.running&&!TS.done) acquireWakeLock();
-});
-
-/* === Notifications === */
-let notifPermission='default';
-async function requestNotifPermission(){
-  if(!('Notification' in window))return;
-  if(Notification.permission==='granted'){notifPermission='granted';return;}
-  if(Notification.permission==='denied'){notifPermission='denied';return;}
-  try{const r=await Notification.requestPermission();notifPermission=r;}catch(e){}
-}
-function fireNotification(title,body){
-  if(notifPermission!=='granted')return;
-  try{
-    if(navigator.serviceWorker&&navigator.serviceWorker.controller){
-      navigator.serviceWorker.ready.then(reg=>{
-        reg.showNotification(title,{body,icon:'icons/icon-192.png',tag:'ff-timer',renotify:true,vibrate:[200,100,200,100,200],requireInteraction:true});
-      });
-    } else {
-      new Notification(title,{body,icon:'icons/icon-192.png',tag:'ff-timer'});
-    }
-  }catch(e){}
-}
-
-/* === Schedule timer in Service Worker (survives screen off) === */
-function scheduleSwTimer(endTime,title){
-  if(!navigator.serviceWorker||!navigator.serviceWorker.controller)return;
-  navigator.serviceWorker.controller.postMessage({type:'SCHEDULE_TIMER',endTime,title});
-}
-function cancelSwTimer(){
-  if(!navigator.serviceWorker||!navigator.serviceWorker.controller)return;
-  navigator.serviceWorker.controller.postMessage({type:'CANCEL_TIMER'});
-}
-
-/* === Visibility change — catch up timer on resume === */
-document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='visible'){
-    if(TS.running&&!TS.done){
-      timerTick();
-      acquireWakeLock();
-    }
-    // Check if timer expired while we were away
-    if(TS.endTime&&!TS.done&&TS.running&&Date.now()>=TS.endTime){
-      timerTick();
-    }
-    // Restore from session if page was killed and reloaded
-    if(!TS.running&&!TS.done&&TS.total===0){
-      loadSession();
-    }
-  }
-});
-
-/* === Core timer tick — wall-clock based === */
-function timerTick(){
-  const now=Date.now();
-  TS.rem=Math.max(0,Math.round((TS.endTime-now)/1000));
-  const elapsed=TS.total-TS.rem;
-  const pct=(elapsed/TS.total)*100;
-  const disp=document.getElementById('t-disp');
-  const bar=document.getElementById('t-bar');
-  const scrub=document.getElementById('t-scrub');
-  const btn=document.getElementById('t-btn');
-  if(bar)bar.style.width=pct+'%';
-  if(scrub)scrub.value=elapsed;
-
-  const step=steps[S.step];
-  const isCoilFold=step&&step.coilFold;
-
-  if(TS.rem<=0){
-    clearInterval(timerInt);TS.done=true;TS.running=false;
-    releaseWakeLock();
-    if(isCoilFold){
-      beep();
-      if(disp){disp.textContent='Fold!';disp.style.color='#8a4a00';}
-      if(bar)bar.style.cssText='width:100%;background:#8a4a00';
-      const _isFinal=CF.fold>=CF.totalFolds-1;
-      if(btn){btn.style.background=_isFinal?'#2a7a3a':'#8a4a00';btn.textContent=_isFinal?'Last Fold Done ✓':'Fold Done ✓';}
-      updateFoldDisplay();
-      fireNotification('FocacciaFriday',`Fold ${CF.fold+1} of ${CF.totalFolds} — time to fold!`);
-    } else {
-      startAlarm();
-      if(disp){disp.textContent='Done ✓';disp.style.color='#2a7a3a';}
-      if(bar)bar.style.cssText='width:100%;background:#2a7a3a';
-      if(btn){btn.style.background='#2a7a3a';btn.textContent='Silence Alarm';}
-      fireNotification('FocacciaFriday',`${step?step.title:'Timer'} — done!`);
-    }
-  } else {
-    if(disp)disp.textContent=fmt(TS.rem);
-  }
-}
-
-/* === Start the interval ticker === */
-function startTicker(){
-  clearInterval(timerInt);
-  timerInt=setInterval(timerTick,1000);
-}
-
-function updateFoldDisplay(){
-  const el=document.getElementById('fold-indicator');
-  const tb=document.getElementById('timer-box-wrap');
-  if(!el)return;
-  if(CF.fold>=CF.totalFolds){
-    el.textContent='All 4 folds done. Move on to the next step.';
-    el.style.color='#2a7a3a';
-    if(tb)tb.style.display='none';
-    document.getElementById('next-btn').disabled=false;
-    document.getElementById('t-btn').textContent='Complete';
-    document.getElementById('t-btn').style.background='#2a7a3a';
-  } else if(CF.fold===CF.totalFolds-1){
-    el.textContent='Fold 4 of 4 — last fold. When done, press Next Step.';
-    el.style.color='#8a4a00';
-    if(tb)tb.style.display='none';
-    document.getElementById('next-btn').disabled=false;
-  } else {
-    el.textContent=`Fold ${CF.fold+1} of ${CF.totalFolds} — do your fold now, then start the timer.`;
-    el.style.color='#8a4a00';
-    if(tb)tb.style.display='block';
-  }
-}
-
-function toggleTimer(){
-  initAudio();
-  requestNotifPermission();
-  const step=steps[S.step];
-  const isCoilFold=step&&step.coilFold;
-  const stepTitle=step?step.title:'Timer';
-  if(TS.done){
-    stopAlarm();
-    if(isCoilFold && CF.fold < CF.totalFolds-1){
-      CF.fold++;
-      TS={total:30*60,rem:30*60,running:true,done:false,endTime:Date.now()+30*60*1000};
-      document.getElementById('t-disp').textContent=fmt(TS.rem);
-      document.getElementById('t-disp').style.color='#8a4a00';
-      document.getElementById('t-bar').style.cssText='width:0%;background:#8a4a00';
-      document.getElementById('t-btn').style.background='#c03020';
-      document.getElementById('t-btn').textContent='Pause';
-      updateFoldDisplay();
-      acquireWakeLock();
-      scheduleSwTimer(TS.endTime,`Fold ${CF.fold+1} of ${CF.totalFolds} — time to fold!`);
-      startTicker();
-      return;
-    }
-    TS={...TS,rem:TS.total,done:false,running:false,endTime:0}; clearInterval(timerInt);
-    releaseWakeLock();
-    cancelSwTimer();
-    document.getElementById('t-disp').textContent=fmt(TS.total);
-    document.getElementById('t-disp').style.color='#8a4a00';
-    document.getElementById('t-bar').style.cssText='width:0%;background:#8a4a00';
-    document.getElementById('t-btn').style.background='#8a4a00';
-    document.getElementById('t-btn').textContent='Start'; return;
-  }
-  
-  TS.running=!TS.running;
-  document.getElementById('t-btn').textContent=TS.running?'Pause':'Start';
-  document.getElementById('t-btn').style.background=TS.running?'#c03020':'#8a4a00';
-  
-  if(TS.running){
-    TS.endTime=Date.now()+TS.rem*1000;
-    acquireWakeLock();
-    scheduleSwTimer(TS.endTime,`${stepTitle} — done!`);
-    startTicker();
-  } else {
-    clearInterval(timerInt);
-    TS.rem=Math.max(0,Math.round((TS.endTime-Date.now())/1000));
-    releaseWakeLock();
-    cancelSwTimer();
-  }
-}
-
-function prevStep(){if(S.step>0){S.step--;clearInterval(timerInt);stopAlarm();releaseWakeLock();cancelSwTimer();renderMethod();}}
-function nextStep(){if(S.step<steps.length-1){S.step++;clearInterval(timerInt);stopAlarm();releaseWakeLock();cancelSwTimer();renderMethod();}}
-function setStep(i){S.step=i;clearInterval(timerInt);stopAlarm();releaseWakeLock();cancelSwTimer();renderMethod();showMethodView();}
+function prevStep(){if(S.step>0){S.step--;renderMethod();}}
+function nextStep(){if(S.step<steps.length-1){S.step++;renderMethod();}}
+function setStep(i){S.step=i;renderMethod();showMethodView();}
 
 let tlVisible=false;
 function toggleTimeline(){
@@ -1173,23 +920,18 @@ setShape('rect');
 selectFerment('room');
 loadPrefs();
 
-/* === Session state — survives page reload on app resume === */
+
+/* === Session state — survives tab closure === */
 function saveSession(){
-  try{sessionStorage.setItem('ff_session',JSON.stringify({
+  try{localStorage.setItem('ff_session',JSON.stringify({
     step:S.step,
-    endTime:TS.endTime,
-    total:TS.total,
-    running:TS.running,
-    done:TS.done,
-    fold:CF.fold,
-    totalFolds:CF.totalFolds,
     bakeStarted:bakeStarted,
     bakeStartTime:startTime
   }));}catch(e){}
 }
 function loadSession(){
   try{
-    const ss=JSON.parse(sessionStorage.getItem('ff_session'));
+    const ss=JSON.parse(localStorage.getItem('ff_session'));
     if(!ss||ss.step==null)return;
     S.step=ss.step;
     if(ss.bakeStarted&&ss.bakeStartTime){
@@ -1203,44 +945,17 @@ function loadSession(){
       btn.style.cursor='default';
     }
     renderMethod();
-    if(ss.endTime&&ss.running&&!ss.done){
-      const now=Date.now();
-      const rem=Math.max(0,Math.round((ss.endTime-now)/1000));
-      TS={total:ss.total,rem,running:true,done:false,endTime:ss.endTime};
-      if(ss.fold!=null){CF.fold=ss.fold;CF.totalFolds=ss.totalFolds||4;updateFoldDisplay();}
-      if(rem<=0){
-        TS.done=true;TS.running=false;
-        timerTick();
-      } else {
-        const disp=document.getElementById('t-disp');
-        const bar=document.getElementById('t-bar');
-        const btn=document.getElementById('t-btn');
-        if(disp)disp.textContent=fmt(rem);
-        const pct=((TS.total-rem)/TS.total)*100;
-        if(bar)bar.style.width=pct+'%';
-        if(btn){btn.textContent='Pause';btn.style.background='#c03020';}
-        acquireWakeLock();
-        startTicker();
-      }
-    } else if(ss.done){
-      TS.done=true;TS.running=false;TS.total=ss.total;TS.rem=0;
-      if(ss.fold!=null){CF.fold=ss.fold;CF.totalFolds=ss.totalFolds||4;updateFoldDisplay();}
-    }
   }catch(e){}
 }
 loadSession();
 
-/* Save session on every timer tick and step change */
-const _origTickFn=timerTick;
-timerTick=function(){_origTickFn();saveSession();};
+/* Save session on step changes */
 const _origSetStep=setStep;
 setStep=function(i){_origSetStep(i);saveSession();};
 const _origPrev=prevStep;
 prevStep=function(){_origPrev();saveSession();};
 const _origNext=nextStep;
 nextStep=function(){_origNext();saveSession();};
-const _origToggle=toggleTimer;
-toggleTimer=function(){_origToggle();saveSession();};
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});

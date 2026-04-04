@@ -152,6 +152,12 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
 .save-name-input{flex:1;padding:10px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--bg3);font-family:inherit;font-size:1rem;color:var(--text)}
 .save-name-btn{padding:10px 16px;border:none;border-radius:8px;background:var(--accent);color:var(--accent2);font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer}
 </style>
+<script src="capacitor.js"></script>
+<script>
+  window.TimerPlugin = (window.Capacitor && window.Capacitor.registerPlugin)
+    ? window.Capacitor.registerPlugin('Timer')
+    : null;
+</script>
 </head>
 <body>
 
@@ -787,10 +793,8 @@ function renderMethod(){
   if(timerMins){
     const secs=timerMins*60;
     const lbl=step.coilFold?'30m between folds (×4)':minsToLabel(timerMins);
-    const msg=encodeURIComponent(step.coilFold?'Focaccia - Fold':('Focaccia - '+step.title));
-    const fallback=encodeURIComponent('https://clock.google.com/timer?duration='+timerMins+'m');
-    const intentUrl='intent://timer#Intent;action=android.intent.action.SET_TIMER;category=android.intent.category.BROWSABLE;i.android.intent.extra.alarm.LENGTH='+secs+';S.android.intent.extra.alarm.MESSAGE='+msg+';S.browser_fallback_url='+fallback+';end';
-    ta.innerHTML='<a href="'+intentUrl+'" class="set-timer-btn">⏰ Set '+lbl+' timer</a>';
+    const rawMsg=step.coilFold?'Focaccia - Fold':('Focaccia - '+step.title);
+    ta.innerHTML='<button class="set-timer-btn" onclick="setTimerNative('+secs+',\''+rawMsg.replace(/'/g,"\\'")+'\',' +timerMins+')">⏰ Set '+lbl+' timer</button>';
   } else { ta.innerHTML=''; }
 
   document.getElementById('tip-area').innerHTML='';
@@ -959,6 +963,14 @@ nextStep=function(){_origNext();saveSession();};
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+function setTimerNative(secs, msg, mins) {
+  if(window.TimerPlugin) {
+    window.TimerPlugin.setTimer({ seconds: secs, message: msg });
+  } else {
+    window.open('https://clock.google.com/timer?duration=' + mins + 'm', '_blank');
+  }
 }
 </script>
 </body>

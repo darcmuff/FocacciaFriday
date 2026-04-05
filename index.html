@@ -10,153 +10,268 @@
 <meta property="og:image" content="https://darcmuff.github.io/FocacciaFriday/og-image-v2.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫓</text></svg>">
-<meta name="theme-color" content="#ece8e0">
+<meta name="theme-color" content="#faf7f2">
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="FocacciaFriday">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#ece8e0;--bg2:#d4c4a0;--bg3:#e0d4be;--bg4:#c8b890;--border:#a89060;--border2:#b8a070;--text:#1a0e04;--text2:#3a2010;--text3:#5a3a18;--text4:#120a02;--accent:#8a4a00;--accent2:#f5ead8;--green:#2a7a3a;--red:#c03020;--warn-bg:#f5e0b8;--warn-text:#b85c00;--warn-border:#d4a840;--cold:#2a6898;--warm:#b85c00}
-body.dark{--bg:#1a1814;--bg2:#2a2520;--bg3:#352f28;--bg4:#443d34;--border:#6a5a40;--border2:#5a4a30;--text:#e8e0d4;--text2:#c8b8a0;--text3:#a89878;--text4:#f0e8d8;--accent:#d4a040;--accent2:#2a2218;--green:#4aba6a;--red:#e05040;--warn-bg:#3a3020;--warn-text:#e0a030;--warn-border:#6a5020;--cold:#4a9ad0;--warm:#d88020}
-* {box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;font-family:'Palatino Linotype',Palatino,serif;background:var(--bg);color:var(--text);font-size:18.5px}
-#header{height:64px;background:var(--bg2);border-bottom:2px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between}
-.h-left{display:flex;align-items:center;gap:12px}
-.h-logo{width:50px;height:50px;border-radius:50%;object-fit:cover}
-.h-title{font-size:24px;font-weight:700;color:var(--text4);letter-spacing:.07em}
-.h-sub{font-size:14px;color:var(--text2);letter-spacing:.18em;margin-top:2px}
-.h-right{display:flex;align-items:center;gap:10px}
-#page{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto;gap:8px;padding:12px 32px;height:calc(100vh - 64px)}
-.card-title{font-size:1.08rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text2);font-weight:700;margin-bottom:8px;flex-shrink:0}
-.section{display:flex;flex-direction:column;justify-content:center;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
-.sec-label{font-size:1.08rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);font-weight:700;margin-bottom:4px}
-input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;display:block;margin:3px 0 2px;height:4px}
-.slider-labels{display:flex;justify-content:space-between;font-size:0.9rem;color:var(--text3)}
+/* ===== DARK ARTISANAL FOOD MAGAZINE ===== */
+:root{
+  --bg:#faf7f0;--bg2:#e6e0d4;--bg3:#dcd4c6;--bg4:#cec4b0;
+  --border:#a89470;--border2:#bcac90;
+  --text:#120a04;--text2:#281c10;--text3:#3e3020;--text4:#080402;
+  --accent:#704008;--accent2:#f2ede4;
+  --green:#246832;--red:#a82e20;
+  --warn-bg:#f8ecc8;--warn-text:#704008;--warn-border:#c8b070;
+  --cold:#184a70;--warm:#704008;
+  --card-shadow:0 1px 4px rgba(20,10,0,0.14),0 4px 14px rgba(20,10,0,0.1);
+  --card-shadow-hover:0 2px 8px rgba(20,10,0,0.18),0 6px 22px rgba(20,10,0,0.13);
+  --card-radius:12px;
+  --font-display:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --font-body:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --gold-glow:rgba(112,64,8,0.12);
+  --gold-glow-strong:rgba(112,64,8,0.22);
+}
+body.dark{
+  --bg:#141210;--bg2:#1e1c18;--bg3:#262420;--bg4:#302e28;
+  --border:#3e3a30;--border2:#33302a;
+  --text:#d8d0c0;--text2:#a89878;--text3:#786850;--text4:#ede6d8;
+  --accent:#c8943c;--accent2:#141210;
+  --green:#6ab874;--red:#d4584a;
+  --warn-bg:#2a2418;--warn-text:#d4a040;--warn-border:#4a3e28;
+  --cold:#5aaccf;--warm:#d4a040;
+  --card-shadow:0 1px 2px rgba(0,0,0,0.4),0 4px 16px rgba(0,0,0,0.2);
+  --card-shadow-hover:0 2px 4px rgba(0,0,0,0.5),0 8px 28px rgba(0,0,0,0.3);
+  --gold-glow:rgba(200,148,60,0.15);
+  --gold-glow-strong:rgba(200,148,60,0.25);
+}
+
+/* ===== RESET & BASE ===== */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:var(--font-body);background:var(--bg);color:var(--text);font-size:18px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;letter-spacing:.01em}
+
+/* ===== HEADER ===== */
+#header{height:60px;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between}
+.h-left{display:flex;align-items:center;gap:16px}
+.h-logo{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--border)}
+.h-title{font-family:var(--font-display);font-size:28px;font-weight:600;color:var(--text4);letter-spacing:.06em}
+.h-sub{font-family:var(--font-body);font-size:10.5px;color:var(--text2);letter-spacing:.32em;text-transform:uppercase;margin-top:0;font-weight:600}
+.h-right{display:flex;align-items:center;gap:8px}
+
+/* ===== HEADER BUTTONS ===== */
+.h-icon-btn{background:var(--bg);border:1px solid var(--border);border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);transition:all .25s ease;font-size:18px;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.h-icon-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--bg4);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
+.h-icon-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== TOGGLE PILLS ===== */
+.toggle-group{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg3);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.toggle-btn{background:transparent;border:none;border-right:1px solid var(--border);padding:5px 12px;font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;transition:all .2s ease;text-align:center;display:flex;align-items:center;justify-content:center;letter-spacing:.06em;text-transform:uppercase;flex:1}
+.toggle-btn:last-child{border-right:none}
+.toggle-btn.active{background:var(--bg);color:var(--accent);font-weight:700}
+
+/* ===== PAGE GRID ===== */
+#page{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto 1fr;gap:8px;padding:10px 32px;height:calc(100vh - 60px);overflow:hidden}
+
+/* ===== CARDS ===== */
+.section{display:flex;flex-direction:column;justify-content:center;padding:10px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);transition:all .3s ease;min-height:0;overflow:hidden}
+.section:hover{box-shadow:var(--card-shadow-hover);border-color:var(--border2)}
+
+/* ===== CARD & SECTION TITLES ===== */
+.card-title{font-size:1.1rem;letter-spacing:.06em;color:var(--text2);font-weight:600;margin-bottom:6px;flex-shrink:0}
+.sec-label{font-size:1.1rem;letter-spacing:.06em;color:var(--text2);font-weight:600;margin-bottom:3px}
+
+/* ===== SLIDERS ===== */
+.slider-track{position:relative;height:8px;border-radius:4px;margin:4px 0 3px}
+.slider-hours{background:linear-gradient(to right,#b87070 0%,#8aaa78 28%,#8aaa78 72%,#b87070 100%)}
+.slider-hyd{background:linear-gradient(to right,#b87070 0%,#8aaa78 22%,#8aaa78 72%,#b87070 100%)}
+.slider-temp{background:linear-gradient(to right,#b87070 0%,#8aaa78 22%,#8aaa78 62%,#b87070 100%)}
+.slider-track input[type=range]{-webkit-appearance:none;appearance:none;width:100%;cursor:pointer;display:block;position:absolute;top:0;left:0;height:100%;margin:0;background:transparent;outline:none}
+.slider-track input[type=range]::-webkit-slider-runnable-track{background:transparent;height:100%}
+.slider-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);border:none;box-shadow:0 0 0 4px var(--gold-glow),0 2px 8px rgba(0,0,0,0.4);cursor:pointer;transition:all .2s ease;margin-top:-6px}
+.slider-track input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 8px var(--gold-glow-strong),0 2px 12px rgba(0,0,0,0.5);transform:scale(1.1)}
+.slider-track input[type=range]::-moz-range-track{background:transparent;height:100%;border:none}
+.slider-track input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);border:none;box-shadow:0 0 0 4px var(--gold-glow),0 2px 8px rgba(0,0,0,0.4);cursor:pointer}
+.slider-labels{display:flex;justify-content:space-between;font-size:0.8rem;color:var(--text3);font-weight:600;letter-spacing:.03em}
 .slider-labels .green{color:var(--green);font-weight:700}
 .slider-labels .red{color:var(--red);font-weight:700}
-.toggle-group{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
-.toggle-btn{background:transparent;border:none;padding:5px 11px;font-family:inherit;font-size:14px;font-weight:700;color:var(--text3);cursor:pointer;transition:background .15s;text-align:center;display:flex;align-items:center;justify-content:center}
-.toggle-btn.active{background:var(--accent);color:var(--accent2)}
-.tl-toggle{font-size:13px;color:var(--accent);cursor:pointer;font-weight:700;letter-spacing:.3px;padding:3px 10px;border:1px solid var(--border);border-radius:5px;background:transparent;transition:background .15s,color .15s,border-color .15s}
-.tl-toggle.active{background:var(--accent);color:var(--accent2);border-color:var(--accent)}
-.method-btn{flex:1;text-align:center;min-width:0}
-/* Method card spans rows 2 and 3 on the right */
+
+/* ===== METHOD CARD BUTTONS ===== */
+.tl-toggle{font-family:var(--font-body);font-size:12px;color:var(--text2);cursor:pointer;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .25s ease;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.tl-toggle:hover{color:var(--accent);border-color:var(--accent);background:var(--bg4);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
+.tl-toggle.active{color:var(--accent);border-color:var(--accent);background:var(--bg4);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
+.tl-toggle.active .btn-icon,.tl-toggle.active .btn-label{color:var(--accent)}
+.btn-icon{display:block;font-size:1.3rem;line-height:1;margin-bottom:2px}
+.btn-label{display:block;font-size:0.7rem;letter-spacing:.08em;text-transform:uppercase}
+.method-btn{flex:1;text-align:center;min-width:0;flex-direction:column;display:flex;align-items:center;justify-content:center;padding:6px 16px}
+
+/* ===== METHOD CARD LAYOUT ===== */
 #method-card{grid-column:2;grid-row:2/4}
 #method-view{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
 #method-view.hide{display:none}
 #timeline-view{display:none;flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg2);flex-direction:column;padding-right:5px}
 #timeline-view.show{display:flex}
-.fopt{display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:7px 10px;border-radius:7px;border:1px solid var(--border2);margin-bottom:10px;background:var(--bg3)}
-.fopt.sel{background:var(--bg4);border-color:var(--border)}
-.fradio{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:3px}
-.flabel{font-weight:700;font-size:1.08rem}
-.fdesc{font-size:1.05rem;color:var(--text3);margin-top:2px}
+
+/* ===== FERMENT OPTIONS ===== */
+.fopt{display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:10px 14px;border-radius:10px;border:1px solid var(--border);margin-bottom:8px;background:var(--bg3);transition:all .25s ease;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.fopt:hover{border-color:var(--text3);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
+.fopt.sel{background:var(--bg);border-color:var(--text3);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
+.fradio{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:4px;transition:all .2s ease}
+.flabel{font-family:var(--font-display);font-weight:700;font-size:1.2rem;letter-spacing:.02em}
+.fdesc{font-size:0.92rem;color:var(--text3);margin-top:2px;line-height:1.5}
+
+/* ===== PAN SECTION ===== */
 .pan-section{gap:0}
-.pan-shape{display:flex;gap:8px;margin-bottom:8px}
-.shape-btn{flex:1;height:42px;border:2px solid var(--border);border-radius:10px;background:transparent;font-family:inherit;font-size:1.25rem;color:var(--text2);cursor:pointer;font-weight:700;transition:all .15s;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 6px;white-space:nowrap;overflow:hidden}
-.shape-btn.sel{background:var(--bg4);border-color:var(--accent);color:var(--accent)}
+.pan-shape{display:flex;gap:6px;margin-bottom:10px}
+.shape-btn{flex:1;height:34px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);font-family:var(--font-body);font-size:1rem;color:var(--text2);cursor:pointer;font-weight:700;transition:all .25s ease;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 8px;white-space:nowrap;overflow:hidden;letter-spacing:.03em;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.shape-btn:hover{border-color:var(--text3);color:var(--text);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
+.shape-btn.sel{background:var(--bg);border-color:var(--accent);color:var(--accent);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
 .shape-short{display:none}
-.pan-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
-.pan-row label{font-size:1.15rem;color:var(--text2);font-weight:600;min-width:80px}
-.pan-row input{flex:1;padding:7px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--bg3);font-family:inherit;font-size:1.15rem;color:var(--text)}
-.pan-unit{font-size:1rem;color:var(--text3);min-width:30px}
-.pan-result{margin-top:4px;font-size:1.15rem;color:var(--text2);line-height:1.5}
-.pan-result strong{color:var(--accent)}
-.warning{margin-top:6px;font-size:1.05rem;padding:6px 10px;border-radius:5px;background:var(--warn-bg);color:var(--warn-text);border:1px solid var(--warn-border)}
+.pan-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.pan-row label{font-size:1rem;color:var(--text2);font-weight:600;min-width:70px}
+.pan-row input{flex:1;padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);font-family:var(--font-body);font-size:1rem;color:var(--text);transition:all .25s ease}
+.pan-row input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--gold-glow)}
+.pan-unit{font-size:0.9rem;color:var(--text3);min-width:30px}
+.pan-result{margin-top:2px;font-size:1rem;color:var(--text2);line-height:1.4}
+.pan-result strong{color:var(--accent);font-size:1.1rem;font-weight:700}
+.warning{margin-top:8px;font-size:0.95rem;padding:8px 12px;border-radius:8px;background:var(--warn-bg);color:var(--warn-text);border:1px solid var(--warn-border)}
+
+/* ===== INGREDIENTS TABLE ===== */
 table{width:100%;border-collapse:collapse}
-th{padding:4px 0;font-size:1.08rem;color:var(--text2);letter-spacing:.14em;text-transform:uppercase;border-bottom:2px solid var(--border);font-weight:700}
-td{padding:5px 0;font-size:1.08rem;color:var(--text4);border-bottom:1px solid var(--border2)}
-td.wt{font-size:21px;font-weight:700;color:var(--accent);text-align:right;font-variant-numeric:tabular-nums}
-td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
-.total-row td{font-size:1.08rem;color:var(--text2);padding-top:3px;border-bottom:none}
-.total-row td.wt{font-size:21px;color:var(--text3)}
-.prog-row{display:flex;justify-content:space-between;font-size:1.05rem;color:var(--text2);margin-bottom:5px}
-.prog-bg{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:6px}
-.prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+th{padding:3px 0;font-family:var(--font-body);font-size:0.72rem;color:var(--text3);letter-spacing:.18em;text-transform:uppercase;border-bottom:1px solid var(--border);font-weight:700}
+td{padding:4px 0;font-size:0.95rem;color:var(--text);border-bottom:1px solid var(--border)}
+td.wt{font-size:1.25rem;font-weight:700;color:var(--accent);text-align:right;font-variant-numeric:tabular-nums}
+td.pc{font-size:0.88rem;color:var(--text3);text-align:right;padding-left:10px;font-weight:600}
+.total-row td{font-size:1rem;color:var(--text2);padding-top:5px;border-bottom:none}
+.total-row td.wt{font-size:1.15rem;color:var(--text3)}
+
+/* ===== PROGRESS BAR ===== */
+.prog-row{display:flex;justify-content:space-between;font-size:0.92rem;color:var(--text3);margin-bottom:4px;font-weight:600}
+.prog-bg{height:2px;background:var(--border);border-radius:1px;overflow:hidden;margin-bottom:10px}
+.prog-fill{height:100%;background:var(--accent);border-radius:1px;transition:width .5s ease}
+
+/* ===== METHOD BODY ===== */
 .method-body{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
 .step-content{flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg2);padding-right:10px}
-#timer-area{flex-shrink:0;margin-top:12px;background:var(--bg2)}
-.m-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:6px}
-.m-icon{font-size:34px;line-height:1;flex-shrink:0}
-.m-step-lbl{font-size:0.9rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3)}
-.m-title{font-size:24px;font-weight:700;color:var(--text4);line-height:1.2}
-.m-body-text{font-size:1.05rem;color:var(--text4);line-height:1.6;white-space:pre-line;overflow:visible;word-wrap:break-word}
-.nav-row{display:flex;gap:8px;margin-top:8px;flex-shrink:0}
-.nav-prev,.nav-next{padding:12px;border-radius:7px;font-size:18px;cursor:pointer;font-family:inherit;flex:1;text-align:center}
-.nav-prev{border:1px solid var(--border2);background:var(--bg3);color:var(--text)}
-.nav-next{border:none;background:var(--accent);color:var(--accent2);font-weight:700}
-/* Timeline styles */
-.tl-item{display:flex;gap:10px;cursor:pointer}
-.tl-line{display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0}
-.tl-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--border);background:var(--border);flex-shrink:0}
-.tl-dot.active{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 3px rgba(138,74,0,0.3)}
-.tl-stem{width:3px;flex-shrink:0}
-.tl-content{flex:1;padding-bottom:6px}
-.tl-head{display:flex;align-items:center;gap:6px}
+#timer-area{flex-shrink:0;margin-top:14px;background:var(--bg2)}
+.m-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:10px}
+.m-icon{flex-shrink:0;display:flex;align-items:center}
+.m-timer-pill{display:inline-flex;align-items:center;justify-content:center;color:var(--accent);cursor:default;background:var(--bg);border:1px solid var(--accent);border-radius:8px;padding:6px 12px;font-family:var(--font-body);font-size:0.88rem;font-weight:700;letter-spacing:.03em;transition:all .2s ease;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.12)}
+body.native .m-timer-pill{cursor:pointer}
+body.native .m-timer-pill:hover{border-color:var(--text3);color:var(--text);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
+@keyframes timer-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(90,158,106,0.5)}
+  50%{box-shadow:0 0 0 6px rgba(90,158,106,0)}
+}
+.m-timer-pill.active{background:#d4edda;border-color:#5a9e6a;color:#246832;animation:timer-pulse 2s ease-in-out infinite}
+.m-timer-pill.active:hover{background:#c8e6ce;border-color:#4a8e5a;color:#246832}
+body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8dd4a0}
+.m-no-timer{display:inline-flex;align-items:center;justify-content:center;color:var(--border);font-size:0.88rem;padding:6px 12px;visibility:hidden}
+.m-step-lbl{font-size:0.75rem;text-transform:uppercase;letter-spacing:.18em;color:var(--text3);font-weight:700}
+.m-title{font-size:1.55rem;font-weight:700;color:var(--text4);line-height:1.2;letter-spacing:.01em}
+.m-body-text{font-size:1.1rem;color:var(--text);line-height:1.55;white-space:pre-line;overflow:visible;word-wrap:break-word}
+
+/* ===== NAV BUTTONS ===== */
+.nav-row{display:flex;gap:10px;margin-top:12px;flex-shrink:0}
+.nav-prev,.nav-next{padding:13px;border-radius:8px;font-size:0.92rem;cursor:pointer;font-family:var(--font-body);flex:1;text-align:center;transition:all .25s ease;font-weight:700;letter-spacing:.04em}
+.nav-prev{border:1px solid var(--border);background:var(--bg3);color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.nav-prev:hover{border-color:var(--text3);color:var(--text);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
+.nav-next{border:1px solid var(--border);background:var(--bg);color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1);font-weight:700}
+.nav-next:hover{border-color:var(--text3);color:var(--text);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
+.nav-next:disabled,.nav-prev:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ===== TIMELINE ===== */
+.tl-item{display:flex;gap:10px;cursor:pointer;transition:all .2s ease;padding:3px 6px;border-radius:6px}
+.tl-item:hover{background:var(--bg3)}
+.tl-line{display:flex;flex-direction:column;align-items:center;width:18px;flex-shrink:0}
+.tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--border);background:var(--border);flex-shrink:0;transition:all .25s ease}
+.tl-dot.active{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px var(--gold-glow-strong)}
+.tl-dot.timer-active{background:var(--green);border-color:var(--green);box-shadow:0 0 0 4px rgba(36,104,50,0.25)}
+.tl-stem{width:2px;flex-shrink:0}
+.tl-content{flex:1;padding-bottom:8px}
+.tl-head{display:flex;align-items:center;gap:7px}
 .tl-icon{font-size:18px}
-.tl-title{font-weight:700;font-size:1rem;color:var(--text4)}
-.tl-dur{font-size:0.95rem;color:var(--accent);font-weight:700;margin-left:auto}
-.tl-desc{font-size:0.9rem;color:var(--text3);margin-top:2px;white-space:pre-line;word-wrap:break-word}
-.set-timer-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:10px 18px;background:var(--accent);color:var(--accent2);border-radius:8px;font-size:1rem;font-weight:700;text-decoration:none;letter-spacing:.03em;transition:opacity .15s}
-.set-timer-btn:hover{opacity:0.85}
-.h-icon-btn{background:transparent;border:1px solid var(--border);border-radius:6px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);transition:background .15s;font-size:20px;padding:0}
-.h-icon-btn:hover{background:var(--bg3)}
-.h-icon-btn svg{width:18px;height:18px;stroke:var(--text3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tl-title{font-weight:700;font-size:1.15rem;color:var(--text4)}
+.tl-dur{font-size:0.95rem;color:var(--accent);font-weight:700;margin-left:auto;font-family:var(--font-body);letter-spacing:.03em}
+.tl-desc{font-size:0.95rem;color:var(--text2);margin-top:3px;white-space:pre-line;word-wrap:break-word;line-height:1.55}
+
+
+
+/* ===== RESPONSIVE ===== */
 @media (max-width:768px){
   #header{height:auto;padding:12px 16px;flex-wrap:wrap}
-  .h-right{width:100%;justify-content:flex-end;margin-top:4px}
+  .h-right{width:100%;justify-content:flex-end;margin-top:6px}
+  .h-title{font-size:24px}
   html,body{overflow:auto;height:auto}
-  #page{grid-template-columns:1fr;height:auto;padding:12px 16px}
+  #page{grid-template-columns:1fr;height:auto;padding:12px 16px;gap:10px}
   #method-card{grid-column:1;grid-row:auto;order:10;height:80vh;flex:none!important}
-  .section{flex:none}
-  .shape-btn{font-size:1rem;height:38px}
+  .section{flex:none;padding:16px 18px}
+  .shape-btn{font-size:0.92rem;height:40px}
   .shape-full{display:none}
   .shape-short{display:inline}
-  .toggle-btn{padding:5px 8px;font-size:13px}
+  .toggle-btn{padding:5px 10px;font-size:11px}
+  .m-title{font-size:1.3rem}
+  #method-label{display:none}
 }
-/* Guide modal */
-.guide-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s;pointer-events:none}
+
+/* ===== GUIDE MODAL ===== */
+.guide-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s ease;pointer-events:none}
 .guide-overlay.show{opacity:1;pointer-events:auto}
-.guide-box{background:var(--bg);border:2px solid var(--border);border-radius:14px;max-width:860px;width:100%;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
-.guide-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border2);flex-shrink:0}
-.guide-header h2{font-size:1.3rem;color:var(--text4);letter-spacing:.08em;margin:0}
-.guide-close{background:transparent;border:1px solid var(--border);border-radius:6px;width:32px;height:32px;font-size:18px;cursor:pointer;color:var(--text3);display:flex;align-items:center;justify-content:center;font-family:inherit}
-.guide-close:hover{background:var(--bg3)}
-.guide-body{overflow-y:auto;padding:16px 20px 20px;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg)}
-.guide-body h3{font-size:1.1rem;color:var(--accent);letter-spacing:.08em;margin:18px 0 6px;text-transform:uppercase}
+.guide-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;max-width:860px;width:100%;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 16px 64px rgba(0,0,0,0.5)}
+.guide-header{display:flex;align-items:center;justify-content:space-between;padding:20px 28px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.guide-header h2{font-family:var(--font-display);font-size:1.5rem;color:var(--accent);letter-spacing:.08em;margin:0;font-weight:600}
+.guide-close{background:transparent;border:1px solid var(--border);border-radius:6px;width:34px;height:34px;font-size:18px;cursor:pointer;color:var(--text3);display:flex;align-items:center;justify-content:center;font-family:inherit;transition:all .25s ease}
+.guide-close:hover{color:var(--accent);border-color:var(--accent)}
+.guide-body{overflow-y:auto;padding:24px 28px 28px;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg2)}
+.guide-body h3{font-size:1.25rem;color:var(--accent);letter-spacing:.06em;margin:26px 0 10px;font-weight:700}
 .guide-body h3:first-child{margin-top:0}
-.guide-body p{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:10px}
+.guide-body details{border-bottom:1px solid var(--border2);padding-bottom:4px;margin-bottom:4px}
+.guide-body details:last-child{border-bottom:none}
+.guide-body details summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
+.guide-body details summary::-webkit-details-marker{display:none}
+.guide-body details summary::before{content:'▸';font-size:0.9rem;color:var(--text3);transition:transform .2s ease;flex-shrink:0}
+.guide-body details[open] summary::before{transform:rotate(90deg)}
+.guide-body details summary h3{margin:10px 0;pointer-events:none}
+.guide-body details p:last-child{margin-bottom:14px}
+.guide-body p{font-size:0.98rem;color:var(--text);line-height:1.75;margin-bottom:14px}
 .guide-body .g-em{color:var(--text4);font-weight:700}
 .guide-body .g-green{color:var(--green);font-weight:700}
 .guide-body .g-warm{color:var(--warm);font-weight:700}
 .guide-body .g-cold{color:var(--cold);font-weight:700}
-/* Saved recipes modal */
-.saved-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s;pointer-events:none}
+
+/* ===== SAVED RECIPES MODAL ===== */
+.saved-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s ease;pointer-events:none}
 .saved-overlay.show{opacity:1;pointer-events:auto}
-.saved-box{background:var(--bg);border:2px solid var(--border);border-radius:14px;max-width:520px;width:100%;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
-.saved-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border2);flex-shrink:0}
-.saved-header h2{font-size:1.3rem;color:var(--text4);letter-spacing:.08em;margin:0}
-.saved-body{overflow-y:auto;padding:16px 20px 20px;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg)}
-.save-current{width:100%;padding:12px;border:2px dashed var(--border);border-radius:10px;background:transparent;font-family:inherit;font-size:1rem;color:var(--accent);cursor:pointer;font-weight:700;margin-bottom:14px;transition:background .15s}
-.save-current:hover{background:var(--bg3)}
-.saved-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border2);border-radius:10px;margin-bottom:8px;background:var(--bg3);cursor:pointer;transition:background .15s}
-.saved-item:hover{background:var(--bg4)}
+.saved-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;max-width:520px;width:100%;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 16px 64px rgba(0,0,0,0.5)}
+.saved-header{display:flex;align-items:center;justify-content:space-between;padding:20px 28px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.saved-header h2{font-family:var(--font-display);font-size:1.5rem;color:var(--accent);letter-spacing:.08em;margin:0;font-weight:600}
+.saved-body{overflow-y:auto;padding:20px 28px 28px;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg2)}
+.save-current{width:100%;padding:14px;border:1px dashed var(--border);border-radius:10px;background:transparent;font-family:var(--font-body);font-size:0.92rem;color:var(--accent);cursor:pointer;font-weight:700;margin-bottom:16px;transition:all .25s ease;letter-spacing:.04em;text-transform:uppercase}
+.save-current:hover{border-color:var(--accent);background:var(--gold-glow)}
+.saved-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:10px;margin-bottom:10px;background:var(--bg3);cursor:pointer;transition:all .25s ease}
+.saved-item:hover{border-color:var(--text3);background:var(--bg4)}
 .saved-item-info{flex:1;min-width:0}
-.saved-item-name{font-weight:700;font-size:1.05rem;color:var(--text4)}
-.saved-item-desc{font-size:0.9rem;color:var(--text3);margin-top:2px}
-.saved-item-del{background:transparent;border:1px solid var(--border);border-radius:6px;width:30px;height:30px;font-size:14px;cursor:pointer;color:var(--text3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s}
+.saved-item-name{font-family:var(--font-display);font-weight:700;font-size:1.1rem;color:var(--text4)}
+.saved-item-desc{font-size:0.82rem;color:var(--text3);margin-top:3px;letter-spacing:.02em}
+.saved-item-del{background:transparent;border:1px solid var(--border);border-radius:6px;width:32px;height:32px;font-size:14px;cursor:pointer;color:var(--text3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .25s ease}
 .saved-item-del:hover{background:var(--red);color:#fff;border-color:var(--red)}
-.saved-empty{font-size:1rem;color:var(--text3);text-align:center;padding:20px 0}
-.save-name-row{display:flex;gap:8px;margin-bottom:14px}
-.save-name-input{flex:1;padding:10px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--bg3);font-family:inherit;font-size:1rem;color:var(--text)}
-.save-name-btn{padding:10px 16px;border:none;border-radius:8px;background:var(--accent);color:var(--accent2);font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer}
+.saved-empty{font-size:0.95rem;color:var(--text3);text-align:center;padding:24px 0}
+.save-name-row{display:flex;gap:8px;margin-bottom:16px}
+.save-name-input{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);font-family:var(--font-body);font-size:1rem;color:var(--text);transition:all .25s ease}
+.save-name-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--gold-glow)}
+.save-name-btn{padding:10px 18px;border:none;border-radius:8px;background:var(--accent);color:var(--accent2);font-family:var(--font-body);font-size:0.92rem;font-weight:700;cursor:pointer;transition:all .25s ease;letter-spacing:.04em;text-transform:uppercase}
+.save-name-btn:hover{box-shadow:0 4px 12px rgba(200,148,60,0.3)}
 </style>
 <script src="capacitor.js"></script>
 <script>
   window.TimerPlugin = (window.Capacitor && window.Capacitor.registerPlugin)
     ? window.Capacitor.registerPlugin('Timer')
     : null;
+  if(window.TimerPlugin) document.body.classList.add('native');
 </script>
 </head>
 <body>
@@ -230,17 +345,17 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
   <!-- ROW 1 LEFT: SLIDERS -->
   <div class="section">
     <div class="sec-label" id="hours-lbl">Total Time: 8 hours</div>
-    <input type="range" min="0" max="100" step="1" value="14" id="hours-slider" oninput="update()">
-    <div class="slider-labels"><span id="start-time-lbl">6h</span><span id="sweet-lbl">12–24h sweet spot</span><span>48h</span></div>
-    <div style="margin-top:14px">
+    <div class="slider-track slider-hours"><input type="range" min="0" max="100" step="1" value="14" id="hours-slider" oninput="update()"></div>
+    <div class="slider-labels"><span id="start-time-lbl">6h</span><span>48h</span></div>
+    <div style="margin-top:20px">
       <div class="sec-label" id="hyd-lbl">Hydration: 85%</div>
-      <input type="range" min="70" max="100" step="1" value="85" id="hyd-slider" oninput="update()">
-      <div class="slider-labels"><span>70%</span><span id="hyd-sweet">80–90% target</span><span id="yolo">100% yolo</span></div>
+      <div class="slider-track slider-hyd"><input type="range" min="70" max="100" step="1" value="85" id="hyd-slider" oninput="update()"></div>
+      <div class="slider-labels"><span>70%</span><span>100%</span></div>
     </div>
-    <div style="margin-top:14px">
+    <div style="margin-top:20px">
       <div class="sec-label" id="temp-lbl">Room / Control Temp: 20°C</div>
-      <input type="range" min="15" max="28" step="1" value="20" id="temp-slider" oninput="update()">
-      <div class="slider-labels"><span id="temp-cool">15°C cool</span><span id="temp-ideal">18–22°C ideal</span><span id="temp-warm">28°C warm</span></div>
+      <div class="slider-track slider-temp"><input type="range" min="15" max="28" step="1" value="20" id="temp-slider" oninput="update()"></div>
+      <div class="slider-labels"><span id="temp-cool">15°C</span><span id="temp-warm">28°C</span></div>
     </div>
   </div>
 
@@ -263,19 +378,19 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
 
   <!-- ROW 2+3 RIGHT: METHOD (spans 2 rows) -->
   <div id="method-card" class="section" style="min-height:0;display:flex;flex-direction:column;overflow:hidden;justify-content:flex-start">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-shrink:0">
-      <div class="card-title" style="margin-bottom:0">Method</div>
-      <div style="display:flex;gap:6px">
-        <button class="tl-toggle method-btn" onclick="resetDefaults()"><span style="font-size:28px;font-weight:300;display:inline-flex;align-items:center;vertical-align:middle;line-height:1;margin-top:-4px">↺</span> Reset</button>
-        <button class="tl-toggle method-btn" id="start-bake-btn" onclick="startBake()">▶ Begin</button>
-        <button class="tl-toggle method-btn" id="tl-toggle" onclick="toggleTimeline()">☰ Timeline</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-shrink:0;gap:12px">
+      <div>
+        <div class="card-title" id="method-label" style="margin-bottom:0">Method</div>
+        <div class="prog-row" id="prog-row" style="margin:0"><span id="step-counter"></span></div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <button class="tl-toggle method-btn" onclick="resetDefaults()"><span class="btn-icon">↺</span><span class="btn-label">Reset</span></button>
+        <button class="tl-toggle method-btn" id="start-bake-btn" onclick="startBake()"><span class="btn-icon">▶</span><span class="btn-label">Begin</span></button>
+        <button class="tl-toggle method-btn" id="tl-toggle" onclick="toggleTimeline()"><span class="btn-icon">☰</span><span class="btn-label">Timeline</span></button>
       </div>
     </div>
+    <div class="prog-bg" id="prog-bg" style="flex-shrink:0;margin-bottom:6px"><div class="prog-fill" id="prog-fill"></div></div>
     <div id="method-view">
-      <div class="prog-row">
-        <span id="step-counter"></span>
-      </div>
-      <div class="prog-bg"><div class="prog-fill" id="prog-fill"></div></div>
       <div class="method-body">
         <div class="step-content">
           <div class="m-header">
@@ -285,7 +400,6 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
           <div class="m-body-text" id="s-body"></div>
           <div id="tip-area"></div>
         </div>
-        <div id="timer-area"></div>
         <div class="nav-row">
           <button class="nav-prev" id="prev-btn" onclick="prevStep()">← Previous</button>
           <button class="nav-next" id="next-btn" onclick="nextStep()">Next Step →</button>
@@ -317,50 +431,78 @@ td.pc{font-size:1.05rem;color:var(--text3);text-align:right;padding-left:10px}
     </div>
     <div class="guide-body">
 
-      <h3>Start With the End</h3>
-      <p>When do you want to eat? Work backwards from there. The <span class="g-em">Total Time slider</span> is how many hours from mixing to eating. Set it, and the calculator figures out everything else — the yeast quantity, your fermentation times, and the method steps. The <span class="g-green">green sweet spot</span> marks 12–24 hours. Longer fermentation develops a more complex flavour, a better texture, and an open crumb. But it is a sweet spot, <span class="g-em">not a rule</span>. An 8-hour bake still makes great focaccia — you are just trading some depth for convenience. For shorter bakes, a warmer fermentation environment will help the dough along — the oven light trick mentioned below is ideal for this.</p>
+      <p>This is a focaccia calculator. Set your sliders, enter your pan, and it works out everything — ingredient quantities, yeast levels, fermentation times, and a step-by-step method with real clock times. Every slider has a <span class="g-green">green zone</span> showing the range where results are most predictable. The ends fade to red — not because they are wrong, but because they need more experience to manage well. Great focaccia is made at every point on these sliders.</p>
 
-      <h3>What Pan Have You Got?</h3>
+      <details>
+      <summary><h3>Start With the End</h3></summary>
+      <p>When do you want to eat? Work backwards from there. The <span class="g-em">Total Time slider</span> is how many hours from mixing to eating. Set it, and the calculator figures out everything else — the yeast quantity, your fermentation times, and the method steps. The <span class="g-green">green zone</span> marks where timing is most forgiving. Longer fermentation develops a more complex flavour, a better texture, and an open crumb — but an 8-hour bake still makes great focaccia. You are just trading some depth for convenience. For shorter bakes, a warmer fermentation environment will help the dough along — the oven light trick mentioned below is ideal for this.</p>
+      </details>
+
+      <details>
+      <summary><h3>What Pan Have You Got?</h3></summary>
       <p>Enter your pan dimensions and the calculator scales the flour (and everything else) to fit. The 7cm (2.75in) depth is a rough guide — we are aiming for a focaccia around 6cm (2.5in) tall, so any pan in that ballpark (give or take a centimetre) will hold the dough just fine. A cookie tray will not.</p>
+      </details>
 
-      <h3>What Flour?</h3>
+      <details>
+      <summary><h3>What Flour?</h3></summary>
       <p>Use a <span class="g-em">strong white bread flour with 12–15% protein</span>. The protein content is what forms gluten, and gluten is what gives focaccia its structure, its chew, and its ability to hold all that water and gas without collapsing. A low-protein plain flour will not develop enough gluten — your dough will be weak, tear easily, and the crumb will be flat and dense. The higher the protein, the more water the flour can absorb and the stronger the gluten network. That is what lets you push the hydration up into the 85–90% range and still get a dough that holds together. Check the label — most supermarket bread flours sit around 12–13%, which is fine. If you can find something closer to 14–15%, even better.</p>
+      </details>
 
-      <h3>How Wet Do You Want It?</h3>
+      <details>
+      <summary><h3>How Wet Do You Want It?</h3></summary>
       <p>Hydration is the ratio of water to flour and it changes everything. <span class="g-em">Higher hydration (85%+) gives you a lighter, airier crumb with bigger voids</span> — the kind of focaccia that looks like it came from a bakery. But it is harder to handle. The dough is slack, sticky, and wants to run everywhere.</p>
       <p><span class="g-em">Lower hydration (70–80%) is much easier to work with</span> — the dough behaves, shapes nicely, and forgives mistakes. The trade-off is a denser, tighter crumb. Still delicious, just a different bread.</p>
       <p>If you are new, start around 80% and work up as your confidence grows. If you are comfortable with wet dough, 85–90% is where the magic happens.</p>
+      </details>
 
-      <h3>What Is Your Kitchen Like?</h3>
-      <p>Room temperature controls how fast your yeast works. Warmer = faster, cooler = slower. The calculator compensates automatically, but <span class="g-green">18–22°C (64–72°F)</span> is the comfortable zone where timing is predictable and flavour develops well. Just set the slider to match your kitchen and the yeast model does the rest.</p>
+      <details>
+      <summary><h3>What Is Your Kitchen Like?</h3></summary>
+      <p>Room temperature controls how fast your yeast works. Warmer = faster, cooler = slower. The calculator compensates automatically — just set the slider to match your kitchen and the yeast model does the rest.</p>
+      </details>
 
-      <h3>Room Temp or Cold Ferment?</h3>
+      <details>
+      <summary><h3>Room Temp or Cold Ferment?</h3></summary>
       <p><span class="g-warm">Room temp</span> — all fermentation happens at ambient temperature. It is simpler, faster, and gives great results. If you have a proofer, this is also your controlled-temp mode — dial in exactly what you want. Pro tip: your oven light generates gentle, consistent warmth around 22–26°C (72–79°F). Close the door, leave the light on, and you have got yourself a DIY proofer. The time slider will not go past 24 hours in room temp mode — beyond that, the dough will over-ferment and collapse on itself. If you want longer than 24 hours, that is what the fridge is for.</p>
       <p><span class="g-cold">Cold ferment</span> — bulk rise at room temp, then overnight in the fridge. The cold slows everything down and develops deeper, more complex flavour. Worth it if you have the time. The time slider will not go below 14 hours in cold ferment mode — you need enough time for the room temperature bulk rise, the fridge time, and the final proof to all do their job. Anything shorter than that and you are better off staying at room temp.</p>
+      </details>
 
-      <h3>Now You Are Baking</h3>
-      <p>Once you have set your sliders and you are ready to go, hit <span class="g-em">▶ Begin</span>. This stamps your start time and turns the whole calculator into a live schedule. The method panel walks you through every step, and once the bake is started, every step shows its actual wall-clock time — so instead of just knowing a step takes 45 minutes, you can see it starts at 9:15pm and the next one begins at 10:00pm. Steps that need timing show a <span class="g-em">⏰ Set timer</span> button that opens your phone's clock app with the right duration already filled in — your phone handles the alarm, so it works even if the screen is off or you are using another app.</p>
+      <details>
+      <summary><h3>Baking</h3></summary>
+      <p>Once you have set your sliders and you are ready to go, hit <span class="g-em">▶ Begin</span>. This stamps your start time and turns the whole calculator into a live schedule. The method panel walks you through every step, and once the bake is started, every step shows its actual wall-clock time — so instead of just knowing a step takes 45 minutes, you can see it starts at 9:15pm and the next one begins at 10:00pm.</p>
       <p>Hit <span class="g-em">☰ Timeline</span> for the full overview. Before you begin, the timeline shows durations only. After you hit Begin, each step gets a real clock time alongside its duration — your entire bake laid out as an actual schedule. Tap any step to jump straight to it.</p>
       <p>Everything recalculates live, so if you change your mind on a slider mid-bake, the remaining steps update with new times. The sliders above the time label still show the eat time preview so you always know when the bread hits the table.</p>
       <p>If you close the app or your phone goes to sleep, do not worry — the session is saved automatically. When you come back, your start time and your current step will be exactly where you left them. Hit <span class="g-em">↺ Reset</span> to clear everything and start fresh.</p>
+      </details>
 
-      <h3>Coil Folds vs Stretch and Folds</h3>
+      <details>
+      <summary><h3>Timers</h3></summary>
+      <p>Steps that need timing show a <span class="g-em">⏰ timer pill</span> next to the step title with the duration displayed. Tap it and your phone's native clock app opens with the correct duration and a label already filled in — your phone handles the countdown, so it works even if the screen is off or you are in another app.</p>
+      <p><span class="g-em">Important:</span> the native timer feature only works in the <span class="g-em">Android app</span> from the Play Store. There is no equivalent API available in any browser on any platform — desktop or mobile. If you are using the website, the timer pills still work as progress indicators but will not launch an external timer.</p>
+      </details>
+
+      <details>
+      <summary><h3>Coil Folds vs Stretch and Folds</h3></summary>
       <p>Both techniques build gluten structure without traditional kneading, and both work well. The difference is practical.</p>
       <p><span class="g-em">Stretch and folds</span> are done in the bowl. You grab one edge of the dough, stretch it upward, and fold it over to the opposite side. Rotate the bowl and repeat three or four times. It is simple, intuitive, and a great place to start if you are new to bread making. No special equipment needed — just the bowl you mixed in.</p>
       <p><span class="g-em">Coil folds</span> are done on a heavy flat surface like a large cast iron pan or a heavy baking tray. You slide wet hands under the centre of the dough, lift it high, and let both ends fold underneath as it drops. Rotate 90° and repeat. The pan stays on the counter — that is why it needs to be heavy. If you try this on a light metal tray or a plastic container, it will lift with the dough and you will not enjoy the experience.</p>
       <p>Coil folds are the preferred technique here because they are gentler on the gas structure, which matters more as the dough develops. They also give you a better feel for how the gluten is progressing — each fold you will notice the dough tightening and gaining strength. But if you are just starting out, stretch and folds in the bowl are perfectly fine. You will still get great bread.</p>
-      <p>The method calls for 4 folds at 30-minute intervals, whichever technique you choose. Each fold step has a <span class="g-em">⏰ Set 30m timer</span> button to set your phone alarm between folds.</p>
+      <p>The method calls for 4 folds at 30-minute intervals, whichever technique you choose.</p>
+      </details>
 
-      <h3>In the Oven</h3>
+      <details>
+      <summary><h3>In the Oven</h3></summary>
       <p><span class="g-em">No fan.</span> Fan dries the surface before the dough has fully expanded. You want a still, humid oven for maximum rise.</p>
       <p><span class="g-em">Steam helps, but it is not essential.</span> Place a small metal pan on the oven floor during preheat. When the bread goes in, toss an ice cube into that hot pan and close the door quickly. The ice vaporises instantly and floods the oven with steam in the first few minutes. Steam keeps the crust soft long enough for the dough to spring up before the surface sets. We are just trying to maximise the oven spring — if you skip it, you will still get good focaccia.</p>
       <p>If you have a steam oven — even better. Use it.</p>
+      </details>
 
-      <h3>The Hardest Part</h3>
+      <details>
+      <summary><h3>The Hardest Part</h3></summary>
       <p>It is out of the oven. Your kitchen smells incredible. The crust is golden, crackly, glistening with oil. Every instinct you have is telling you to tear into it right now.</p>
       <p><span class="g-em">Do not.</span></p>
       <p>The inside of the bread is still setting. The crumb is still firming up, the starches are still gelling, and the moisture is still redistributing from the centre outward. If you cut it now, the inside will be gummy and the steam that escapes will take all that texture with it. You have spent hours getting to this point — the last 30 minutes is where the crumb goes from wet and doughy to light and pillowy.</p>
       <p>Put it on a wire rack. Walk away. Make a coffee. Argue with someone on the internet. Do whatever you need to do to survive the next half hour. Nobody in the history of focaccia has ever actually made it to 30 minutes, but the closer you get, the better the bread will be.</p>
+      </details>
 
     </div>
   </div>
@@ -544,6 +686,8 @@ let S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,pa
 let startTime=Date.now();
 let bakeStarted=false;
 let steps=[];
+let coilFoldCount=0;       /* 0–4: how many coil folds done this session */
+let activeTimerStep=-1;    /* which step index has an active (green) timer pill */
 
 function fmtClock(date){
   let h=date.getHours(),m=date.getMinutes();
@@ -593,11 +737,8 @@ function startBake(){
   startTime=Date.now();
   S.step=0;
   const btn=document.getElementById('start-bake-btn');
-  btn.textContent='▶ '+fmtClock(new Date(startTime));
-  btn.style.background='var(--accent)';
-  btn.style.color='var(--accent2)';
-  btn.style.borderColor='var(--accent)';
-  btn.style.cursor='default';
+  btn.innerHTML='<span class="btn-icon">▶</span><span class="btn-label">'+fmtClock(new Date(startTime))+'</span>';
+  btn.classList.add('active');
   update();
   renderMethod();
   if(tlVisible) renderTimeline();
@@ -609,11 +750,8 @@ function resetBakeState(){
   startTime=Date.now();
   try{localStorage.removeItem('ff_session');}catch(e){}
   const btn=document.getElementById('start-bake-btn');
-  btn.textContent='▶ Begin';
-  btn.style.background='';
-  btn.style.color='';
-  btn.style.borderColor='';
-  btn.style.cursor='';
+  btn.innerHTML='<span class="btn-icon">▶</span><span class="btn-label">Begin</span>';
+  btn.classList.remove('active');
 }
 
 function setShape(shape) {
@@ -671,20 +809,14 @@ function update(){
 
   document.getElementById('hours-lbl').textContent=`${hours} hours · Eat at ${getEatTime(hours)}`;
   updateTimeLabels(hours);
-  document.getElementById('sweet-lbl').className=(hours>=12&&hours<=24)?'green':'';
   document.getElementById('hyd-lbl').textContent=`Hydration: ${hyd}%`;
-  document.getElementById('hyd-sweet').className=(hyd>=80&&hyd<=90)?'green':'';
-  document.getElementById('yolo').className=hyd>95?'red':'';
   document.getElementById('temp-lbl').textContent=`Room / Control Temp: ${dt(rTemp)}`;
-  document.getElementById('temp-ideal').className=(rTemp>=18&&rTemp<=22)?'green':'';
   if(S.tempScale==='F'){
-    document.getElementById('temp-cool').textContent='59°F cool';
-    document.getElementById('temp-ideal').textContent='64–72°F ideal';
-    document.getElementById('temp-warm').textContent='82°F warm';
+    document.getElementById('temp-cool').textContent='59°F';
+    document.getElementById('temp-warm').textContent='82°F';
   } else {
-    document.getElementById('temp-cool').textContent='15°C cool';
-    document.getElementById('temp-ideal').textContent='18–22°C ideal';
-    document.getElementById('temp-warm').textContent='28°C warm';
+    document.getElementById('temp-cool').textContent='15°C';
+    document.getElementById('temp-warm').textContent='28°C';
   }
 
   let panDesc;
@@ -730,7 +862,7 @@ function dt(c){ return S.tempScale==='F'?Math.round(c*9/5+32)+'°F':c+'°C'; }
 function buildSteps(ing,hyd,fid,hours){
   steps=[
     {title:'Gather Equipment',icon:'🛠',timer:null,tip:null,
-     body:`• Large bowl\n• Digital scales\n• Baking pan — well oiled\n• Mixing utensil — hands, wooden spoon, or spatula\n• Spatula\n• Large heavy pan — fold surface, won't lift off the counter`},
+     body:`• Large bowl\n• Digital scales\n• Baking pan\n• Mixing utensil — hands, wooden spoon, or spatula\n• Large heavy pan`},
     {title:'Combine Flour & Water',icon:'💧',timer:null,
      body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} water in one go. Use warm water — ${dt(25)} to ${dt(30)}. This helps kick off fermentation.\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
      tip:'No mixer. Hand mixing keeps the gluten irregular — that irregularity becomes your voids.'},
@@ -762,11 +894,8 @@ function buildSteps(ing,hyd,fid,hours){
     {title:'Dimple & Oil',icon:'👆',timer:null,
      body:'Add your toppings — flaky salt, rosemary, olives, cherry tomatoes, sliced onion.\nNow drizzle olive oil generously over everything. This coats the toppings so they don\'t burn in the high heat.\nThen dimple — drive fingers all the way to the base, pushing some of the toppings deep into the bread as you go. Dramatic craters with pools of oil.',
      tip:null},
-    {title:`Bake 15 min at ${dt(230)}`,icon:'🌡',timer:15,
-     body:'Slide the bread in. Immediately toss an ice cube into the hot metal pan on the oven floor and close the door quickly. Don\'t open it for 15 minutes.\nThe ice cube hits the hot pan and instantly vaporises — flooding the oven with steam in the critical first few minutes. Steam keeps the crust soft and pliable long enough for the dough to fully expand before the crust sets. That\'s where your rise and open crumb come from.',
-     tip:null},
-    {title:`Drop to ${dt(200)} — 10 min`,icon:'🌡',timer:10,
-     body:`Drop to ${dt(200)}. 10 more minutes until deep golden on top. Here, your oven will dictate doneness, this is you......'cooking'.`,
+    {title:`Bake — 25 min`,icon:'🌡',timer:25,
+     body:`${dt(230)} for 15 minutes, then reduce to ${dt(200)} for the final 10 minutes.\n\nSlide the bread in and toss an ice cube into the hot metal pan on the oven floor — close the door quickly. The steam keeps the crust soft long enough for the dough to fully expand before the surface sets. Your oven dictates doneness here — this is you......\'cooking\'.`,
      tip:null},
     {title:'Rest 30 Minutes',icon:'🍞',timer:30,
      body:'Out of the pan immediately onto a wire rack. Leave alone 30 minutes. Then slice and eat.\n\nNobody has ever made it to 30 minutes. But good luck.',
@@ -778,30 +907,72 @@ function renderMethod(){
   if(!steps.length)return;
   const i=S.step, step=steps[i], total=steps.length;
   const stepTimes=calcStepTimes();
-  const timeStr=stepTimes?'  ·  '+fmtClock(stepTimes[i]):'';
-  document.getElementById('step-counter').textContent=`Step ${i+1} of ${total}`;
+  document.getElementById('step-counter').textContent=window.innerWidth<=768?`Step ${i+1}/${total}`:`Step ${i+1} of ${total}`;
   document.getElementById('prog-fill').style.width=`${((i+1)/total)*100}%`;
-  document.getElementById('s-icon').textContent=step.icon;
-  document.getElementById('s-lbl').textContent=`Step ${i+1}${timeStr}`;
+
+  const iconEl=document.getElementById('s-icon');
+
+  if(step.coilFold){
+    /* Coil fold special: counter pill */
+    const done=coilFoldCount;
+    const allDone=done>=4;
+    const isActive=activeTimerStep===i;
+    let pillLabel, pillTitle;
+    if(done===0){
+      pillLabel='⏰ Fold 1 of 4';
+      pillTitle='Tap to start fold 1 and set 30m timer';
+    } else if(done<4){
+      pillLabel=`⏰ Fold ${done+1} of 4`;
+      pillTitle=`Tap to do fold ${done+1} and set 30m timer`;
+    } else {
+      pillLabel='⏰ Fold 4 of 4';
+      pillTitle='All 4 folds done — hit Next Step';
+    }
+    const activeClass=(isActive||allDone)?' active':'';
+    const clickHandler=allDone?'':(`doCoilFold(${i})`);
+    iconEl.innerHTML=`<span class="m-timer-pill${activeClass}" ${clickHandler?`onclick="event.stopPropagation();${clickHandler}"`:''} title="${pillTitle}" style="${allDone?'cursor:default':''}">${pillLabel}</span>`;
+  } else if(step.timer){
+    const secs=step.timer*60;
+    const durStr=minsToLabel(step.timer);
+    const rawMsg='Focaccia - '+step.title;
+    const isActive=activeTimerStep===i;
+    iconEl.innerHTML=`<span class="m-timer-pill${isActive?' active':''}" onclick="event.stopPropagation();pressTimer(${i},${secs},'${rawMsg.replace(/'/g,"\\'")}')" title="Set ${durStr} timer">⏰ ${durStr}</span>`;
+  } else {
+    iconEl.innerHTML='';
+  }
+
+  const lblHtml=stepTimes?fmtClock(stepTimes[i]):'';
+  document.getElementById('s-lbl').innerHTML=lblHtml;
+
   document.getElementById('s-title').innerHTML=step.subtitle
     ? `${step.title} — <span style="font-size:0.85em;font-weight:600;color:#6a5a3a;letter-spacing:0.02em;">${step.subtitle}</span>`
     : step.title;
   document.getElementById('s-body').textContent=step.body;
-
-  const ta=document.getElementById('timer-area');
-  const timerMins=step.coilFold?30:step.timer;
-  if(timerMins){
-    const secs=timerMins*60;
-    const lbl=step.coilFold?'30m between folds (×4)':minsToLabel(timerMins);
-    const rawMsg=step.coilFold?'Focaccia - Fold':('Focaccia - '+step.title);
-    ta.innerHTML='<button class="set-timer-btn" onclick="setTimerNative('+secs+',\''+rawMsg.replace(/'/g,"\\'")+'\',' +timerMins+')">⏰ Set '+lbl+' timer</button>';
-  } else { ta.innerHTML=''; }
 
   document.getElementById('tip-area').innerHTML='';
   document.getElementById('prev-btn').disabled=i===0;
   const nb=document.getElementById('next-btn');
   nb.disabled=i===total-1;
   nb.textContent=i===total-1?'Complete ✓':'Next Step →';
+}
+
+function pressTimer(stepIdx, secs, msg){
+  if(!window.TimerPlugin) return;
+  activeTimerStep=stepIdx;
+  renderMethod();
+  setTimerNative(secs, msg, secs/60);
+}
+
+function doCoilFold(stepIdx){
+  if(coilFoldCount>=4) return;
+  coilFoldCount++;
+  const secs=30*60;
+  const label=`Focaccia - Fold ${coilFoldCount} of 4`;
+  if(window.TimerPlugin){
+    activeTimerStep=stepIdx;
+    if(coilFoldCount<4) setTimerNative(secs, label, 30);
+  }
+  renderMethod();
 }
 function prevStep(){if(S.step>0){S.step--;renderMethod();}}
 function nextStep(){if(S.step<steps.length-1){S.step++;renderMethod();}}
@@ -811,8 +982,14 @@ let tlVisible=false;
 function toggleTimeline(){
   tlVisible=!tlVisible;
   document.getElementById('tl-toggle').classList.toggle('active',tlVisible);
+  document.getElementById('tl-toggle').innerHTML=tlVisible
+    ?'<span class="btn-icon">◀</span><span class="btn-label">Method</span>'
+    :'<span class="btn-icon">☰</span><span class="btn-label">Timeline</span>';
   document.getElementById('method-view').classList.toggle('hide',tlVisible);
   document.getElementById('timeline-view').classList.toggle('show',tlVisible);
+  document.getElementById('prog-row').style.display=tlVisible?'none':'';
+  document.getElementById('prog-bg').style.display=tlVisible?'none':'';
+  document.getElementById('method-label').style.display=tlVisible?'none':'';
   if(tlVisible) renderTimeline();
 }
 
@@ -820,23 +997,29 @@ function showMethodView(){
   if(!tlVisible)return;
   tlVisible=false;
   document.getElementById('tl-toggle').classList.remove('active');
+  document.getElementById('tl-toggle').innerHTML='<span class="btn-icon">☰</span><span class="btn-label">Timeline</span>';
   document.getElementById('method-view').classList.remove('hide');
   document.getElementById('timeline-view').classList.remove('show');
+  document.getElementById('prog-row').style.display='';
+  document.getElementById('prog-bg').style.display='';
+  document.getElementById('method-label').style.display='';
 }
 
 function renderTimeline(){
   if(!steps.length)return;
   const el=document.getElementById('timeline-view');
   const stepTimes=calcStepTimes();
+  const COIL_STEM=80;   /* fixed px for coil fold — always 90min */
   const MIN_H=4;
-  const maxTimer=Math.max(...steps.map(s=>s.timer||0));
-  const MAX_H=120;
+  const MAX_H=160;
+  /* Only variable steps (bulk ferment / fridge) should scale */
+  const variableMax=Math.max(...steps.map(s=>(!s.coilFold&&s.timer)||0));
   el.innerHTML=steps.map((s,i)=>{
     const isCurrent=i===S.step;
     const isLast=i===steps.length-1;
     let stemH=MIN_H;
-    if(s.coilFold) stemH=Math.max(12,Math.round((120/maxTimer||1)*MAX_H));
-    else if(s.timer) stemH=Math.max(12,Math.round((s.timer/maxTimer)*MAX_H));
+    if(s.coilFold) stemH=COIL_STEM;
+    else if(s.timer) stemH=Math.max(12,Math.round((s.timer/variableMax)*MAX_H));
     let stemCol='#b8a070';
     const titleLow=s.title.toLowerCase();
     if(s.coilFold) stemCol='#6a8a40';
@@ -846,13 +1029,16 @@ function renderTimeline(){
     else if(titleLow.includes('bake')||titleLow.includes('drop to')||titleLow.includes('preheat')) stemCol='#c03020';
     else if(s.timer) stemCol='#a89060';
     const dotCol=(s.timer||s.coilFold)?stemCol:'#a89060';
-    const dotClass=isCurrent?'tl-dot active':'tl-dot';
-    const dotStyle=isCurrent?'':`background:${dotCol};border-color:${dotCol}`;
+    const isTimerActive=i===activeTimerStep;
+    const dotClass=isCurrent?'tl-dot active':isTimerActive?'tl-dot timer-active':'tl-dot';
+    const dotStyle=(isCurrent||isTimerActive)?'':`background:${dotCol};border-color:${dotCol}`;
     const dur=s.coilFold?'1.5h':s.timer?minsToLabel(s.timer):'';
     const clockStr=stepTimes?fmtClock(stepTimes[i]):'';
     const durDisplay=stepTimes?(clockStr+(dur?' · '+dur:'')):(dur||'');
     const desc=s.body;
     const displayTitle=s.coilFold?'Coil Folds ×4':s.title;
+    const coilLabel=s.coilFold&&coilFoldCount>0?` <span style="font-size:0.78rem;font-weight:700;color:var(--green);margin-left:4px">×${coilFoldCount}</span>`:'';
+    const timerDot=isTimerActive?` <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-left:6px;vertical-align:middle;flex-shrink:0"></span>`:'';
     return `<div class="tl-item">
       <div class="tl-line">
         <div class="${dotClass}" ${dotStyle?`style="${dotStyle}"`:''} ></div>
@@ -861,8 +1047,8 @@ function renderTimeline(){
       <div class="tl-content" onclick="setStep(${i})">
         <div class="tl-head">
           <span class="tl-icon">${s.icon}</span>
-          <span class="tl-title">${displayTitle}</span>
-          ${durDisplay?`<span class="tl-dur">${durDisplay}</span>`:''}
+          <span class="tl-title">${displayTitle}${coilLabel}</span>
+          ${durDisplay?`<span class="tl-dur">${durDisplay}${timerDot}</span>`:''}
         </div>
         <div class="tl-desc">${desc}</div>
       </div>
@@ -893,7 +1079,11 @@ function toggleDark(){
 }
 function resetDefaults(){
   S={units:'metric',tempScale:'C',hours:8,fid:'room',hyd:85,rTemp:20,step:0,panShape:'rect',panW:23,panH:23,saltPc:2.5,oilPc:2.5};
+  coilFoldCount=0;
+  activeTimerStep=-1;
   resetBakeState();
+  /* Force back to method view if timeline is open */
+  if(tlVisible) showMethodView();
   document.getElementById('hours-slider').value=hoursToSlider(8);
   document.getElementById('hyd-slider').value=85;
   document.getElementById('temp-slider').value=20;
@@ -942,11 +1132,8 @@ function loadSession(){
       bakeStarted=true;
       startTime=ss.bakeStartTime;
       const btn=document.getElementById('start-bake-btn');
-      btn.textContent='▶ '+fmtClock(new Date(startTime));
-      btn.style.background='var(--accent)';
-      btn.style.color='var(--accent2)';
-      btn.style.borderColor='var(--accent)';
-      btn.style.cursor='default';
+      btn.innerHTML='<span class="btn-icon">▶</span><span class="btn-label">'+fmtClock(new Date(startTime))+'</span>';
+      btn.classList.add('active');
     }
     renderMethod();
   }catch(e){}
@@ -955,11 +1142,14 @@ loadSession();
 
 /* Save session on step changes */
 const _origSetStep=setStep;
-setStep=function(i){_origSetStep(i);saveSession();};
+setStep=function(i){
+  if(i!==S.step){ activeTimerStep=-1; }
+  _origSetStep(i);saveSession();
+};
 const _origPrev=prevStep;
-prevStep=function(){_origPrev();saveSession();};
+prevStep=function(){ activeTimerStep=-1; _origPrev();saveSession(); };
 const _origNext=nextStep;
-nextStep=function(){_origNext();saveSession();};
+nextStep=function(){ activeTimerStep=-1; _origNext();saveSession(); };
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
@@ -968,9 +1158,8 @@ if('serviceWorker' in navigator){
 function setTimerNative(secs, msg, mins) {
   if(window.TimerPlugin) {
     window.TimerPlugin.setTimer({ seconds: secs, message: msg });
-  } else {
-    window.open('https://clock.google.com/timer?duration=' + mins + 'm', '_blank');
   }
+  /* No fallback on web — no browser API exists for native timers */
 }
 </script>
 </body>

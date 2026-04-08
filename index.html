@@ -75,18 +75,18 @@ html,body{height:100%;overflow:hidden;font-family:var(--font-body);background:va
 .toggle-btn.active{background:var(--bg);color:var(--accent);font-weight:700}
 
 /* ===== PAGE GRID ===== */
-#page{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto 1fr;gap:8px;padding:10px 32px;height:calc(100vh - 60px);overflow:hidden}
+#page{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;gap:8px;padding:10px 32px;height:calc(100vh - 60px);overflow:hidden}
 
 /* ===== CARDS ===== */
-.section{display:flex;flex-direction:column;justify-content:center;padding:10px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);transition:all .3s ease;min-height:0;overflow:hidden}
+.section{display:flex;flex-direction:column;justify-content:center;padding:8px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);transition:all .3s ease;min-height:0;overflow:hidden}
 .section:hover{box-shadow:var(--card-shadow-hover);border-color:var(--border2)}
 
 /* ===== CARD & SECTION TITLES ===== */
-.card-title{font-size:1.1rem;letter-spacing:.06em;color:var(--text2);font-weight:600;margin-bottom:6px;flex-shrink:0}
-.sec-label{font-size:1.1rem;letter-spacing:.06em;color:var(--text2);font-weight:600;margin-bottom:3px}
+.card-title{font-size:1.1rem;letter-spacing:.06em;color:var(--text2);font-weight:600;margin-bottom:4px;flex-shrink:0}
+.sec-label{font-size:1.1rem;letter-spacing:.06em;color:var(--text2);font-weight:600;margin-bottom:2px}
 
 /* ===== SLIDERS ===== */
-.slider-track{position:relative;height:8px;border-radius:4px;margin:4px 0 3px}
+.slider-track{position:relative;height:8px;border-radius:4px;margin:2px 0 2px}
 .slider-hours{background:linear-gradient(to right,#b87070 0%,#8aaa78 28%,#8aaa78 72%,#b87070 100%)}
 .slider-hyd{background:linear-gradient(to right,#b87070 0%,#8aaa78 22%,#8aaa78 72%,#b87070 100%)}
 .slider-temp{background:linear-gradient(to right,#b87070 0%,#8aaa78 22%,#8aaa78 62%,#b87070 100%)}
@@ -110,7 +110,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font-body);background:va
 .method-btn{flex:1;text-align:center;min-width:0;flex-direction:column;display:flex;align-items:center;justify-content:center;padding:6px 16px}
 
 /* ===== METHOD CARD LAYOUT ===== */
-#method-card{grid-column:2;grid-row:2/4}
+#method-card{grid-column:2;grid-row:2}
+#ingredients-card{grid-column:2;grid-row:1}
 #method-view{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
 #method-view.hide{display:none}
 #timeline-view{display:none;flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg2);flex-direction:column;padding-right:5px}
@@ -125,7 +126,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font-body);background:va
 .fdesc{font-size:0.92rem;color:var(--text3);margin-top:2px;line-height:1.5}
 
 /* ===== PAN SECTION ===== */
-.pan-section{gap:0}
+.pan-section{gap:0;justify-content:flex-start;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg2)}
+.card-divider{border:none;border-top:1px solid var(--border);margin:12px 0}
 .pan-shape{display:flex;gap:6px;margin-bottom:10px}
 .shape-btn{flex:1;height:34px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);font-family:var(--font-body);font-size:1rem;color:var(--text2);cursor:pointer;font-weight:700;transition:all .25s ease;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 8px;white-space:nowrap;overflow:hidden;letter-spacing:.03em;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 .shape-btn:hover{border-color:var(--text3);color:var(--text);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
@@ -143,10 +145,10 @@ html,body{height:100%;overflow:hidden;font-family:var(--font-body);background:va
 /* ===== INGREDIENTS TABLE ===== */
 table{width:100%;border-collapse:collapse}
 th{padding:3px 0;font-family:var(--font-body);font-size:0.72rem;color:var(--text3);letter-spacing:.18em;text-transform:uppercase;border-bottom:1px solid var(--border);font-weight:700}
-td{padding:4px 0;font-size:0.95rem;color:var(--text);border-bottom:1px solid var(--border)}
+td{padding:2px 0;font-size:0.95rem;color:var(--text);border-bottom:1px solid var(--border)}
 td.wt{font-size:1.25rem;font-weight:700;color:var(--accent);text-align:right;font-variant-numeric:tabular-nums}
 td.pc{font-size:0.88rem;color:var(--text3);text-align:right;padding-left:10px;font-weight:600}
-.total-row td{font-size:1rem;color:var(--text2);padding-top:5px;border-bottom:none}
+.total-row td{font-size:1rem;color:var(--text2);padding-top:3px;border-bottom:none}
 .total-row td.wt{font-size:1.15rem;color:var(--text3)}
 
 /* ===== PROGRESS BAR ===== */
@@ -209,6 +211,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   html,body{overflow:auto;height:auto}
   #page{grid-template-columns:1fr;height:auto;padding:12px 16px;gap:10px}
   #method-card{grid-column:1;grid-row:auto;order:10;height:80vh;flex:none!important}
+  #ingredients-card{grid-column:1;grid-row:auto;order:5}
   .section{flex:none;padding:16px 18px}
   .shape-btn{font-size:0.92rem;height:40px}
   .shape-full{display:none}
@@ -347,12 +350,12 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
     <div class="sec-label" id="hours-lbl">Total Time: 8 hours</div>
     <div class="slider-track slider-hours"><input type="range" min="0" max="100" step="1" value="14" id="hours-slider" oninput="update()"></div>
     <div class="slider-labels"><span id="start-time-lbl">6h</span><span>48h</span></div>
-    <div style="margin-top:20px">
+    <div style="margin-top:10px">
       <div class="sec-label" id="hyd-lbl">Hydration: 85%</div>
       <div class="slider-track slider-hyd"><input type="range" min="70" max="100" step="1" value="85" id="hyd-slider" oninput="update()"></div>
       <div class="slider-labels"><span>70%</span><span>100%</span></div>
     </div>
-    <div style="margin-top:20px">
+    <div style="margin-top:10px">
       <div class="sec-label" id="temp-lbl">Room / Control Temp: 20°C</div>
       <div class="slider-track slider-temp"><input type="range" min="15" max="28" step="1" value="20" id="temp-slider" oninput="update()"></div>
       <div class="slider-labels"><span id="temp-cool">15°C</span><span id="temp-warm">28°C</span></div>
@@ -360,12 +363,12 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   </div>
 
   <!-- ROW 1 RIGHT: INGREDIENTS -->
-  <div class="section">
+  <div id="ingredients-card" class="section">
     <div class="card-title" id="rec-title" style="margin-bottom:4px">Ingredients</div>
     <table><tbody id="rec-tbody"></tbody></table>
   </div>
 
-  <!-- ROW 2 LEFT: PAN -->
+  <!-- ROW 2 LEFT: PAN + FERMENT -->
   <div class="section pan-section">
     <div class="sec-label">Pan</div>
     <div class="pan-shape">
@@ -374,9 +377,19 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
     </div>
     <div id="pan-inputs"></div>
     <div class="pan-result" id="pan-result"></div>
+    <hr class="card-divider">
+    <div class="sec-label">Ferment Type</div>
+    <div class="fopt" id="opt-cold" onclick="selectFerment('cold')">
+      <div class="fradio" id="radio-cold" style="border-color:#2a6898;background:transparent"></div>
+      <div><div class="flabel" id="lbl-cold" style="color:#2a6898">Cold Ferment</div><div class="fdesc">Room temp prep, overnight fridge, room temp final proof.</div></div>
+    </div>
+    <div class="fopt sel" id="opt-room" onclick="selectFerment('room')">
+      <div class="fradio" id="radio-room" style="border-color:#b85c00;background:#b85c00"></div>
+      <div><div class="flabel" id="lbl-room" style="color:#b85c00">Room Temp</div><div class="fdesc">All fermentation at room or controlled temp.</div></div>
+    </div>
   </div>
 
-  <!-- ROW 2+3 RIGHT: METHOD (spans 2 rows) -->
+  <!-- ROW 2 RIGHT: METHOD -->
   <div id="method-card" class="section" style="min-height:0;display:flex;flex-direction:column;overflow:hidden;justify-content:flex-start">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-shrink:0;gap:12px">
       <div>
@@ -409,18 +422,6 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
     <div id="timeline-view"></div>
   </div>
 
-  <!-- ROW 3 LEFT: FERMENT TYPE -->
-  <div class="section">
-    <div class="sec-label">Ferment Type</div>
-    <div class="fopt" id="opt-cold" onclick="selectFerment('cold')">
-      <div class="fradio" id="radio-cold" style="border-color:#2a6898;background:transparent"></div>
-      <div><div class="flabel" id="lbl-cold" style="color:#2a6898">Cold Ferment</div><div class="fdesc">Room temp prep, overnight fridge, room temp final proof.</div></div>
-    </div>
-    <div class="fopt sel" id="opt-room" onclick="selectFerment('room')">
-      <div class="fradio" id="radio-room" style="border-color:#b85c00;background:#b85c00"></div>
-      <div><div class="flabel" id="lbl-room" style="color:#b85c00">Room Temp</div><div class="fdesc">All fermentation at room or controlled temp.</div></div>
-    </div>
-  </div>
 </div>
 
 <div class="guide-overlay" id="guide-overlay" onclick="if(event.target===this)hideGuide()">

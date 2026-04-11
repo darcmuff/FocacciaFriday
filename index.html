@@ -69,8 +69,10 @@ html,body{height:100%;overflow:hidden;font-family:var(--font-body);background:va
 .h-icon-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ===== TOGGLE PILLS ===== */
-.toggle-group{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg3);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
-.toggle-btn{background:transparent;border:none;border-right:1px solid var(--border);padding:5px 12px;font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;transition:all .2s ease;text-align:center;display:flex;align-items:center;justify-content:center;letter-spacing:.06em;text-transform:uppercase;flex:1}
+.toggle-stack{display:flex;flex-direction:row;gap:8px;align-items:center}
+@media (max-width:768px){.toggle-stack{flex-direction:column;gap:4px;align-items:flex-end;align-self:flex-end}}
+.toggle-group{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg3);box-shadow:0 1px 3px rgba(0,0,0,0.1);height:36px}
+.toggle-btn{background:transparent;border:none;border-right:1px solid var(--border);padding:0 12px;height:36px;font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;transition:all .2s ease;text-align:center;display:flex;align-items:center;justify-content:center;letter-spacing:.06em;text-transform:uppercase;flex:1}
 .toggle-btn:last-child{border-right:none}
 .toggle-btn.active{background:var(--bg);color:var(--accent);font-weight:700}
 
@@ -206,7 +208,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 /* ===== RESPONSIVE ===== */
 @media (max-width:768px){
   #header{height:auto;padding:12px 16px;flex-wrap:wrap}
-  .h-right{width:100%;justify-content:flex-end;margin-top:6px}
+  .h-right{width:100%;justify-content:flex-end;align-items:flex-end;margin-top:6px}
   .h-title{font-size:24px}
   html,body{overflow:auto;height:auto}
   #page{grid-template-columns:1fr;height:auto;padding:12px 16px;gap:10px}
@@ -216,7 +218,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   .shape-btn{font-size:0.92rem;height:40px}
   .shape-full{display:none}
   .shape-short{display:inline}
-  .toggle-btn{padding:5px 10px;font-size:11px}
+  .toggle-btn{font-size:11px}
   .m-title{font-size:1.3rem}
   #method-label{display:none}
 }
@@ -263,6 +265,21 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 .saved-item-del{background:transparent;border:1px solid var(--border);border-radius:6px;width:32px;height:32px;font-size:14px;cursor:pointer;color:var(--text3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .25s ease}
 .saved-item-del:hover{background:var(--red);color:#fff;border-color:var(--red)}
 .saved-empty{font-size:0.95rem;color:var(--text3);text-align:center;padding:24px 0}
+.shop-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s ease;pointer-events:none}
+.shop-overlay.show{opacity:1;pointer-events:auto}
+.shop-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;max-width:600px;width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 16px 64px rgba(0,0,0,0.5)}
+.shop-header{display:flex;align-items:center;justify-content:space-between;padding:20px 28px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.shop-header h2{font-family:var(--font-display);font-size:1.5rem;color:var(--accent);letter-spacing:.08em;margin:0;font-weight:600}
+.shop-header p{font-size:0.82rem;color:var(--text3);margin:4px 0 0;letter-spacing:.02em}
+.shop-body{overflow-y:auto;padding:20px 28px 28px;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg2)}
+.shop-note{font-size:0.8rem;color:var(--text3);margin:0 0 18px;line-height:1.5;font-style:italic}
+.shop-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--border);border-radius:10px;margin-bottom:10px;background:var(--bg3);text-decoration:none;transition:all .25s ease}
+.shop-item:hover{border-color:var(--accent);background:var(--bg4);box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.shop-item-icon{font-size:1.8rem;flex-shrink:0;width:40px;text-align:center}
+.shop-item-info{flex:1;min-width:0}
+.shop-item-name{font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--text4)}
+.shop-item-desc{font-size:0.82rem;color:var(--text3);margin-top:3px;line-height:1.4}
+.shop-item-arrow{color:var(--accent);font-size:1.1rem;flex-shrink:0}
 .save-name-row{display:flex;gap:8px;margin-bottom:16px}
 .save-name-input{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);font-family:var(--font-body);font-size:1rem;color:var(--text);transition:all .25s ease}
 .save-name-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--gold-glow)}
@@ -329,17 +346,21 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
     </div>
   </div>
   <div class="h-right">
+    <a href="https://buymeacoffee.com/FocacciaFriday" target="_blank" rel="noopener" title="Buy me a coffee" style="background:#FFDD00;border:1px solid #e6c800;border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s ease;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.1);"><img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee" style="width:18px;height:18px;"></a>
+    <button class="h-icon-btn" onclick="showShop()" title="Equipment I use"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
     <button class="h-icon-btn" onclick="showGuide()" title="How to use" style="font-size:20px;font-weight:700;font-family:inherit">?</button>
     <button class="h-icon-btn" onclick="shareRecipe()" title="Share recipe"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
     <button class="h-icon-btn" onclick="showSaved()" title="Saved recipes"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="none"/></svg></button>
     <button class="h-icon-btn" id="dark-btn" onclick="toggleDark()" title="Dark mode">🌙</button>
-    <div class="toggle-group">
-      <button class="toggle-btn active" id="btn-metric" onclick="setUnits('metric')">Metric</button>
-      <button class="toggle-btn" id="btn-imperial" onclick="setUnits('imperial')">Imperial</button>
-    </div>
-    <div class="toggle-group">
-      <button class="toggle-btn active" id="btn-c" onclick="setTempScale('C')">°C</button>
-      <button class="toggle-btn" id="btn-f" onclick="setTempScale('F')">°F</button>
+    <div class="toggle-stack">
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="btn-c" onclick="setTempScale('C')">°C</button>
+        <button class="toggle-btn" id="btn-f" onclick="setTempScale('F')">°F</button>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="btn-metric" onclick="setUnits('metric')">Metric</button>
+        <button class="toggle-btn" id="btn-imperial" onclick="setUnits('imperial')">Imperial</button>
+      </div>
     </div>
   </div>
 </div>
@@ -519,13 +540,104 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   </div>
 </div>
 
+<div class="shop-overlay" id="shop-overlay" onclick="if(event.target===this)hideShop()">
+  <div class="shop-box">
+    <div class="shop-header">
+      <div>
+        <h2>Equipment I Use</h2>
+      </div>
+      <button class="guide-close" onclick="hideShop()">✕</button>
+    </div>
+    <div class="shop-body">
+      <p class="shop-note">I own and use everything listed. If you're going to splurge anywhere, make it the pans and the scales. And if you've never used a Dutch dough whisk, prepare to wonder how you managed without one.</p>
+      <p class="shop-note" style="margin-top:-10px;opacity:0.6;">Affiliate links — I earn a small commission if you buy, at no extra cost to you.</p>
+
+      <a class="shop-item" href="https://amzn.to/4cloFte" target="_blank" rel="noopener">
+        
+        <div class="shop-item-info">
+          <div class="shop-item-name">OXO 5kg Digital Kitchen Scales</div>
+          <div class="shop-item-desc">Pull-out display means your bowl never blocks the reading. 1g increments, tare function, 5kg capacity. Baking is chemistry — weigh everything.</div>
+        </div>
+        <div class="shop-item-arrow">→</div>
+      </a>
+
+      <a class="shop-item" href="https://amzn.to/4cixTpP" target="_blank" rel="noopener">
+        
+        <div class="shop-item-info">
+          <div class="shop-item-name">Salter Pocket Micro Scale (0.01g)</div>
+          <div class="shop-item-desc">For weighing yeast accurately. At low yeast quantities — especially on long cold ferments — a 0.01g resolution makes the difference between a precise bake and a guess.</div>
+        </div>
+        <div class="shop-item-arrow">→</div>
+      </a>
+
+      <a class="shop-item" href="https://amzn.to/4cjgYn0" target="_blank" rel="noopener">
+        
+        <div class="shop-item-info">
+          <div class="shop-item-name">Dough Scraper Set (Steel & Plastic)</div>
+          <div class="shop-item-desc">Steel for cutting and portioning, plastic for scraping wet dough cleanly off the bowl without tearing it. The measurement guide on the steel one is handy for eyeballing dough size.</div>
+        </div>
+        <div class="shop-item-arrow">→</div>
+      </a>
+
+      <a class="shop-item" href="https://amzn.to/48vkxFJ" target="_blank" rel="noopener">
+        
+        <div class="shop-item-info">
+          <div class="shop-item-name">9×9in Baking Pan</div>
+          <div class="shop-item-desc">Heavy aluminised steel with a non-stick silicone coating — distributes heat evenly for a proper crust underneath, and the dough releases cleanly. The size this app is calibrated around.</div>
+        </div>
+        <div class="shop-item-arrow">→</div>
+      </a>
+
+      <a class="shop-item" href="https://amzn.to/4t7JHTe" target="_blank" rel="noopener">
+        
+        <div class="shop-item-info">
+          <div class="shop-item-name">13×9in Baking Pan</div>
+          <div class="shop-item-desc">Same heavy aluminised steel and non-stick coating as the 9×9 — just bigger. Good if you're scaling up for a crowd or want a thinner, crispier focaccia with more surface area.</div>
+        </div>
+        <div class="shop-item-arrow">→</div>
+      </a>
+
+      <a class="shop-item" href="https://amzn.to/3Qx9MMU" target="_blank" rel="noopener">
+        
+        <div class="shop-item-info">
+          <div class="shop-item-name">Dough Whisk</div>
+          <div class="shop-item-desc">The open-ring design cuts through wet, sticky focaccia dough without clogging. Combines your flour and water faster and cleaner than a spoon or your hands at the start of a mix.</div>
+        </div>
+        <div class="shop-item-arrow">→</div>
+      </a>
+
+      <a class="shop-item" href="https://amzn.to/3Q6hj5c" target="_blank" rel="noopener">
+        
+        <div class="shop-item-info">
+          <div class="shop-item-name">Oil Sprayer & Dispenser</div>
+          <div class="shop-item-desc">Spray or pour — useful for coating the pan evenly before the dough goes in, and for the generous drizzle on top before baking. Glass body with UV protection keeps the oil fresh longer.</div>
+        </div>
+        <div class="shop-item-arrow">→</div>
+      </a>
+
+      <a class="shop-item" href="https://amzn.to/4tLHnBo" target="_blank" rel="noopener">
+        
+        <div class="shop-item-info">
+          <div class="shop-item-name">Thermapen Classic Instant Read Thermometer</div>
+          <div class="shop-item-desc">±0.4°C accuracy, 4.5" probe, made in the UK. Takes the guesswork out of water temp when activating yeast, and confirms the bread is baked through (95°C internal). Built to last.</div>
+        </div>
+        <div class="shop-item-arrow">→</div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
 <script>
 function showGuide(){document.getElementById('guide-overlay').classList.add('show');}
 function hideGuide(){document.getElementById('guide-overlay').classList.remove('show');}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){hideGuide();hideSaved();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){hideGuide();hideSaved();hideShop();}});
 
 function showSaved(){renderSavedList();document.getElementById('saved-overlay').classList.add('show');}
 function hideSaved(){document.getElementById('saved-overlay').classList.remove('show');}
+
+function showShop(){document.getElementById('shop-overlay').classList.add('show');}
+function hideShop(){document.getElementById('shop-overlay').classList.remove('show');}
 
 function getSavedRecipes(){
   try{return JSON.parse(localStorage.getItem('ff_saved'))||[];}catch(e){return [];}
@@ -862,10 +974,10 @@ function dt(c){ return S.tempScale==='F'?Math.round(c*9/5+32)+'°F':c+'°C'; }
 
 function buildSteps(ing,hyd,fid,hours){
   steps=[
-    {title:'Gather Equipment',icon:'🛠',timer:null,tip:null,
+    {title:'Gather Equipment',icon:'🛠',timer:null,tip:null,shopBtn:true,
      body:`• Large bowl\n• Digital scales\n• Baking pan\n• Mixing utensil — hands, wooden spoon, or spatula\n• Large heavy pan`},
     {title:'Combine Flour & Water',icon:'💧',timer:null,
-     body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} water in one go. Use warm water — ${dt(25)} to ${dt(30)}. This helps kick off fermentation.\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
+     body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} of warm water (${dt(25)} to ${dt(30)}) — this helps kick off fermentation.\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
      tip:'No mixer. Hand mixing keeps the gluten irregular — that irregularity becomes your voids.'},
     {title:'Autolyse',icon:'⏱',timer:45,
      body:`Autolyse is a simple rest period where the flour and water are mixed and left to sit before adding salt and yeast. This rest lets enzymes start breaking down starch and protein, making the dough easier to handle and improving gluten development, flavour, and crust and crumb quality.\n\nCover and leave undisturbed for 45 minutes.`,
@@ -893,12 +1005,12 @@ function buildSteps(ing,hyd,fid,hours){
      body:`${dt(230)}, no fan. Place a small metal pan on the oven floor now — under or next to where the bread will sit. It needs to be scorching hot when the bread goes in — that's what instantly vaporises the ice cube and floods the oven with steam. Preheat 20 minutes.\n\nAdding moisture here is optional, I know it's a bit of a faff.\n\nThis time is included in your ${fid==='cold'?'final proof':'bulk ferment'}.`,
      tip:null},
     {title:'Dimple & Oil',icon:'👆',timer:null,
-     body:'Add your toppings — flaky salt, rosemary, olives, cherry tomatoes, sliced onion.\nNow drizzle olive oil generously over everything. This coats the toppings so they don\'t burn in the high heat.\nThen dimple — drive fingers all the way to the base, pushing some of the toppings deep into the bread as you go. Dramatic craters with pools of oil.',
+     body:'Add your toppings — flaky salt, rosemary, olives, cherry tomatoes, sliced onion.\nNow drizzle olive oil generously over everything. This coats the toppings so they don\'t burn in the high heat.\nThen dimple — drive fingers all the way to the base, pushing some of the toppings deep into the bread as you go. Dramatic craters with pools of oil. Go nuts! Abundance, abundance, abundance.',
      tip:null},
-    {title:`Bake — 25 min`,icon:'🌡',timer:25,
+    {title:'Bake',icon:'🌡',timer:25,
      body:`${dt(230)} for 15 minutes, then reduce to ${dt(200)} for the final 10 minutes.\n\nSlide the bread in and toss an ice cube into the hot metal pan on the oven floor — close the door quickly. The steam keeps the crust soft long enough for the dough to fully expand before the surface sets. Your oven dictates doneness here — this is you......\'cooking\'.`,
      tip:null},
-    {title:'Rest 30 Minutes',icon:'🍞',timer:30,
+    {title:'Rest',icon:'🍞',timer:30,
      body:'Out of the pan immediately onto a wire rack. Leave alone 30 minutes. Then slice and eat.\n\nNobody has ever made it to 30 minutes. But good luck.',
      tip:'I dare you to wait 30 minutes. Nobody ever has.'},
   ];
@@ -947,8 +1059,15 @@ function renderMethod(){
 
   document.getElementById('s-title').innerHTML=step.subtitle
     ? `${step.title} — <span style="font-size:0.85em;font-weight:600;color:#6a5a3a;letter-spacing:0.02em;">${step.subtitle}</span>`
-    : step.title;
-  document.getElementById('s-body').textContent=step.body;
+    : step.shopBtn
+      ? `${step.title} <button onclick="showShop()" style="font-size:0.5em;font-weight:700;color:var(--accent);background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 10px;cursor:pointer;letter-spacing:.04em;font-family:var(--font-body);vertical-align:middle;">🛒 Shop</button>`
+      : step.title;
+  const bodyEl = document.getElementById('s-body');
+  if(step.shopBtn){
+    bodyEl.textContent = step.body;
+  } else {
+    bodyEl.textContent = step.body;
+  }
 
   document.getElementById('tip-area').innerHTML='';
   document.getElementById('prev-btn').disabled=i===0;
@@ -1128,7 +1247,7 @@ function loadSession(){
   try{
     const ss=JSON.parse(localStorage.getItem('ff_session'));
     if(!ss||ss.step==null)return;
-    S.step=ss.step;
+    S.step=0;
     if(ss.bakeStarted&&ss.bakeStartTime){
       bakeStarted=true;
       startTime=ss.bakeStartTime;
@@ -1163,5 +1282,6 @@ function setTimerNative(secs, msg, mins) {
   /* No fallback on web — no browser API exists for native timers */
 }
 </script>
+
 </body>
 </html>

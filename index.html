@@ -349,7 +349,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
     <a href="https://buymeacoffee.com/FocacciaFriday" target="_blank" rel="noopener" title="Buy me a coffee" style="background:#FFDD00;border:1px solid #e6c800;border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s ease;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.1);"><img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee" style="width:18px;height:18px;"></a>
     <button class="h-icon-btn" onclick="showShop()" title="Equipment I use"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
     <button class="h-icon-btn" onclick="showGuide()" title="How to use" style="font-size:20px;font-weight:700;font-family:inherit">?</button>
-    <button class="h-icon-btn" onclick="shareRecipe()" title="Share recipe"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+    <button class="h-icon-btn" id="share-btn" onclick="shareRecipe()" title="Share recipe"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
     <button class="h-icon-btn" onclick="showSaved()" title="Saved recipes"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="none"/></svg></button>
     <button class="h-icon-btn" id="dark-btn" onclick="toggleDark()" title="Dark mode">🌙</button>
     <div class="toggle-stack">
@@ -672,7 +672,7 @@ function renderSavedList(){
       }
       html+=`<div class="saved-item" onclick="loadRecipe(${i})">
         <div class="saved-item-info">
-          <div class="saved-item-name">${r.name}</div>
+          <div class="saved-item-name"></div>
           <div class="saved-item-desc">${r.hours}h · ${r.hyd}% · ${fermentLabel} · ${dt(r.rTemp)} · ${panDesc}</div>
         </div>
         <button class="saved-item-del" onclick="event.stopPropagation();deleteRecipe(${i})" title="Delete">✕</button>
@@ -680,6 +680,10 @@ function renderSavedList(){
     });
   }
   el.innerHTML=html;
+  // Set recipe names via textContent to prevent XSS
+  el.querySelectorAll('.saved-item-name').forEach((nameEl,i)=>{
+    if(recipes[i]) nameEl.textContent=recipes[i].name;
+  });
   if(savingNew){
     const inp=document.getElementById('save-name-input');
     if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter')confirmSave();});}
@@ -721,7 +725,13 @@ function loadRecipe(i){
   document.getElementById('hours-slider').value=hoursToSlider(r.hours);
   document.getElementById('hyd-slider').value=r.hyd;
   document.getElementById('temp-slider').value=r.rTemp;
-  setShape(r.panShape);
+  // Fix: setShape() resets panW/panH, so restore shape without overwriting dimensions
+  document.getElementById('btn-rect').classList.toggle('sel', r.panShape==='rect');
+  document.getElementById('btn-round').classList.toggle('sel', r.panShape==='round');
+  S.panShape=r.panShape;
+  S.panW=r.panW;
+  S.panH=r.panH;
+  renderPanInputs();
   selectFerment(r.fid);
   update();
   hideSaved();
@@ -809,7 +819,8 @@ function fmtClock(date){
   return h+':'+String(m).padStart(2,'0')+ampm;
 }
 function getEatTime(hours){
-  const eat=new Date(startTime+hours*3600000);
+  const eat=new Date(startTime);
+  eat.setHours(eat.getHours()+hours);
   const now=new Date(startTime);
   const dayDiff=Math.floor((eat-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/(86400000));
   let suffix='';
@@ -849,6 +860,8 @@ function startBake(){
   bakeStarted=true;
   startTime=Date.now();
   S.step=0;
+  coilFoldCount=0;
+  activeTimerStep=-1;
   const btn=document.getElementById('start-bake-btn');
   btn.innerHTML='<span class="btn-icon">▶</span><span class="btn-label">'+fmtClock(new Date(startTime))+'</span>';
   btn.classList.add('active');
@@ -881,16 +894,39 @@ function renderPanInputs() {
   const el = document.getElementById('pan-inputs');
   const imp = S.units === 'imperial';
   const unit = imp ? 'in' : 'cm';
-  const r = v => imp ? (v/2.54).toFixed(1) : v;
   const step = imp ? '0.5' : '1';
+  const valueW = imp ? (S.panW / 2.54).toFixed(1) : S.panW;
+  const valueH = imp ? (S.panH / 2.54).toFixed(1) : S.panH;
+
+  let html = '';
   if (S.panShape === 'round') {
-    el.innerHTML = `<div class="pan-row"><label>Diameter</label><input type="number" value="${r(S.panW)}" min="${imp?4:10}" max="${imp?24:60}" step="${step}" oninput="S.panW=S.panH=${imp?'Math.round(+this.value*2.54*10)/10':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>`;
+    html = `<div class="pan-row"><label>Diameter</label><input type="number" value="${valueW}" min="${imp?4:10}" max="${imp?24:60}" step="${step}" id="pan-diameter-input"><span class="pan-unit">${unit}</span></div>`;
   } else {
-    el.innerHTML = `
-      <div class="pan-row"><label>Width</label><input type="number" value="${r(S.panW)}" min="${imp?4:10}" max="${imp?32:80}" step="${step}" oninput="S.panW=${imp?'Math.round(+this.value*2.54*10)/10':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>
-      <div class="pan-row"><label>Length</label><input type="number" value="${r(S.panH)}" min="${imp?4:10}" max="${imp?32:80}" step="${step}" oninput="S.panH=${imp?'Math.round(+this.value*2.54*10)/10':'+this.value'};update()"><span class="pan-unit">${unit}</span></div>`;
+    html = `<div class="pan-row"><label>Width</label><input type="number" value="${valueW}" min="${imp?4:10}" max="${imp?32:80}" step="${step}" id="pan-width-input"><span class="pan-unit">${unit}</span></div>
+      <div class="pan-row"><label>Length</label><input type="number" value="${valueH}" min="${imp?4:10}" max="${imp?32:80}" step="${step}" id="pan-length-input"><span class="pan-unit">${unit}</span></div>`;
+  }
+  el.innerHTML = html;
+
+  if (S.panShape === 'round') {
+    const input = document.getElementById('pan-diameter-input');
+    if (input) input.oninput = () => {
+      S.panW = S.panH = imp ? Math.round(+input.value * 2.54 * 10) / 10 : +input.value;
+      update();
+    };
+  } else {
+    const wInput = document.getElementById('pan-width-input');
+    const hInput = document.getElementById('pan-length-input');
+    if (wInput) wInput.oninput = () => {
+      S.panW = imp ? Math.round(+wInput.value * 2.54 * 10) / 10 : +wInput.value;
+      update();
+    };
+    if (hInput) hInput.oninput = () => {
+      S.panH = imp ? Math.round(+hInput.value * 2.54 * 10) / 10 : +hInput.value;
+      update();
+    };
   }
 }
+
 
 function selectFerment(id){
   S.fid=id;
@@ -907,7 +943,9 @@ function selectFerment(id){
   savePrefs();
 }
 
+let _updateTimer=null;
 function update(){
+  if(!bakeStarted) startTime=Date.now();
   S.hours=sliderToHours(+document.getElementById('hours-slider').value);
   S.hyd=+document.getElementById('hyd-slider').value;
   S.rTemp=+document.getElementById('temp-slider').value;
@@ -940,18 +978,21 @@ function update(){
     panDesc = panShape==='round'?`${panW}cm round`:`${panW}×${panH}cm`;
   }
   document.getElementById('pan-result').innerHTML=`<strong>${dw(flour)}</strong> flour — ${panDesc}, ${S.units==='imperial'?'2.75" deep':'7cm deep'}`;
-  document.getElementById('rec-tbody').innerHTML=[
-    ['Strong white bread flour <span style="margin-left:6px;">(12–15% protein)</span>',dw(ing.flour),'100%'],
-    ['Water',dw(ing.water),hyd+'%'],
-    ['Fine sea salt',dw(ing.salt),'2.5%'],
-    [`Instant dry yeast <span style="margin-left:6px;">(${dw(Math.round(ing.yeast*3*10)/10)} fresh)</span>`,dw(ing.yeast),yp+'%'],
-    ['Extra virgin olive oil',dw(ing.oil),'2.5%'],
-  ].map(([n,w,p])=>`<tr><td>${n}</td><td class="wt">${w}</td><td class="pc">${p}</td></tr>`).join('')
-  +`<tr class="total-row"><td>Total dough</td><td class="wt">~${dw(total)}</td><td></td></tr>`;
 
   buildSteps(ing,hyd,fid,hours);
-  renderMethod();
-  if (tlVisible) renderTimeline();
+  clearTimeout(_updateTimer);
+  _updateTimer=setTimeout(()=>{
+    document.getElementById('rec-tbody').innerHTML=[
+      ['Strong white bread flour <span style="margin-left:6px;">(12–15% protein)</span>',dw(ing.flour),'100%'],
+      ['Water',dw(ing.water),hyd+'%'],
+      ['Fine sea salt',dw(ing.salt),'2.5%'],
+      [`Instant dry yeast <span style="margin-left:6px;">(${dw(Math.round(ing.yeast*3*10)/10)} fresh)</span>`,dw(ing.yeast),yp+'%'],
+      ['Extra virgin olive oil',dw(ing.oil),'2.5%'],
+    ].map(([n,w,p])=>`<tr><td>${n}</td><td class="wt">${w}</td><td class="pc">${p}</td></tr>`).join('')
+    +`<tr class="total-row"><td>Total dough</td><td class="wt">~${dw(total)}</td><td></td></tr>`;
+    renderMethod();
+    if(tlVisible) renderTimeline();
+  },16);
 }
 
 function setUnits(u){
@@ -1227,7 +1268,7 @@ function shareRecipe(){
   }
   const text=`🫓 FocacciaFriday Recipe\n\n${fid==='cold'?'Cold':'Room temp'} ferment · ${hours}h · ${hyd}% hydration · ${dt(rTemp)}\nPan: ${panDesc}\n\nFlour: ${dw(ing.flour)}\nWater: ${dw(ing.water)}\nSalt: ${dw(ing.salt)}\nYeast: ${dw(ing.yeast)} (${yp}%)\nOlive oil: ${dw(ing.oil)}\n\nhttps://darcmuff.github.io/FocacciaFriday/`;
   if(navigator.share){navigator.share({title:'FocacciaFriday Recipe',text}).catch(()=>{});}
-  else{navigator.clipboard.writeText(text).then(()=>{const b=document.querySelector('[onclick="shareRecipe()"]');const orig=b.innerHTML;b.innerHTML='✓';setTimeout(()=>b.innerHTML=orig,1500);}).catch(()=>{});}
+  else{navigator.clipboard.writeText(text).then(()=>{const b=document.getElementById('share-btn');const orig=b.innerHTML;b.innerHTML='✓';setTimeout(()=>b.innerHTML=orig,1500);}).catch(()=>{});}
 }
 
 setShape('rect');
@@ -1240,17 +1281,21 @@ function saveSession(){
   try{localStorage.setItem('ff_session',JSON.stringify({
     step:S.step,
     bakeStarted:bakeStarted,
-    bakeStartTime:startTime
+    bakeStartTime:startTime,
+    coilFoldCount:coilFoldCount,
+    activeTimerStep:activeTimerStep
   }));}catch(e){}
 }
 function loadSession(){
   try{
     const ss=JSON.parse(localStorage.getItem('ff_session'));
     if(!ss||ss.step==null)return;
-    S.step=0;
+    S.step=ss.step||0;
     if(ss.bakeStarted&&ss.bakeStartTime){
       bakeStarted=true;
       startTime=ss.bakeStartTime;
+      if(ss.coilFoldCount!=null) coilFoldCount=ss.coilFoldCount;
+      if(ss.activeTimerStep!=null) activeTimerStep=ss.activeTimerStep;
       const btn=document.getElementById('start-bake-btn');
       btn.innerHTML='<span class="btn-icon">▶</span><span class="btn-label">'+fmtClock(new Date(startTime))+'</span>';
       btn.classList.add('active');

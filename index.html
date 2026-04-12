@@ -205,10 +205,15 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 
 
 
+.settings-pill{display:none;position:relative}
+.settings-dropdown{display:none;position:absolute;top:calc(100% + 8px);right:0;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;box-shadow:0 8px 32px rgba(0,0,0,0.25);z-index:500;gap:10px;flex-direction:column;min-width:160px}
+.settings-dropdown.open{display:flex}
+.settings-dropdown-label{font-size:0.72rem;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width:768px){
   #header{height:auto;padding:12px 16px;flex-wrap:wrap}
-  .h-right{width:100%;justify-content:flex-end;align-items:flex-end;margin-top:6px}
+  .h-right{width:100%;justify-content:flex-end;align-items:center;margin-top:6px}
   .h-title{font-size:24px}
   html,body{overflow:auto;height:auto}
   #page{grid-template-columns:1fr;height:auto;padding:12px 16px;gap:10px}
@@ -221,6 +226,8 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   .toggle-btn{font-size:11px}
   .m-title{font-size:1.3rem}
   #method-label{display:none}
+  .toggle-stack{display:none}
+  .settings-pill{display:inline-flex}
 }
 
 /* ===== GUIDE MODAL ===== */
@@ -348,10 +355,10 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   <div class="h-right">
     <a href="https://buymeacoffee.com/FocacciaFriday" target="_blank" rel="noopener" title="Buy me a coffee" style="background:#FFDD00;border:1px solid #e6c800;border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s ease;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.1);"><img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee" style="width:18px;height:18px;"></a>
     <button class="h-icon-btn" onclick="showShop()" title="Equipment I use"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
-    <button class="h-icon-btn" onclick="showGuide()" title="How to use" style="font-size:20px;font-weight:700;font-family:inherit">?</button>
     <button class="h-icon-btn" id="share-btn" onclick="shareRecipe()" title="Share recipe"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
     <button class="h-icon-btn" onclick="showSaved()" title="Saved recipes"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="none"/></svg></button>
-    <button class="h-icon-btn" id="dark-btn" onclick="toggleDark()" title="Dark mode">🌙</button>
+    <button class="h-icon-btn" id="dark-btn" onclick="toggleDark()" title="Dark mode"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="h-icon-btn" onclick="showGuide()" title="How to use" style="font-size:20px;font-weight:700;font-family:inherit">?</button>
     <div class="toggle-stack">
       <div class="toggle-group">
         <button class="toggle-btn active" id="btn-c" onclick="setTempScale('C')">°C</button>
@@ -360,6 +367,25 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
       <div class="toggle-group">
         <button class="toggle-btn active" id="btn-metric" onclick="setUnits('metric')">Metric</button>
         <button class="toggle-btn" id="btn-imperial" onclick="setUnits('imperial')">Imperial</button>
+      </div>
+    </div>
+    <div class="settings-pill">
+      <button class="h-icon-btn" id="settings-btn" onclick="toggleSettings()" title="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+      <div class="settings-dropdown" id="settings-dropdown">
+        <div>
+          <div class="settings-dropdown-label">Temperature</div>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="mob-btn-c" onclick="setTempScale('C')">°C</button>
+            <button class="toggle-btn" id="mob-btn-f" onclick="setTempScale('F')">°F</button>
+          </div>
+        </div>
+        <div>
+          <div class="settings-dropdown-label">Units</div>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="mob-btn-metric" onclick="setUnits('metric')">Metric</button>
+            <button class="toggle-btn" id="mob-btn-imperial" onclick="setUnits('imperial')">Imperial</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -463,6 +489,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
       <details>
       <summary><h3>What Pan Have You Got?</h3></summary>
       <p>Enter your pan dimensions and the calculator scales the flour (and everything else) to fit. The 7cm (2.75in) depth is a rough guide — we are aiming for a focaccia around 6cm (2.5in) tall, so any pan in that ballpark (give or take a centimetre) will hold the dough just fine. A cookie tray will not.</p>
+      <p><span class="g-em">Metal is strongly preferred.</span> A heavy metal pan conducts heat directly into the base of the dough, giving you the crisp, well-coloured bottom crust that defines a good focaccia. Glass and ceramic insulate rather than conduct — they take longer to heat up and rarely get hot enough to properly fry the base in the oil. If metal is all you have, use it. If you have a choice, metal every time.</p>
       </details>
 
       <details>
@@ -995,10 +1022,21 @@ function update(){
   },16);
 }
 
+function toggleSettings(){
+  const dd=document.getElementById('settings-dropdown');
+  dd.classList.toggle('open');
+}
+document.addEventListener('click',e=>{
+  const pill=document.querySelector('.settings-pill');
+  if(pill && !pill.contains(e.target)) document.getElementById('settings-dropdown').classList.remove('open');
+});
 function setUnits(u){
   S.units=u;
   document.getElementById('btn-metric').classList.toggle('active',u==='metric');
   document.getElementById('btn-imperial').classList.toggle('active',u==='imperial');
+  const mm=document.getElementById('mob-btn-metric');
+  const mi=document.getElementById('mob-btn-imperial');
+  if(mm){mm.classList.toggle('active',u==='metric');mi.classList.toggle('active',u==='imperial');}
   renderPanInputs();
   update();
   savePrefs();
@@ -1007,6 +1045,9 @@ function setTempScale(t){
   S.tempScale=t;
   document.getElementById('btn-c').classList.toggle('active',t==='C');
   document.getElementById('btn-f').classList.toggle('active',t==='F');
+  const mc=document.getElementById('mob-btn-c');
+  const mf=document.getElementById('mob-btn-f');
+  if(mc){mc.classList.toggle('active',t==='C');mf.classList.toggle('active',t==='F');}
   update();
   savePrefs();
 }
@@ -1235,7 +1276,9 @@ function loadPrefs(){
 }
 function toggleDark(){
   document.body.classList.toggle('dark');
-  document.getElementById('dark-btn').textContent=document.body.classList.contains('dark')?'☀️':'🌙';
+  document.getElementById('dark-btn').innerHTML=document.body.classList.contains('dark')
+    ?'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+    :'<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
   savePrefs();
 }
 function resetDefaults(){
@@ -1266,14 +1309,49 @@ function shareRecipe(){
   } else {
     panDesc=panShape==='round'?`${panW}cm round`:`${panW}×${panH}cm`;
   }
-  const text=`🫓 FocacciaFriday Recipe\n\n${fid==='cold'?'Cold':'Room temp'} ferment · ${hours}h · ${hyd}% hydration · ${dt(rTemp)}\nPan: ${panDesc}\n\nFlour: ${dw(ing.flour)}\nWater: ${dw(ing.water)}\nSalt: ${dw(ing.salt)}\nYeast: ${dw(ing.yeast)} (${yp}%)\nOlive oil: ${dw(ing.oil)}\n\nhttps://darcmuff.github.io/FocacciaFriday/`;
-  if(navigator.share){navigator.share({title:'FocacciaFriday Recipe',text}).catch(()=>{});}
-  else{navigator.clipboard.writeText(text).then(()=>{const b=document.getElementById('share-btn');const orig=b.innerHTML;b.innerHTML='✓';setTimeout(()=>b.innerHTML=orig,1500);}).catch(()=>{});}
+  const params=new URLSearchParams({hours,hyd,fid,temp:rTemp,shape:panShape,w:panW,h:panH,units,scale:tempScale});
+  const url=`https://darcmuff.github.io/FocacciaFriday/?${params.toString()}`;
+  const text=`🥓 FocacciaFriday Recipe\n\n${fid==='cold'?'Cold':'Room temp'} ferment · ${hours}h · ${hyd}% hydration · ${dt(rTemp)}\nPan: ${panDesc}\n\nFlour: ${dw(ing.flour)}\nWater: ${dw(ing.water)}\nSalt: ${dw(ing.salt)}\nYeast: ${dw(ing.yeast)} (${yp}%)\nOlive oil: ${dw(ing.oil)}\n\n${url}`;
+  const copyFallback=()=>{navigator.clipboard.writeText(text).then(()=>{const b=document.getElementById('share-btn');const orig=b.innerHTML;b.innerHTML='✓';setTimeout(()=>b.innerHTML=orig,1500);}).catch(()=>{});};
+  if(navigator.share){navigator.share({title:'FocacciaFriday Recipe',text}).catch(()=>copyFallback());}
+  else{copyFallback();}
 }
 
 setShape('rect');
 selectFerment('room');
 loadPrefs();
+
+/* === Load shared recipe from URL params === */
+(function loadFromURL(){
+  const p=new URLSearchParams(window.location.search);
+  if(!p.has('hours')) return;
+  const hours=parseFloat(p.get('hours'));
+  const hyd=parseFloat(p.get('hyd'));
+  const fid=p.get('fid')||'room';
+  const rTemp=parseFloat(p.get('temp'))||20;
+  const panShape=p.get('shape')||'rect';
+  const panW=parseFloat(p.get('w'))||23;
+  const panH=parseFloat(p.get('h'))||23;
+  const units=p.get('units')||'metric';
+  const tempScale=p.get('scale')||'C';
+  if(isNaN(hours)||isNaN(hyd)) return;
+  S.hours=hours; S.hyd=hyd; S.rTemp=rTemp; S.units=units; S.tempScale=tempScale;
+  S.panShape=panShape; S.panW=panW; S.panH=panH;
+  document.getElementById('hours-slider').value=hoursToSlider(hours);
+  document.getElementById('hyd-slider').value=hyd;
+  document.getElementById('temp-slider').value=rTemp;
+  document.getElementById('btn-metric').classList.toggle('active',units==='metric');
+  document.getElementById('btn-imperial').classList.toggle('active',units==='imperial');
+  document.getElementById('btn-c').classList.toggle('active',tempScale==='C');
+  document.getElementById('btn-f').classList.toggle('active',tempScale==='F');
+  document.getElementById('btn-rect').classList.toggle('sel',panShape==='rect');
+  document.getElementById('btn-round').classList.toggle('sel',panShape==='round');
+  selectFerment(fid);
+  renderPanInputs();
+  update();
+  // Clean URL without reloading
+  window.history.replaceState({},'',window.location.pathname);
+})();
 
 
 /* === Session state — survives tab closure === */

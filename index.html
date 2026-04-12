@@ -298,6 +298,9 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   window.TimerPlugin = (window.Capacitor && window.Capacitor.registerPlugin)
     ? window.Capacitor.registerPlugin('Timer')
     : null;
+  window.BakePlugin = (window.Capacitor && window.Capacitor.registerPlugin)
+    ? window.Capacitor.registerPlugin('Bake')
+    : null;
   if(window.TimerPlugin) document.body.classList.add('native');
 </script>
 </head>
@@ -882,6 +885,23 @@ function calcStepTimes(){
   return times;
 }
 
+/* ===== WAKE LOCK ===== */
+let _wakeLock=null;
+async function acquireWakeLock(){
+  if(!('wakeLock' in navigator)) return;
+  try{
+    _wakeLock=await navigator.wakeLock.request('screen');
+    _wakeLock.addEventListener('release',()=>{_wakeLock=null;});
+  }catch(e){}
+}
+function releaseWakeLock(){
+  if(_wakeLock){try{_wakeLock.release();}catch(e){}_wakeLock=null;}
+}
+// Re-acquire after returning from background (OS releases it automatically)
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&bakeStarted) acquireWakeLock();
+});
+
 function startBake(){
   if(bakeStarted) return;
   bakeStarted=true;
@@ -892,8 +912,10 @@ function startBake(){
   const btn=document.getElementById('start-bake-btn');
   btn.innerHTML='<span class="btn-icon">▶</span><span class="btn-label">'+fmtClock(new Date(startTime))+'</span>';
   btn.classList.add('active');
+  acquireWakeLock();
   update();
   renderMethod();
+  notifyBakeService();
   if(tlVisible) renderTimeline();
   try{saveSession();}catch(e){}
 }
@@ -901,6 +923,8 @@ function startBake(){
 function resetBakeState(){
   bakeStarted=false;
   startTime=Date.now();
+  releaseWakeLock();
+  if(window.BakePlugin) window.BakePlugin.stop().catch(function(){});
   try{localStorage.removeItem('ff_session');}catch(e){}
   const btn=document.getElementById('start-bake-btn');
   btn.innerHTML='<span class="btn-icon">▶</span><span class="btn-label">Begin</span>';
@@ -1098,10 +1122,21 @@ function buildSteps(ing,hyd,fid,hours){
   ];
 }
 
+function notifyBakeService(){
+  if(!window.BakePlugin||!bakeStarted) return;
+  const i=S.step, step=steps[i];
+  if(!step) return;
+  const stepTimes=calcStepTimes();
+  const timeStr=bakeStarted&&startTime&&stepTimes[i]?fmtClock(new Date(stepTimes[i])):'';
+  const label=step.coilFold?'Coil Folds':(step.title||'Bake in progress');
+  window.BakePlugin.updateStep({step:'Step '+(i+1)+': '+label, time:timeStr}).catch(function(){});
+}
+
 function renderMethod(){
   if(!steps.length)return;
   const i=S.step, step=steps[i], total=steps.length;
   const stepTimes=calcStepTimes();
+  notifyBakeService();
   document.getElementById('step-counter').textContent=window.innerWidth<=768?`Step ${i+1}/${total}`:`Step ${i+1} of ${total}`;
   document.getElementById('prog-fill').style.width=`${((i+1)/total)*100}%`;
 

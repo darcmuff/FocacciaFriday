@@ -301,6 +301,9 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   window.BakePlugin = (window.Capacitor && window.Capacitor.registerPlugin)
     ? window.Capacitor.registerPlugin('Bake')
     : null;
+  window.BakeNotificationPlugin = (window.Capacitor && window.Capacitor.registerPlugin)
+    ? window.Capacitor.registerPlugin('BakeNotification')
+    : null;
   if(window.TimerPlugin) document.body.classList.add('native');
 </script>
 </head>
@@ -399,7 +402,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   <div class="section">
     <div class="sec-label" id="hours-lbl">Total Time: 8 hours</div>
     <div class="slider-track slider-hours"><input type="range" min="0" max="100" step="1" value="14" id="hours-slider" oninput="update()"></div>
-    <div class="slider-labels"><span id="start-time-lbl">6h</span><span>48h</span></div>
+    <div class="slider-labels"><span id="start-time-lbl">4h</span><span>48h</span></div>
     <div style="margin-top:10px">
       <div class="sec-label" id="hyd-lbl">Hydration: 85%</div>
       <div class="slider-track slider-hyd"><input type="range" min="70" max="100" step="1" value="85" id="hyd-slider" oninput="update()"></div>
@@ -482,7 +485,23 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
     </div>
     <div class="guide-body">
 
-      <p>This is a focaccia calculator. Set your sliders, enter your pan, and it works out everything — ingredient quantities, yeast levels, fermentation times, and a step-by-step method with real clock times. Every slider has a <span class="g-green">green zone</span> showing the range where results are most predictable. The ends fade to red — not because they are wrong, but because they need more experience to manage well. Great focaccia is made at every point on these sliders.</p>
+      <p>Welcome to FocacciaFriday. 👋</p>
+
+      <details open>
+      <summary><h3>⚡ Quick Start</h3></summary>
+      <ul>
+        <li><strong>When do you want to eat?</strong> — Set the <em>Total Time</em> slider first. Everything else flows from that.</li>
+        <li><strong>How wet?</strong> — The <em>Hydration</em> slider controls your crumb. Higher = airier, harder to handle. Start in the green zone if it's your first time.</li>
+        <li><strong>How warm is your kitchen?</strong> — Set the <em>Room Temp</em> slider to match. The yeast model adjusts automatically.</li>
+        <li><strong>Room temp or fridge?</strong> — Pick your fermentation style. Room temp is simpler. Cold ferment takes longer but builds more flavour.</li>
+        <li><strong>What pan have you got?</strong> — Enter your dimensions. The flour quantity and everything else scales to fit.</li>
+        <li><strong>Check your ingredients</strong> — The ingredient card updates live. Make sure you've got everything before you start.</li>
+        <li><strong>Hit ▶ Begin when you're ready</strong> — This stamps your start time and turns the whole thing into a live schedule. Every step gets a real clock time.</li>
+        <li><strong>Follow the steps</strong> — Tap ⏰ on any timed step to set your phone's timer automatically. The app handles the maths.</li>
+        <li><strong>The notification</strong> — A reminder lives in your notification drawer showing which step you're on. Tap it any time to jump straight back.</li>
+        <li><strong>Need more detail?</strong> — Everything below goes deeper. Tap any section to expand it.</li>
+      </ul>
+      </details>
 
       <details>
       <summary><h3>Start With the End</h3></summary>
@@ -514,7 +533,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 
       <details>
       <summary><h3>Room Temp or Cold Ferment?</h3></summary>
-      <p><span class="g-warm">Room temp</span> — all fermentation happens at ambient temperature. It is simpler, faster, and gives great results. If you have a proofer, this is also your controlled-temp mode — dial in exactly what you want. Pro tip: your oven light generates gentle, consistent warmth around 22–26°C (72–79°F). Close the door, leave the light on, and you have got yourself a DIY proofer. The time slider will not go past 24 hours in room temp mode — beyond that, the dough will over-ferment and collapse on itself. If you want longer than 24 hours, that is what the fridge is for.</p>
+      <p><span class="g-warm">Room temp</span> — all fermentation happens at ambient temperature. It is simpler, faster, and gives great results. If you have a proofer, this is also your controlled-temp mode — dial in exactly what you want. Pro tip: your oven light generates gentle, consistent warmth around 22–26°C (72–79°F). Close the door, leave the light on, and you have got yourself a DIY proofer. The time slider will not go past 30 hours in room temp mode — beyond that, the dough will over-ferment and collapse on itself. If you want longer than 30 hours, that is what the fridge is for.</p>
       <p><span class="g-cold">Cold ferment</span> — bulk rise at room temp, then overnight in the fridge. The cold slows everything down and develops deeper, more complex flavour. Worth it if you have the time. The time slider will not go below 14 hours in cold ferment mode — you need enough time for the room temperature bulk rise, the fridge time, and the final proof to all do their job. Anything shorter than that and you are better off staying at room temp.</p>
       </details>
 
@@ -796,11 +815,11 @@ function calcPanFlour(shape, w, h, hyd) {
 }
 
 function sliderToHours(pos){
-  const raw = 6 * Math.pow(8, pos / 100);
-  return Math.round(Math.min(48, Math.max(6, raw)));
+  const raw = 4 * Math.pow(8, pos / 100);
+  return Math.round(Math.min(48, Math.max(4, raw)));
 }
 function hoursToSlider(h){
-  return Math.round(Math.log(h / 6) / Math.log(8) * 100);
+  return Math.round(Math.log(h / 4) / Math.log(8) * 100);
 }
 
 function calcYeast(fid, rt, hrs, hyd) {
@@ -872,7 +891,7 @@ function updateTimeLabels(hours){
   if(bakeStarted){
     document.getElementById('start-time-lbl').textContent='Start '+fmtClock(new Date(startTime));
   } else {
-    document.getElementById('start-time-lbl').textContent='6h';
+    document.getElementById('start-time-lbl').textContent='4h';
   }
 }
 
@@ -926,6 +945,7 @@ function startBake(){
   update();
   renderMethod();
   notifyBakeService();
+  if(window.BakeNotificationPlugin) window.BakeNotificationPlugin.show().catch(function(){});
   if(tlVisible) renderTimeline();
   try{saveSession();}catch(e){}
 }
@@ -935,6 +955,7 @@ function resetBakeState(){
   startTime=Date.now();
   releaseWakeLock();
   if(window.BakePlugin) window.BakePlugin.stop().catch(function(){});
+  if(window.BakeNotificationPlugin) window.BakeNotificationPlugin.dismiss().catch(function(){});
   try{localStorage.removeItem('ff_session');}catch(e){}
   const btn=document.getElementById('start-bake-btn');
   btn.innerHTML='<span class="btn-icon">▶</span><span class="btn-label">Begin</span>';
@@ -992,7 +1013,7 @@ function renderPanInputs() {
 function selectFerment(id){
   S.fid=id;
   if(id==='cold' && S.hours<14){S.hours=14;document.getElementById('hours-slider').value=hoursToSlider(14);}
-  if(id==='room' && S.hours>24){S.hours=24;document.getElementById('hours-slider').value=hoursToSlider(24);}
+  if(id==='room' && S.hours>30){S.hours=30;document.getElementById('hours-slider').value=hoursToSlider(30);}
   ['room','cold'].forEach(f=>{
     const col=FERMENTS[f].color, sel=f===id;
     document.getElementById('opt-'+f).classList.toggle('sel',sel);
@@ -1010,7 +1031,7 @@ function update(){
   S.hours=sliderToHours(+document.getElementById('hours-slider').value);
   S.hyd=+document.getElementById('hyd-slider').value;
   S.rTemp=+document.getElementById('temp-slider').value;
-  if(S.fid==='room' && S.hours>24){S.hours=24;document.getElementById('hours-slider').value=hoursToSlider(24);}
+  if(S.fid==='room' && S.hours>30){S.hours=30;document.getElementById('hours-slider').value=hoursToSlider(30);}
   if(S.fid==='cold' && S.hours<14){S.hours=14;document.getElementById('hours-slider').value=hoursToSlider(14);}
   const {hours,hyd,fid,rTemp,panShape,panW,panH,saltPc,oilPc}=S;
   const flour=calcPanFlour(panShape, panW*10, panH*10, hyd);
@@ -1091,32 +1112,30 @@ function dt(c){ return S.tempScale==='F'?Math.round(c*9/5+32)+'°F':c+'°C'; }
 function buildSteps(ing,hyd,fid,hours){
   steps=[
     {title:'Gather Equipment',icon:'🛠',timer:null,tip:null,shopBtn:true,
-     body:`• Large bowl\n• Digital scales\n• Baking pan\n• Mixing utensil — hands, wooden spoon, or spatula\n• Large heavy pan`},
+     body:`• Large bowl\n• Digital scales\n• Baking pan\n• Mixing utensil — hands, wooden spoon, or spatula`},
     {title:'Combine Flour & Water',icon:'💧',timer:null,
      body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} of warm water (${dt(25)} to ${dt(30)}) — this helps kick off fermentation.\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
      tip:'No mixer. Hand mixing keeps the gluten irregular — that irregularity becomes your voids.'},
     {title:'Autolyse',icon:'⏱',timer:45,
      body:`Autolyse is a simple rest period where the flour and water are mixed and left to sit before adding salt and yeast. This rest lets enzymes start breaking down starch and protein, making the dough easier to handle and improving gluten development, flavour, and crust and crumb quality.\n\nCover and leave undisturbed for 45 minutes.`,
      tip:'Gluten develops passively. The most important step for open crumb.'},
-    {title:'Add Salt, Yeast & Oil',icon:'🧂',timer:null,
-     body:`Add directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\n\nThoroughly mix until all ingredients are incorporated.`,
+    {title:'Add Salt, Yeast & Oil',icon:'🧂',timer:30,
+     body:`Add directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\n\nThoroughly mix until all ingredients are incorporated.\n\nCover and rest for 30 minutes.`,
      tip:null},
-    {title:'Transfer to Heavy Pan',icon:'🔲',timer:30,
-     body:'Scrape dough onto your large heavy pan. It will spread flat.\n\nThe other option here is to leave the dough where it is and perform stretch and folds right there in the bowl. I prefer coil folds but both techniques work.\n\nCover loosely and rest for 30 minutes.',
-     tip:'When performing coil folds both hands are needed. If the dough is in a light metal or plastic container, it will lift with the dough. And you won\'t like that.'},
-    {title:'Coil or Stretch Folds 4',subtitle:'30 min apart · 1.5 hours',icon:'🔄',coilFold:true,timer:null,
-     body:`Coil folds: wet hands, slide under the dough centre, lift high, let both ends fold underneath. Pan stays still. Rotate 90°, repeat. Stretch and folds: wet hands, grab one edge, stretch up, fold to the opposite side, rotate the bowl, repeat 3–4 times. Each fold builds resistance. By fold 4 the dough should be smooth and springy.`,
-     tip:null},
+
+    {title:'Stretch & Fold x4',subtitle:'30 min apart · 1.5 hours',icon:'🔄',coilFold:true,timer:null,
+     body:`Wet one hand, hold the bowl with the other. Grab one edge of the dough, stretch it up high, and fold it over to the other side. Rotate 90°, repeat 4 times — that's one set. Cover, wait 30 minutes, repeat. Four sets total. It'll feel sticky and slack at first — that's normal. Each set builds strength and by fold 4 it should feel smooth, springy, and hold its shape.`,
+     tip:'Wet hands are non-negotiable. Dry hands = dough disaster.'},
     ...(fid==='cold'?[{title:'Into the Fridge',icon:'❄️',
       timer: Math.round(Math.max(240, (hours - 395/60) * 60)),
-      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.\nLightly oil a sheet of clingfilm so it doesn't stick, and cover tightly. Fridge at ${dt(3)}–${dt(5)}.\nCold ferment: ${Math.max(4, (hours - 395/60)).toFixed(1)} hours. Set your phone timer and leave it alone.`,
+      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with good olive oil — line the sides and bottom of the pan. Tip the dough in and coax towards the corners. Lightly oil a sheet of tin foil so it doesn't stick, and cover tightly. Fridge at ${dt(3)}–${dt(5)}.\nCold ferment: ${Math.max(4, (hours - 395/60)).toFixed(1)} hours. Set your phone timer and leave it alone.`,
       tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
     ...(fid==='room'?[{title:'Bulk Ferment',icon:'⏱',
       timer: Math.round(Math.max(30, (hours - 245/60) * 60)),
-      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with olive oil — pool it on top of the paper. Tip dough in. Coax toward corners.\nLightly oil a sheet of clingfilm so it doesn't stick, and cover. Leave at room temperature until visibly puffy and roughly doubled.`,
+      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with good olive oil, lining the sides and bottom of the pan. Tip the dough in and coax towards the corners. Lightly oil a sheet of tin foil so it doesn't stick, and cover. Leave at room temperature until visibly puffy and jiggly and roughly doubled in size.`,
       tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
     ...(fid==='cold'?[{title:'Final Proof',icon:'🔍',timer:150,
-     body:'Remove from the fridge and leave until doubled, puffy, bubbly. Jiggle test — wobble like jelly = ready.',tip:null}]:[]),
+     body:'Remove from the fridge and leave it somewhere warm until it\'s doubled and looks puffy and bubbly. Jiggle test — if it wobbles like jelly, it\'s ready.',tip:null}]:[]),
     {title:'Preheat Oven',icon:'🔥',timer:null,concurrent:true,
      body:`${dt(230)}, no fan. Place a small metal pan on the oven floor now — under or next to where the bread will sit. It needs to be scorching hot when the bread goes in — that's what instantly vaporises the ice cube and floods the oven with steam. Preheat 20 minutes.\n\nAdding moisture here is optional, I know it's a bit of a faff.\n\nThis time is included in your ${fid==='cold'?'final proof':'bulk ferment'}.`,
      tip:null},
@@ -1140,6 +1159,13 @@ function notifyBakeService(){
   const timeStr=bakeStarted&&startTime&&stepTimes[i]?fmtClock(new Date(stepTimes[i])):'';
   const label=step.coilFold?'Coil Folds':(step.title||'Bake in progress');
   window.BakePlugin.updateStep({step:'Step '+(i+1)+': '+label, time:timeStr}).catch(function(){});
+  if(window.BakeNotificationPlugin&&bakeStarted){
+    const total=steps.length;
+    window.BakeNotificationPlugin.update({
+      step:'Step '+(i+1)+' of '+total,
+      label:label
+    }).catch(function(){});
+  }
 }
 
 function renderMethod(){
@@ -1426,7 +1452,15 @@ function loadSession(){
     renderMethod();
   }catch(e){}
 }
-loadSession();
+if(window.Capacitor){
+  // On Android, only restore if a bake was actually in progress
+  try{
+    const ss=JSON.parse(localStorage.getItem('ff_session'));
+    if(ss&&ss.bakeStarted) loadSession();
+  }catch(e){}
+} else {
+  loadSession();
+}
 
 /* Save session on step changes */
 const _origSetStep=setStep;

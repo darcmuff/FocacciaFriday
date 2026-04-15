@@ -171,6 +171,11 @@ body.native .m-timer-pill:hover{border-color:var(--text3);color:var(--text);box-
   0%,100%{box-shadow:0 0 0 0 rgba(90,158,106,0.5)}
   50%{box-shadow:0 0 0 6px rgba(90,158,106,0)}
 }
+@keyframes guide-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(112,64,8,0.3);transform:scale(1)}
+  50%{box-shadow:0 0 0 10px rgba(112,64,8,0);transform:scale(1.05)}
+}
+.guide-btn-pulse{animation:guide-pulse 2.2s ease-in-out infinite;border-color:var(--accent)!important;color:var(--accent)!important}
 .m-timer-pill.active{background:#d4edda;border-color:#5a9e6a;color:#246832;animation:timer-pulse 2s ease-in-out infinite}
 .m-timer-pill.active:hover{background:#c8e6ce;border-color:#4a8e5a;color:#246832}
 body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8dd4a0}
@@ -292,6 +297,15 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 .save-name-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--gold-glow)}
 .save-name-btn{padding:10px 18px;border:none;border-radius:8px;background:var(--accent);color:var(--accent2);font-family:var(--font-body);font-size:0.92rem;font-weight:700;cursor:pointer;transition:all .25s ease;letter-spacing:.04em;text-transform:uppercase}
 .save-name-btn:hover{box-shadow:0 4px 12px rgba(200,148,60,0.3)}
+.save-form{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.save-form-label{font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text3);margin-bottom:2px;}
+.save-textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-family:var(--font-body);font-size:0.9rem;color:var(--text);resize:vertical;min-height:64px;transition:all .25s ease;}
+.save-textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--gold-glow);}
+.save-metrics{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;margin-top:4px;}
+.save-metric-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;}
+.save-metric-key{color:var(--text3);}
+.save-metric-val{font-weight:700;color:var(--accent);}
+.save-form-actions{display:flex;gap:8px;}
 </style>
 <script src="capacitor.js"></script>
 <script>
@@ -480,12 +494,10 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 <div class="guide-overlay" id="guide-overlay" onclick="if(event.target===this)hideGuide()">
   <div class="guide-box">
     <div class="guide-header">
-      <h2>How to Use</h2>
+      <h2>How to use FocacciaFriday</h2>
       <button class="guide-close" onclick="hideGuide()">✕</button>
     </div>
     <div class="guide-body">
-
-      <p>Welcome to FocacciaFriday. 👋</p>
 
       <details open>
       <summary><h3>⚡ Quick Start</h3></summary>
@@ -574,6 +586,61 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
       <p><span class="g-em">Do not.</span></p>
       <p>The inside of the bread is still setting. The crumb is still firming up, the starches are still gelling, and the moisture is still redistributing from the centre outward. If you cut it now, the inside will be gummy and the steam that escapes will take all that texture with it. You have spent hours getting to this point — the last 30 minutes is where the crumb goes from wet and doughy to light and pillowy.</p>
       <p>Put it on a wire rack. Walk away. Make a coffee. Argue with someone on the internet. Do whatever you need to do to survive the next half hour. Nobody in the history of focaccia has ever actually made it to 30 minutes, but the closer you get, the better the bread will be.</p>
+      </details>
+
+      <details>
+      <summary><h3>The Buttons — What They All Do</h3></summary>
+      <p>Here is every button in the top bar and what it does.</p>
+
+      <div style="display:flex;flex-direction:column;gap:16px;margin:18px 0;">
+
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="background:#FFDD00;border:1px solid #e6c800;border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.1);pointer-events:none;"><img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee" style="width:18px;height:18px;"></div>
+          <div><strong style="color:var(--text)">Buy Me a Coffee</strong><br><span style="font-size:0.88rem;color:var(--text2)">If the app saves you a bad bake, this is how to say thanks. Completely optional, always appreciated.</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1);pointer-events:none;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+          <div><strong style="color:var(--text)">Equipment</strong><br><span style="font-size:0.88rem;color:var(--text2)">The pans, scales, and other kit used to develop the app. Nothing you have to buy — useful if you are starting from scratch.</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1);pointer-events:none;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+          <div><strong style="color:var(--text)">Share Recipe</strong><br><span style="font-size:0.88rem;color:var(--text2)">Copies your current recipe as a link. Send it to someone and the app loads with exactly your settings — flour weight, hydration, pan size, everything.</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1);pointer-events:none;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+          <div><strong style="color:var(--text)">Saved Recipes</strong><br><span style="font-size:0.88rem;color:var(--text2)">Your saved recipes live here. Tap one to load it back into the calculator. Save a recipe from the ingredient card.</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1);pointer-events:none;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+          <div><strong style="color:var(--text)">Dark Mode</strong><br><span style="font-size:0.88rem;color:var(--text2)">Switches between light and dark mode. The app remembers your preference.</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1);pointer-events:none;font-size:20px;font-weight:700;font-family:inherit;">?</div>
+          <div><strong style="color:var(--text)">Guide</strong><br><span style="font-size:0.88rem;color:var(--text2)">This guide. You found it.</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg3);box-shadow:0 1px 3px rgba(0,0,0,0.1);height:36px;flex-shrink:0;pointer-events:none;">
+            <div style="padding:0 12px;height:36px;font-size:12px;font-weight:700;color:var(--accent);background:var(--bg);display:flex;align-items:center;border-right:1px solid var(--border);letter-spacing:.06em;">°C</div>
+            <div style="padding:0 12px;height:36px;font-size:12px;font-weight:700;color:var(--text2);display:flex;align-items:center;letter-spacing:.06em;">°F</div>
+          </div>
+          <div><strong style="color:var(--text)">Temperature Units</strong><br><span style="font-size:0.88rem;color:var(--text2)">Switches between Celsius and Fahrenheit. All temperatures in the app update instantly.</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg3);box-shadow:0 1px 3px rgba(0,0,0,0.1);height:36px;flex-shrink:0;pointer-events:none;">
+            <div style="padding:0 12px;height:36px;font-size:12px;font-weight:700;color:var(--accent);background:var(--bg);display:flex;align-items:center;border-right:1px solid var(--border);letter-spacing:.06em;">Metric</div>
+            <div style="padding:0 12px;height:36px;font-size:12px;font-weight:700;color:var(--text2);display:flex;align-items:center;letter-spacing:.06em;">Imperial</div>
+          </div>
+          <div><strong style="color:var(--text)">Metric / Imperial</strong><br><span style="font-size:0.88rem;color:var(--text2)">Switches all ingredient weights between grams and ounces.</span></div>
+        </div>
+
+      </div>
       </details>
 
     </div>
@@ -711,9 +778,41 @@ function renderSavedList(){
   const el=document.getElementById('saved-body');
   let html='';
   if(savingNew){
-    html+=`<div class="save-name-row">
-      <input class="save-name-input" id="save-name-input" placeholder="Name this recipe..." autofocus>
-      <button class="save-name-btn" onclick="confirmSave()">Save</button>
+    const now=new Date();
+    const dateStr=now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    const flour=calcPanFlour(S.panShape,S.panW*10,S.panH*10,S.hyd);
+    const water=Math.round(flour*S.hyd/100);
+    const salt=(flour*S.saltPc/100).toFixed(1);
+    const oil=(flour*S.oilPc/100).toFixed(1);
+    const yeastPc=calcYeast(S.fid,S.rTemp,S.hours,S.hyd);
+    const yeast=yeastPc?(flour*yeastPc/100).toFixed(1):'';
+    const fermentLabel=S.fid==='cold'?'Cold ferment':'Room temp';
+    let panDesc=S.panShape==='round'?S.panW+'cm round':S.panW+'×'+S.panH+'cm';
+    html+=`<div class="save-form">
+      <div>
+        <div class="save-form-label">Title</div>
+        <input class="save-name-input" id="save-name-input" placeholder="e.g. Sunday bake, rosemary &amp; sea salt..." autofocus style="width:100%;">
+      </div>
+      <div class="save-metrics">
+        <div class="save-metric-row"><span class="save-metric-key">Date</span><span class="save-metric-val">${dateStr}</span></div>
+        <div class="save-metric-row"><span class="save-metric-key">Hydration</span><span class="save-metric-val">${S.hyd}%</span></div>
+        <div class="save-metric-row"><span class="save-metric-key">Flour</span><span class="save-metric-val">${flour}g</span></div>
+        <div class="save-metric-row"><span class="save-metric-key">Water</span><span class="save-metric-val">${water}g</span></div>
+        <div class="save-metric-row"><span class="save-metric-key">Salt</span><span class="save-metric-val">${salt}g</span></div>
+        <div class="save-metric-row"><span class="save-metric-key">Olive oil</span><span class="save-metric-val">${oil}g</span></div>
+        ${yeast?`<div class="save-metric-row"><span class="save-metric-key">Yeast</span><span class="save-metric-val">${yeast}g</span></div>`:''}
+        <div class="save-metric-row"><span class="save-metric-key">Ferment</span><span class="save-metric-val">${fermentLabel}</span></div>
+        <div class="save-metric-row"><span class="save-metric-key">Total time</span><span class="save-metric-val">${S.hours}h</span></div>
+        <div class="save-metric-row"><span class="save-metric-key">Pan</span><span class="save-metric-val">${panDesc}</span></div>
+      </div>
+      <div>
+        <div class="save-form-label">Notes</div>
+        <textarea class="save-textarea" id="save-notes-input" placeholder="Toppings, changes you made, how it turned out..."></textarea>
+      </div>
+      <div class="save-form-actions">
+        <button class="save-name-btn" onclick="confirmSave()" style="flex:1;">Save Recipe</button>
+        <button class="save-name-btn" onclick="savingNew=false;renderSavedList()" style="background:var(--bg3);color:var(--text2);border:1px solid var(--border);">Cancel</button>
+      </div>
     </div>`;
   } else {
     html+=`<button class="save-current" onclick="startSave()">+ Save Current Recipe</button>`;
@@ -732,7 +831,8 @@ function renderSavedList(){
       html+=`<div class="saved-item" onclick="loadRecipe(${i})">
         <div class="saved-item-info">
           <div class="saved-item-name"></div>
-          <div class="saved-item-desc">${r.hours}h · ${r.hyd}% · ${fermentLabel} · ${dt(r.rTemp)} · ${panDesc}</div>
+          <div class="saved-item-desc">${r.date?r.date+' · ':''}${r.hours}h · ${r.hyd}% hyd · ${fermentLabel} · ${panDesc}</div>
+          ${r.notes?`<div class="saved-item-desc" style="margin-top:2px;font-style:italic;">${r.notes.substring(0,80)}${r.notes.length>80?'…':''}</div>`:''}
         </div>
         <button class="saved-item-del" onclick="event.stopPropagation();deleteRecipe(${i})" title="Delete">✕</button>
       </div>`;
@@ -749,15 +849,25 @@ function renderSavedList(){
   }
 }
 
-function startSave(){savingNew=true;renderSavedList();}
+function startSave(){savingNew=true;renderSavedList();setTimeout(()=>{const inp=document.getElementById('save-name-input');if(inp)inp.focus();},50);}
 
 function confirmSave(){
   const inp=document.getElementById('save-name-input');
+  const notesInp=document.getElementById('save-notes-input');
   const name=(inp?inp.value:'').trim();
   if(!name)return;
+  const notes=(notesInp?notesInp.value:'').trim();
   const recipes=getSavedRecipes();
+  const now=new Date();
+  const dateStr=now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  const flour=calcPanFlour(S.panShape,S.panW*10,S.panH*10,S.hyd);
+  const water=Math.round(flour*S.hyd/100);
+  const salt=parseFloat((flour*S.saltPc/100).toFixed(1));
+  const oil=parseFloat((flour*S.oilPc/100).toFixed(1));
   recipes.push({
     name,
+    notes,
+    date:dateStr,
     hours:S.hours,
     hyd:S.hyd,
     fid:S.fid,
@@ -766,7 +876,8 @@ function confirmSave(){
     panW:S.panW,
     panH:S.panH,
     saltPc:S.saltPc,
-    oilPc:S.oilPc
+    oilPc:S.oilPc,
+    snapshot:{flour,water,salt,oil}
   });
   setSavedRecipes(recipes);
   savingNew=false;
@@ -805,7 +916,7 @@ function deleteRecipe(i){
 
 const DEPTH_MM = 70;
 const REF_AREA = 229 * 229;
-const REF_FLOUR = 500;
+const REF_FLOUR = 417;
 const REF_HYD = 90;
 function calcPanFlour(shape, w, h, hyd) {
   const area = shape === 'round' ? Math.PI * (w/2) ** 2 : w * h;
@@ -827,7 +938,7 @@ function calcYeast(fid, rt, hrs, hyd) {
   const PRE_YEAST_MINS = 55;        /* gather(5) + combine(5) + autolyse(45) */
   const WARM_BEFORE_FRIDGE_MINS = 120; /* transfer(30) + folds(90) */
   const FINAL_PROOF_MINS = 150;      /* cold ferment only */
-  const POST_FOLD_STATIC_MINS = 30;  /* dimple(5) + bake1(15) + bake2(10) — yeast still active until oven kills it */
+  const POST_FOLD_STATIC_MINS = 35;  /* dimple(5) + bake1(10) + bake2(20) — yeast still active until oven kills it */
   const ROOM_STATIC_MINS = 245;      /* total static steps for room path */
   const COLD_STATIC_MINS = 395;      /* total static steps for cold path */
 
@@ -1142,8 +1253,8 @@ function buildSteps(ing,hyd,fid,hours){
     {title:'Dimple & Oil',icon:'👆',timer:null,
      body:'Add your toppings — flaky salt, rosemary, olives, cherry tomatoes, sliced onion.\nNow drizzle olive oil generously over everything. This coats the toppings so they don\'t burn in the high heat.\nThen dimple — drive fingers all the way to the base, pushing some of the toppings deep into the bread as you go. Dramatic craters with pools of oil. Go nuts! Abundance, abundance, abundance.',
      tip:null},
-    {title:'Bake',icon:'🌡',timer:25,
-     body:`${dt(230)} for 15 minutes, then reduce to ${dt(200)} for the final 10 minutes.\n\nSlide the bread in and toss an ice cube into the hot metal pan on the oven floor — close the door quickly. The steam keeps the crust soft long enough for the dough to fully expand before the surface sets. Your oven dictates doneness here — this is you......\'cooking\'.`,
+    {title:'Bake',icon:'🌡',timer:30,
+     body:`${dt(230)} for 10 minutes, then reduce to ${dt(200)} for the final 20 minutes.\n\nSlide the bread in and toss an ice cube into the hot metal pan on the oven floor — close the door quickly. The steam keeps the crust soft long enough for the dough to fully expand before the surface sets. Your oven dictates doneness here — this is you......\'cooking\'.`,
      tip:null},
     {title:'Rest',icon:'🍞',timer:30,
      body:'Out of the pan immediately onto a wire rack. Leave alone 30 minutes. Then slice and eat.\n\nNobody has ever made it to 30 minutes. But good luck.',
@@ -1475,6 +1586,19 @@ nextStep=function(){ activeTimerStep=-1; _origNext();saveSession(); };
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+/* First-visit guide pulse */
+if(!localStorage.getItem('ff_guide_seen')){
+  setTimeout(()=>{
+    const btn=document.querySelector('[onclick="showGuide()"]');
+    if(!btn)return;
+    btn.classList.add('guide-btn-pulse');
+    btn.addEventListener('click',()=>{
+      btn.classList.remove('guide-btn-pulse');
+      localStorage.setItem('ff_guide_seen','1');
+    },{once:true});
+  }, 1200);
 }
 
 function setTimerNative(secs, msg, mins) {

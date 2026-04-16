@@ -937,7 +937,7 @@ function hoursToSlider(h){
 function calcYeast(fid, rt, hrs, hyd) {
   /* Derived from actual method step durations */
   const PRE_YEAST_MINS = 5;          /* gather(5) — yeast added at mix */
-  const WARM_BEFORE_FRIDGE_MINS = 90;  /* folds(90) — pan transfer is part of fridge step */
+  const WARM_BEFORE_FRIDGE_MINS = 150; /* mix rest(60) + folds(90) — yeast active throughout */
   const FINAL_PROOF_MINS = 150;      /* cold ferment only */
   const POST_FOLD_STATIC_MINS = 35;  /* dimple(5) + bake(30) — yeast still active until oven kills it */
   const ROOM_STATIC_MINS = 220;      /* gather(5) + mix(60) + folds(90) + dimple(5) + bake(30) + rest(30) */

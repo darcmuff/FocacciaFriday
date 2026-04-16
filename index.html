@@ -416,16 +416,16 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   <!-- ROW 1 LEFT: SLIDERS -->
   <div class="section">
     <div class="sec-label" id="hours-lbl">Total Time: 8 hours</div>
-    <div class="slider-track slider-hours"><input type="range" min="0" max="100" step="1" value="14" id="hours-slider" oninput="update()"></div>
+    <div class="slider-track slider-hours"><input type="range" min="0" max="100" step="1" value="14" id="hours-slider" oninput="update()" aria-label="Total bake time"></div>
     <div class="slider-labels"><span id="start-time-lbl">4h</span><span>48h</span></div>
     <div style="margin-top:10px">
       <div class="sec-label" id="hyd-lbl">Hydration: 85%</div>
-      <div class="slider-track slider-hyd"><input type="range" min="70" max="100" step="1" value="85" id="hyd-slider" oninput="update()"></div>
+      <div class="slider-track slider-hyd"><input type="range" min="70" max="100" step="1" value="85" id="hyd-slider" oninput="update()" aria-label="Hydration percentage"></div>
       <div class="slider-labels"><span>70%</span><span>100%</span></div>
     </div>
     <div style="margin-top:10px">
       <div class="sec-label" id="temp-lbl">Room / Control Temp: 20°C</div>
-      <div class="slider-track slider-temp"><input type="range" min="15" max="28" step="1" value="20" id="temp-slider" oninput="update()"></div>
+      <div class="slider-track slider-temp"><input type="range" min="15" max="28" step="1" value="20" id="temp-slider" oninput="update()" aria-label="Room temperature"></div>
       <div class="slider-labels"><span id="temp-cool">15°C</span><span id="temp-warm">28°C</span></div>
     </div>
   </div>
@@ -492,7 +492,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 
 </div>
 
-<div class="guide-overlay" id="guide-overlay" onclick="if(event.target===this)hideGuide()">
+<div class="guide-overlay" id="guide-overlay" role="dialog" aria-modal="true" aria-label="How to use FocacciaFriday" onclick="if(event.target===this)hideGuide()">
   <div class="guide-box">
     <div class="guide-header">
       <h2>How to use FocacciaFriday</h2>
@@ -648,7 +648,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   </div>
 </div>
 
-<div class="saved-overlay" id="saved-overlay" onclick="if(event.target===this)hideSaved()">
+<div class="saved-overlay" id="saved-overlay" role="dialog" aria-modal="true" aria-label="Saved recipes" onclick="if(event.target===this)hideSaved()">
   <div class="saved-box">
     <div class="saved-header">
       <h2>Saved Recipes</h2>
@@ -658,7 +658,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   </div>
 </div>
 
-<div class="shop-overlay" id="shop-overlay" onclick="if(event.target===this)hideShop()">
+<div class="shop-overlay" id="shop-overlay" role="dialog" aria-modal="true" aria-label="Equipment I use" onclick="if(event.target===this)hideShop()">
   <div class="shop-box">
     <div class="shop-header">
       <div>
@@ -833,16 +833,22 @@ function renderSavedList(){
         <div class="saved-item-info">
           <div class="saved-item-name"></div>
           <div class="saved-item-desc">${r.date?r.date+' · ':''}${r.hours}h · ${r.hyd}% hyd · ${fermentLabel} · ${panDesc}</div>
-          ${r.notes?`<div class="saved-item-desc" style="margin-top:2px;font-style:italic;">${r.notes.substring(0,80)}${r.notes.length>80?'…':''}</div>`:''}
+          ${r.notes?`<div class="saved-item-desc saved-item-notes" style="margin-top:2px;font-style:italic;"></div>`:''}
         </div>
         <button class="saved-item-del" onclick="event.stopPropagation();deleteRecipe(${i})" title="Delete">✕</button>
       </div>`;
     });
   }
   el.innerHTML=html;
-  // Set recipe names via textContent to prevent XSS
+  // Set recipe names and notes via textContent to prevent XSS
   el.querySelectorAll('.saved-item-name').forEach((nameEl,i)=>{
     if(recipes[i]) nameEl.textContent=recipes[i].name;
+  });
+  el.querySelectorAll('.saved-item-notes').forEach((noteEl,i)=>{
+    if(recipes[i]&&recipes[i].notes){
+      const n=recipes[i].notes;
+      noteEl.textContent=n.length>80?n.substring(0,80)+'…':n;
+    }
   });
   if(savingNew){
     const inp=document.getElementById('save-name-input');

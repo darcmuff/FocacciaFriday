@@ -701,7 +701,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
         
         <div class="shop-item-info">
           <div class="shop-item-name">Plastic Bowl Covers</div>
-          <div class="shop-item-desc">Reusable stretch covers that keep the dough moist during autolyse and bulk ferment. Trap just enough humidity to help the yeast along — cleaner and less wasteful than clingfilm.</div>
+          <div class="shop-item-desc">Reusable stretch covers that keep the dough moist during rest and bulk ferment. Trap just enough humidity to help the yeast along — cleaner and less wasteful than clingfilm.</div>
         </div>
         <div class="shop-item-arrow">→</div>
       </a>
@@ -936,12 +936,12 @@ function hoursToSlider(h){
 
 function calcYeast(fid, rt, hrs, hyd) {
   /* Derived from actual method step durations */
-  const PRE_YEAST_MINS = 55;        /* gather(5) + combine(5) + autolyse(45) */
-  const WARM_BEFORE_FRIDGE_MINS = 120; /* transfer(30) + folds(90) */
+  const PRE_YEAST_MINS = 5;          /* gather(5) — yeast added at mix */
+  const WARM_BEFORE_FRIDGE_MINS = 90;  /* folds(90) — pan transfer is part of fridge step */
   const FINAL_PROOF_MINS = 150;      /* cold ferment only */
-  const POST_FOLD_STATIC_MINS = 35;  /* dimple(5) + bake1(10) + bake2(20) — yeast still active until oven kills it */
-  const ROOM_STATIC_MINS = 245;      /* total static steps for room path */
-  const COLD_STATIC_MINS = 395;      /* total static steps for cold path */
+  const POST_FOLD_STATIC_MINS = 35;  /* dimple(5) + bake(30) — yeast still active until oven kills it */
+  const ROOM_STATIC_MINS = 220;      /* gather(5) + mix(60) + folds(90) + dimple(5) + bake(30) + rest(30) */
+  const COLD_STATIC_MINS = 370;      /* gather(5) + mix(60) + folds(90) + final proof(150) + dimple(5) + bake(30) + rest(30) */
 
   const k = 3.53;
   const tempMultiplier = Math.pow(2, (rt - 24) / 10);
@@ -1026,6 +1026,24 @@ function calcStepTimes(){
   return times;
 }
 
+/* ===== CURRENT SCHEDULED STEP ===== */
+function getCurrentScheduledStep(){
+  const times=calcStepTimes();
+  if(!times) return -1;
+  const now=Date.now();
+  let current=0;
+  for(let i=1;i<times.length;i++){
+    if(now>=times[i].getTime()) current=i;
+    else break;
+  }
+  return current;
+}
+function goToCurrentStep(){
+  if(!bakeStarted) return;
+  const target=activeTimerStep>=0 ? activeTimerStep : getCurrentScheduledStep();
+  if(target>=0) setStep(target);
+}
+
 /* ===== WAKE LOCK ===== */
 let _wakeLock=null;
 async function acquireWakeLock(){
@@ -1042,6 +1060,11 @@ function releaseWakeLock(){
 document.addEventListener('visibilitychange',()=>{
   if(document.visibilityState==='visible'&&bakeStarted) acquireWakeLock();
 });
+
+/* Called from native Android when notification is tapped */
+window.onNotificationTap=function(){
+  if(bakeStarted) goToCurrentStep();
+};
 
 function startBake(){
   if(bakeStarted) return;
@@ -1225,25 +1248,19 @@ function buildSteps(ing,hyd,fid,hours){
   steps=[
     {title:'Gather Equipment',icon:'🛠',timer:null,tip:null,shopBtn:true,
      body:`• Large bowl\n• Digital scales\n• Baking pan\n• Mixing utensil — hands, wooden spoon, or spatula`},
-    {title:'Combine Flour & Water',icon:'💧',timer:null,
-     body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} of warm water (${dt(25)} to ${dt(30)}) — this helps kick off fermentation.\n\nMix until no dry flour remains. Rough and shaggy is correct.`,
-     tip:'No mixer. Hand mixing keeps the gluten irregular — that irregularity becomes your voids.'},
-    {title:'Autolyse',icon:'⏱',timer:45,
-     body:`Autolyse is a simple rest period where the flour and water are mixed and left to sit before adding salt and yeast. This rest lets enzymes start breaking down starch and protein, making the dough easier to handle and improving gluten development, flavour, and crust and crumb quality.\n\nCover and leave undisturbed for 45 minutes.`,
-     tip:'Gluten develops passively. The most important step for open crumb.'},
-    {title:'Add Salt, Yeast & Oil',icon:'🧂',timer:30,
-     body:`Add directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\n\nThoroughly mix until all ingredients are incorporated.\n\nCover and rest for 30 minutes.`,
-     tip:null},
+    {title:'Mix All Ingredients',icon:'💧',timer:60,
+     body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} of warm water (${dt(25)} to ${dt(30)}).\nAdd directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\nMix until no dry flour remains. Cover and rest for 1 hour.`,
+     tip:'No mixer. Hand mixing keeps the gluten irregular \u2014 that irregularity becomes your voids.'},
 
     {title:'Stretch & Fold x4',subtitle:'30 min apart · 1.5 hours',icon:'🔄',coilFold:true,timer:null,
-     body:`Wet one hand, hold the bowl with the other. Grab one edge of the dough, stretch it up high, and fold it over to the other side. Rotate 90°, repeat 4 times — that's one set. Cover, wait 30 minutes, repeat. Four sets total. It'll feel sticky and slack at first — that's normal. Each set builds strength and by fold 4 it should feel smooth, springy, and hold its shape.`,
+     body:`Wet one hand, hold the bowl with the other. Grab one edge of the dough, stretch it up high, and fold it over to the other side. Rotate 90°, repeat 4 times — that's one set. Cover, wait 30 minutes, repeat. Four sets total. It'll feel sticky and slack at first — that's normal. Each set builds strength and by fold 4 it should feel smooth, springy, and hold its shape.\nSee guide for the more advanced 'coil folds'.`,
      tip:'Wet hands are non-negotiable. Dry hands = dough disaster.'},
     ...(fid==='cold'?[{title:'Into the Fridge',icon:'❄️',
-      timer: Math.round(Math.max(240, (hours - 395/60) * 60)),
-      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with good olive oil — line the sides and bottom of the pan. Tip the dough in and coax towards the corners. Lightly oil a sheet of tin foil so it doesn't stick, and cover tightly. Fridge at ${dt(3)}–${dt(5)}.\nCold ferment: ${Math.max(4, (hours - 395/60)).toFixed(1)} hours. Set your phone timer and leave it alone.`,
+      timer: Math.round(Math.max(240, (hours - 370/60) * 60)),
+      body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with good olive oil — line the sides and bottom of the pan. Tip the dough in and coax towards the corners. Lightly oil a sheet of tin foil so it doesn't stick, and cover tightly. Fridge at ${dt(3)}–${dt(5)}.\nCold ferment: ${Math.max(4, (hours - 370/60)).toFixed(1)} hours. Set your phone timer and leave it alone.`,
       tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
     ...(fid==='room'?[{title:'Bulk Ferment',icon:'⏱',
-      timer: Math.round(Math.max(30, (hours - 245/60) * 60)),
+      timer: Math.round(Math.max(30, (hours - 220/60) * 60)),
       body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with good olive oil, lining the sides and bottom of the pan. Tip the dough in and coax towards the corners. Lightly oil a sheet of tin foil so it doesn't stick, and cover. Leave at room temperature until visibly puffy and jiggly and roughly doubled in size.`,
       tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
     ...(fid==='cold'?[{title:'Final Proof',icon:'🔍',timer:150,
@@ -1577,13 +1594,12 @@ if(window.Capacitor){
 /* Save session on step changes */
 const _origSetStep=setStep;
 setStep=function(i){
-  if(i!==S.step){ activeTimerStep=-1; }
   _origSetStep(i);saveSession();
 };
 const _origPrev=prevStep;
-prevStep=function(){ activeTimerStep=-1; _origPrev();saveSession(); };
+prevStep=function(){ _origPrev();saveSession(); };
 const _origNext=nextStep;
-nextStep=function(){ activeTimerStep=-1; _origNext();saveSession(); };
+nextStep=function(){ _origNext();saveSession(); };
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});

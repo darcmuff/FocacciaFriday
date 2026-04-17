@@ -780,14 +780,14 @@ function renderSavedList(){
   let html='';
   if(savingNew){
     const now=new Date();
-    const dateStr=now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    const dateStr=now.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'2-digit'});
     const flour=calcPanFlour(S.panShape,S.panW*10,S.panH*10,S.hyd);
     const water=Math.round(flour*S.hyd/100);
     const salt=(flour*S.saltPc/100).toFixed(1);
     const oil=(flour*S.oilPc/100).toFixed(1);
     const yeastPc=calcYeast(S.fid,S.rTemp,S.hours,S.hyd);
     const yeast=yeastPc?(flour*yeastPc/100).toFixed(1):'';
-    const fermentLabel=S.fid==='cold'?'Cold ferment':'Room temp';
+    const fermentLabel=S.fid==='cold'?'Cold':'Warm';
     let panDesc=S.panShape==='round'?S.panW+'cm round':S.panW+'×'+S.panH+'cm';
     html+=`<div class="save-form">
       <div>
@@ -822,7 +822,7 @@ function renderSavedList(){
     html+=`<div class="saved-empty">No saved recipes yet.</div>`;
   } else {
     recipes.forEach((r,i)=>{
-      const fermentLabel=r.fid==='cold'?'Cold':'Room';
+      const fermentLabel=r.fid==='cold'?'Cold':'Warm';
       let panDesc;
       if(S.units==='imperial'){
         panDesc=r.panShape==='round'?(r.panW/2.54).toFixed(1)+'" round':(r.panW/2.54).toFixed(1)+'"×'+(r.panH/2.54).toFixed(1)+'"';
@@ -866,7 +866,7 @@ function confirmSave(){
   const notes=(notesInp?notesInp.value:'').trim();
   const recipes=getSavedRecipes();
   const now=new Date();
-  const dateStr=now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  const dateStr=now.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'2-digit'});
   const flour=calcPanFlour(S.panShape,S.panW*10,S.panH*10,S.hyd);
   const water=Math.round(flour*S.hyd/100);
   const salt=parseFloat((flour*S.saltPc/100).toFixed(1));

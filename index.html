@@ -1288,16 +1288,19 @@ function buildSteps(ing,hyd,fid,hours){
 
 function notifyBakeService(){
   if(!window.BakePlugin||!bakeStarted) return;
-  const i=S.step, step=steps[i];
-  if(!step) return;
+  /* Use scheduled step for notification, not the browsed step */
+  const scheduled=activeTimerStep>=0 ? activeTimerStep : getCurrentScheduledStep();
+  const ni=scheduled>=0 ? scheduled : S.step;
+  const nstep=steps[ni];
+  if(!nstep) return;
   const stepTimes=calcStepTimes();
-  const timeStr=bakeStarted&&startTime&&stepTimes[i]?fmtClock(new Date(stepTimes[i])):'';
-  const label=step.coilFold?'Coil Folds':(step.title||'Bake in progress');
-  window.BakePlugin.updateStep({step:'Step '+(i+1)+': '+label, time:timeStr}).catch(function(){});
+  const timeStr=bakeStarted&&startTime&&stepTimes[ni]?fmtClock(new Date(stepTimes[ni])):'';
+  const label=nstep.coilFold?'Coil Folds':(nstep.title||'Bake in progress');
+  window.BakePlugin.updateStep({step:'Step '+(ni+1)+': '+label, time:timeStr}).catch(function(){});
   if(window.BakeNotificationPlugin&&bakeStarted){
     const total=steps.length;
     window.BakeNotificationPlugin.update({
-      step:'Step '+(i+1)+' of '+total,
+      step:'Step '+(ni+1)+' of '+total,
       label:label
     }).catch(function(){});
   }

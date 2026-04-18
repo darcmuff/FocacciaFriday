@@ -576,8 +576,10 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 
       <details>
       <summary><h3>In the Oven</h3></summary>
-      <p><span class="g-em">No fan.</span> Fan dries the surface before the dough has fully expanded. You want a still, humid oven for maximum rise.</p>
-      <p><span class="g-em">Steam helps, but it is not essential.</span> Place a small metal pan on the oven floor during preheat. When the bread goes in, toss an ice cube into that hot pan and close the door quickly. The ice vaporises instantly and floods the oven with steam in the first few minutes. Steam keeps the crust soft long enough for the dough to spring up before the surface sets. We are just trying to maximise the oven spring — if you skip it, you will still get good focaccia.</p>
+      <p><span class="g-em">Temperature.</span> <span id="guide-temp-230"></span> for the first 10 minutes, then reduce to <span id="guide-temp-200"></span> for the final 20 minutes. This gives you maximum oven spring early, then a controlled bake to finish.</p>
+      <p><span class="g-em">No fan if possible.</span> Fan dries the surface before the dough has fully expanded. If you have a top grill oven, use that — they typically run fanless and work brilliantly here. Not a dealbreaker if you can't avoid it.</p>
+      <p><span class="g-em">Steam helps, but it is not essential.</span> When the bread goes in, toss an ice cube directly onto the oven floor and close the door quickly — it vaporises instantly and floods the oven with steam. Alternatively, a few squirts from a water spray bottle into the oven before closing the door works just as well. Steam keeps the crust soft long enough for the dough to fully expand before the surface sets. Skip it if you like — you'll still get great focaccia.</p>
+      <p><span class="g-em">Doneness.</span> Internal temperature should hit <span id="guide-temp-98"></span>, or look for a deep golden brown on top.</p>
       <p>If you have a steam oven — even better. Use it.</p>
       </details>
 
@@ -1239,6 +1241,8 @@ function setUnits(u){
 }
 function setTempScale(t){
   S.tempScale=t;
+  const _dt=c=>t==='F'?Math.round(c*9/5+32)+'°F':c+'°C';
+  ['230','200','98'].forEach(c=>{const el=document.getElementById('guide-temp-'+c);if(el)el.textContent=_dt(+c);});
   document.getElementById('btn-c').classList.toggle('active',t==='C');
   document.getElementById('btn-f').classList.toggle('active',t==='F');
   const mc=document.getElementById('mob-btn-c');
@@ -1255,7 +1259,7 @@ function buildSteps(ing,hyd,fid,hours){
     {title:'Gather Equipment',icon:'🛠',timer:null,tip:null,shopBtn:true,
      body:`• Large bowl\n• Digital scales\n• Baking pan\n• Mixing utensil — hands, wooden spoon, or spatula`},
     {title:'Mix All Ingredients',icon:'💧',timer:60,
-     body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} of warm water (${dt(25)} to ${dt(30)}).\nAdd directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\nMix until no dry flour remains. Cover and rest for 1 hour.`,
+     body:`Add ${dw(ing.flour)} flour to your bowl. Pour in ${dw(ing.water)} of warm water (${dt(25)} to ${dt(30)}).\nAdd directly into the bowl:\n• ${dw(ing.salt)} fine sea salt\n• ${dw(ing.yeast)} instant dry yeast (or ${dw(Math.round(ing.yeast*3*10)/10)} fresh yeast)\n• ${dw(ing.oil)} extra virgin olive oil\nMix thoroughly until all ingredients are incorporated and no dry flour remains. Cover and rest for 1 hour.`,
      tip:'No mixer. Hand mixing keeps the gluten irregular \u2014 that irregularity becomes your voids.'},
 
     {title:'Stretch & Fold x4',subtitle:'30 min apart · 1.5 hours',icon:'🔄',coilFold:true,timer:null,
@@ -1272,13 +1276,13 @@ function buildSteps(ing,hyd,fid,hours){
     ...(fid==='cold'?[{title:'Final Proof',icon:'🔍',timer:150,
      body:'Remove from the fridge and leave it somewhere warm until it\'s doubled and looks puffy and bubbly. Jiggle test — if it wobbles like jelly, it\'s ready.',tip:null}]:[]),
     {title:'Preheat Oven',icon:'🔥',timer:null,concurrent:true,
-     body:`${dt(230)}, no fan. Place a small metal pan on the oven floor now — under or next to where the bread will sit. It needs to be scorching hot when the bread goes in — that's what instantly vaporises the ice cube and floods the oven with steam. Preheat 20 minutes.\n\nAdding moisture here is optional, I know it's a bit of a faff.\n\nThis time is included in your ${fid==='cold'?'final proof':'bulk ferment'}.`,
+     body:`${dt(230)}, no fan if possible. Or use the top grill oven if you have one. (Often the grill oven can operate as a second oven and doesn't typically have a fan.)\n\nIt's not a dealbreaker at all if you can't go fanless.`,
      tip:null},
     {title:'Dimple & Oil',icon:'👆',timer:null,
      body:'Add your toppings — flaky salt, rosemary, olives, cherry tomatoes, sliced onion.\nNow drizzle olive oil generously over everything. This coats the toppings so they don\'t burn in the high heat.\nThen dimple — drive fingers all the way to the base, pushing some of the toppings deep into the bread as you go. Dramatic craters with pools of oil. Go nuts! Abundance, abundance, abundance.',
      tip:null},
     {title:'Bake',icon:'🌡',timer:30,
-     body:`${dt(230)} for 10 minutes, then reduce to ${dt(200)} for the final 20 minutes.\n\nSlide the bread in and toss an ice cube into the hot metal pan on the oven floor — close the door quickly. The steam keeps the crust soft long enough for the dough to fully expand before the surface sets. Your oven dictates doneness here — this is you......\'cooking\'.`,
+     body:`${dt(230)} for 10 minutes, then reduce to ${dt(200)} for the final 20 minutes.\n\nSlide the bread in and toss an ice cube on the oven floor (see guide) — close the door quickly. The steam keeps the crust soft long enough for the dough to fully expand before the surface sets. Your oven dictates doneness here — the internal temp should be ${dt(98)}, or deep golden brown on top.`,
      tip:null},
     {title:'Rest',icon:'🍞',timer:30,
      body:'Out of the pan immediately onto a wire rack. Leave alone 30 minutes. Then slice and eat.\n\nNobody has ever made it to 30 minutes. But good luck.',
@@ -1447,7 +1451,7 @@ function renderTimeline(){
     const clockStr=stepTimes?fmtClock(stepTimes[i]):'';
     const durDisplay=stepTimes?(clockStr+(dur?' · '+dur:'')):(dur||'');
     const desc=s.body;
-    const displayTitle=s.coilFold?'Coil Folds ×4':s.title;
+    const displayTitle=s.coilFold?'Stretch & Fold ×4':s.title;
     const coilLabel=s.coilFold&&coilFoldCount>0?` <span style="font-size:0.78rem;font-weight:700;color:var(--green);margin-left:4px">×${coilFoldCount}</span>`:'';
     const timerDot=isTimerActive?` <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-left:6px;vertical-align:middle;flex-shrink:0"></span>`:'';
     return `<div class="tl-item">

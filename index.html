@@ -1017,9 +1017,10 @@ function fmtClock(date){
   return h+':'+String(m).padStart(2,'0')+ampm;
 }
 function getEatTime(hours){
-  const eat=new Date(startTime);
+  const base=bakeStarted?startTime:Date.now();
+  const eat=new Date(base);
   eat.setHours(eat.getHours()+hours);
-  const now=new Date(startTime);
+  const now=new Date(base);
   const dayDiff=Math.floor((eat-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/(86400000));
   let suffix='';
   if(dayDiff===1) suffix=' tomorrow';

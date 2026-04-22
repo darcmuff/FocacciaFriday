@@ -1164,10 +1164,12 @@ function startBake(){
   if(window.BakeNotificationPlugin) window.BakeNotificationPlugin.show().catch(function(){});
   if(tlVisible) renderTimeline();
   try{saveSession();}catch(e){}
-  /* Play toast then enter focus mode */
-  showBakeToast(function(){
+  /* Play toast on mobile, skip on desktop */
+  if(window.innerWidth<=768){
+    showBakeToast(function(){ enterFocusMode(); });
+  } else {
     enterFocusMode();
-  });
+  }
 }
 
 function resetBakeState(){

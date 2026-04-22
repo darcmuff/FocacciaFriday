@@ -516,7 +516,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
     <button class="h-icon-btn" id="share-btn" onclick="shareRecipe()" title="Share recipe"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
     <button class="h-icon-btn" onclick="showSaved()" title="Saved recipes"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="none"/></svg></button>
     <button class="h-icon-btn" id="dark-btn" onclick="toggleDark()" title="Dark mode"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
-    <button class="h-icon-btn" onclick="showGuide()" title="How to use" style="font-size:20px;font-weight:700;font-family:inherit">?</button>
+    <button id="guide-btn" class="h-icon-btn" onclick="showGuide()" title="How to use" style="font-size:20px;font-weight:700;font-family:inherit">?</button>
     <div class="toggle-stack">
       <div class="toggle-group">
         <button class="toggle-btn active" id="btn-c" onclick="setTempScale('C')">°C</button>
@@ -1792,7 +1792,7 @@ if('serviceWorker' in navigator){
 /* First-visit guide pulse */
 if(!localStorage.getItem('ff_guide_seen')){
   setTimeout(()=>{
-    const btn=document.querySelector('[onclick="showGuide()"]');
+    const btn=document.getElementById('guide-btn');
     if(!btn)return;
     btn.classList.add('guide-btn-pulse');
     btn.addEventListener('click',()=>{

@@ -258,6 +258,40 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 /* ===== FOCUS MODE ===== */
 #focus-exit{display:none}
 #resume-fab{display:none}
+/* Desktop: right column merges into one */
+@media(min-width:769px){
+  #slider-card{grid-column:1;grid-row:1}
+  #pan-card{grid-column:1;grid-row:2}
+  #ingredients-card{grid-column:2;grid-row:1}
+  #method-card{grid-column:2;grid-row:2}
+  #method-card.focus-mode{
+    grid-row:1/3!important;
+    grid-column:2!important;
+    z-index:10;
+    border-radius:var(--card-radius);
+    animation:focus-grow .3s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes focus-grow{
+    from{opacity:0.7}
+    to{opacity:1}
+  }
+  #method-card.focus-mode #focus-exit{
+    display:inline-flex;
+    align-items:center;justify-content:center;
+    width:36px;height:36px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--bg3);
+    color:var(--text2);
+    font-size:18px;
+    cursor:pointer;
+    font-family:var(--font-body);
+    flex-shrink:0;
+    transition:all .15s ease;
+  }
+  #method-card.focus-mode #focus-exit:hover{background:var(--bg4);color:var(--text);border-color:var(--text3)}
+  #method-card.focus-mode #start-bake-btn{display:none}
+}
 @media(max-width:768px){
   #focus-exit{display:none}
   #method-card.focus-mode{
@@ -332,7 +366,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   #resume-fab .fab-icon{font-size:0.72rem;line-height:1;color:var(--accent)}
 }
 @media(min-width:769px){
-  #focus-exit,#resume-fab{display:none!important}
+  #resume-fab{display:none!important}
 }
 
 /* ===== GUIDE MODAL ===== */
@@ -513,7 +547,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 
 <div id="page">
   <!-- ROW 1 LEFT: SLIDERS -->
-  <div class="section">
+  <div id="slider-card" class="section">
     <div class="sec-label" id="hours-lbl">Total Time: 8 hours</div>
     <div class="slider-track slider-hours"><input type="range" min="0" max="100" step="1" value="14" id="hours-slider" oninput="update()" aria-label="Total bake time"></div>
     <div class="slider-labels"><span id="start-time-lbl">4h</span><span>48h</span></div>
@@ -536,7 +570,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   </div>
 
   <!-- ROW 2 LEFT: PAN + FERMENT -->
-  <div class="section pan-section">
+  <div id="pan-card" class="section pan-section">
     <div class="sec-label">Pan</div>
     <div class="pan-shape">
       <button class="shape-btn sel" id="btn-rect" onclick="setShape('rect')"><span class="shape-full">Square / Rectangle</span><span class="shape-short">Rectangle</span></button>
@@ -558,11 +592,10 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 
   <!-- ROW 2 RIGHT: METHOD -->
   <div id="method-card" class="section" style="min-height:0;display:flex;flex-direction:column;overflow:hidden;justify-content:flex-start">
-    <button id="focus-exit" onclick="exitFocusMode()" title="Exit fullscreen">✕</button>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-shrink:0;gap:12px">
       <div>
         <div class="card-title" id="method-label" style="margin-bottom:0">Method</div>
-        <div class="prog-row" id="prog-row" style="margin:0"><span id="step-counter"></span></div>
+        <div class="prog-row" id="prog-row" style="margin:0;display:flex;align-items:center;gap:8px"><span id="step-counter"></span><button id="focus-exit" onclick="exitFocusMode()" title="Exit focus mode">✕</button></div>
       </div>
       <div style="display:flex;gap:6px;flex-shrink:0">
         <button class="tl-toggle method-btn" onclick="resetDefaults()"><span class="btn-icon">↺</span><span class="btn-label">Reset</span></button>
@@ -1177,9 +1210,10 @@ window.onNotificationTap=function(){
 };
 
 function enterFocusMode(){
-  if(window.innerWidth>768) return;
   document.getElementById('method-card').classList.add('focus-mode');
-  document.body.classList.add('focus-locked');
+  if(window.innerWidth<=768){
+    document.body.classList.add('focus-locked');
+  }
   document.body.classList.remove('bake-live-exited');
 }
 

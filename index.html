@@ -114,6 +114,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font-body);background:va
 /* ===== METHOD CARD LAYOUT ===== */
 #method-card{grid-column:2;grid-row:2}
 #ingredients-card{grid-column:2;grid-row:1}
+#sliders-card{grid-column:1;grid-row:1}
+#pan-ferment-card{grid-column:1;grid-row:2}
 #method-view{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
 #method-view.hide{display:none}
 #timeline-view{display:none;flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;scrollbar-width:thin;scrollbar-color:var(--border) var(--bg2);flex-direction:column;padding-right:5px}
@@ -478,7 +480,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 
 <div id="page">
   <!-- ROW 1 LEFT: SLIDERS -->
-  <div class="section">
+  <div id="sliders-card" class="section">
     <div class="sec-label" id="hours-lbl">Total Time: 8 hours</div>
     <div class="slider-track slider-hours"><input type="range" min="0" max="100" step="1" value="14" id="hours-slider" oninput="update()" aria-label="Total bake time"></div>
     <div class="slider-labels"><span id="start-time-lbl">4h</span><span>48h</span></div>
@@ -501,7 +503,7 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
   </div>
 
   <!-- ROW 2 LEFT: PAN + FERMENT -->
-  <div class="section pan-section">
+  <div id="pan-ferment-card" class="section pan-section">
     <div class="sec-label">Pan</div>
     <div class="pan-shape">
       <button class="shape-btn sel" id="btn-rect" onclick="setShape('rect')"><span class="shape-full">Square / Rectangle</span><span class="shape-short">Rectangle</span></button>

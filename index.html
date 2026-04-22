@@ -279,20 +279,11 @@ body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8d
 }
 @media (min-width:769px){
   #focus-exit{display:none}
-  #method-card{transition:box-shadow .3s ease}
-  #method-card.focus-mode{grid-row:1/3!important;grid-column:2!important;z-index:10;border-radius:var(--card-radius);animation:focus-expand .4s cubic-bezier(.22,1,.36,1);box-shadow:0 8px 32px rgba(20,10,0,0.18),0 2px 8px rgba(20,10,0,0.12)}
-  @keyframes focus-expand{
-    0%{transform:scale(0.96);opacity:0.3}
-    60%{opacity:1}
-    100%{transform:scale(1);opacity:1}
-  }
-  #method-card.focus-mode #focus-exit{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:18px;cursor:pointer;font-family:var(--font-body);flex-shrink:0;transition:all .15s ease;animation:fade-in .3s .2s both}
-  @keyframes fade-in{from{opacity:0}to{opacity:1}}
+  #method-card.focus-mode{grid-row:1/3!important;grid-column:2!important;z-index:10}
+  #method-card.focus-mode #focus-exit{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:18px;cursor:pointer;font-family:var(--font-body);flex-shrink:0;transition:all .15s ease}
   #method-card.focus-mode #focus-exit:hover{background:var(--bg4);color:var(--text);border-color:var(--text3)}
   #method-card.focus-mode #start-bake-btn{display:none}
-  /* Fade out the left column cards when focus mode engages */
-  #page>.section:not(#method-card){transition:opacity .3s ease}
-  body.focus-active #page>.section:not(#method-card){opacity:0.35}
+  body.focus-active #ingredients-card{display:none}
 }
 @keyframes toast-drop{
   0%{opacity:0;transform:translateY(40px) scale(0.9)}
@@ -1736,7 +1727,7 @@ if(!localStorage.getItem('ff_guide_seen')){
 
 /* ===== FOCUS MODE (mobile fullscreen bake) ===== */
 function enterFocusMode(){
-  document.body.classList.add('focus-locked');
+  if(window.innerWidth<=768) document.body.classList.add('focus-locked');
   document.body.classList.add('focus-active');
   document.body.classList.remove('bake-live-exited');
   var card=document.getElementById('method-card');

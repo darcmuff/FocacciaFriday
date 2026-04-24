@@ -179,8 +179,12 @@ body.native .m-timer-pill:hover{border-color:var(--text3);color:var(--text);box-
 }
 .guide-btn-pulse{animation:guide-pulse 1.4s ease-out infinite;border-color:var(--accent)!important;color:var(--accent)!important}
 .m-timer-pill.active{background:#d4edda;border-color:#5a9e6a;color:#246832;animation:timer-pulse 2s ease-in-out infinite}
+@keyframes timer-nudge{0%,100%{background:var(--bg);border-color:var(--accent)}50%{background:#d4edda;border-color:#5a9e6a}}
+.m-timer-pill.nudge{animation:timer-nudge 1.5s ease-in-out infinite}
 .m-timer-pill.active:hover{background:#c8e6ce;border-color:#4a8e5a;color:#246832}
 body.dark .m-timer-pill.active{background:#1a3d22;border-color:#4a8e5a;color:#8dd4a0}
+@keyframes timer-nudge-dark{0%,100%{background:var(--bg);border-color:var(--accent)}50%{background:#1a3d22;border-color:#4a8e5a}}
+body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infinite}
 .m-no-timer{display:inline-flex;align-items:center;justify-content:center;color:var(--border);font-size:0.88rem;padding:6px 12px;visibility:hidden}
 .m-step-lbl{font-size:0.75rem;text-transform:uppercase;letter-spacing:.18em;color:var(--text3);font-weight:700}
 .m-title{font-size:1.55rem;font-weight:700;color:var(--text4);line-height:1.2;letter-spacing:.01em}
@@ -1538,15 +1542,31 @@ function renderMethod(){
   }
 
   document.getElementById('tip-area').innerHTML='';
+  var oldHint=document.getElementById('timer-nudge-hint');
+  if(oldHint)oldHint.remove();
   document.getElementById('prev-btn').disabled=i===0;
   const nb=document.getElementById('next-btn');
   nb.disabled=i===total-1;
   nb.textContent=i===total-1?'Complete ✓':'Next Step →';
+  if(i===1&&!renderMethod._nudged){
+    renderMethod._nudged=true;
+    var np=document.querySelector('#s-icon .m-timer-pill');
+    if(np)np.classList.add('nudge');
+    var hintP=document.createElement('p');
+    hintP.id='timer-nudge-hint';
+    hintP.style.cssText='margin-top:12px;font-size:0.85rem;color:var(--accent);font-style:italic;';
+    hintP.textContent='\u261d Tap the flashing timer above to start your countdown.';
+    document.getElementById('s-body').after(hintP);
+  }
 }
 
 function pressTimer(stepIdx, secs, msg){
   if(!window.TimerPlugin) return;
   activeTimerStep=stepIdx;
+  var np=document.querySelector('.m-timer-pill.nudge');
+  if(np)np.classList.remove('nudge');
+  var oh=document.getElementById('timer-nudge-hint');
+  if(oh)oh.remove();
   renderMethod();
   setTimerNative(secs, msg, secs/60);
 }

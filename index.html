@@ -1548,8 +1548,7 @@ function renderMethod(){
   const nb=document.getElementById('next-btn');
   nb.disabled=i===total-1;
   nb.textContent=i===total-1?'Complete ✓':'Next Step →';
-  if(i===1&&!renderMethod._nudged){
-    renderMethod._nudged=true;
+  if(bakeStarted&&i===1&&activeTimerStep!==1){
     var np=document.querySelector('#s-icon .m-timer-pill');
     if(np)np.classList.add('nudge');
     var hintP=document.createElement('p');

@@ -88,16 +88,16 @@ html,body{height:100%;overflow:hidden;font-family:var(--font-body);background:va
 .sec-label{font-size:1.1rem;letter-spacing:.06em;color:var(--text2);font-weight:600;margin-bottom:2px}
 
 /* ===== SLIDERS ===== */
-.slider-track{position:relative;height:8px;border-radius:4px;margin:2px 0 2px}
+.slider-track{position:relative;height:8px;border-radius:4px;margin:8px 0 2px}
 .slider-hours{background:linear-gradient(to right,#b87070 0%,#8aaa78 28%,#8aaa78 72%,#b87070 100%)}
 .slider-hyd{background:linear-gradient(to right,#b87070 0%,#8aaa78 22%,#8aaa78 72%,#b87070 100%)}
 .slider-temp{background:linear-gradient(to right,#b87070 0%,#8aaa78 22%,#8aaa78 62%,#b87070 100%)}
 .slider-track input[type=range]{-webkit-appearance:none;appearance:none;width:100%;cursor:pointer;display:block;position:absolute;top:0;left:0;height:100%;margin:0;background:transparent;outline:none}
 .slider-track input[type=range]::-webkit-slider-runnable-track{background:transparent;height:100%}
-.slider-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:28px;height:16px;border-radius:8px;background:var(--bg);border:2px solid var(--accent);box-shadow:0 2px 6px rgba(0,0,0,0.25);cursor:pointer;transition:all .2s ease;margin-top:-4px}
+.slider-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:28px;border-radius:8px;background:var(--bg);border:2px solid var(--accent);box-shadow:0 2px 6px rgba(0,0,0,0.25);cursor:pointer;transition:all .2s ease;margin-top:-10px}
 .slider-track input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--gold-glow),0 2px 8px rgba(0,0,0,0.3);transform:scale(1.05)}
 .slider-track input[type=range]::-moz-range-track{background:transparent;height:100%;border:none}
-.slider-track input[type=range]::-moz-range-thumb{width:28px;height:16px;border-radius:8px;background:var(--bg);border:2px solid var(--accent);box-shadow:0 2px 6px rgba(0,0,0,0.25);cursor:pointer}
+.slider-track input[type=range]::-moz-range-thumb{width:16px;height:28px;border-radius:8px;background:var(--bg);border:2px solid var(--accent);box-shadow:0 2px 6px rgba(0,0,0,0.25);cursor:pointer}
 .slider-labels{display:flex;justify-content:space-between;font-size:0.8rem;color:var(--text3);font-weight:600;letter-spacing:.03em}
 .slider-labels .green{color:var(--green);font-weight:700}
 .slider-labels .red{color:var(--red);font-weight:700}
@@ -262,6 +262,7 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
   #method-label{display:none}
   .toggle-stack{display:none}
   .settings-pill{display:inline-flex}
+  #play-store-btn{display:none!important}
 }
 
 /* ===== FOCUS MODE ===== */
@@ -1829,6 +1830,12 @@ function setTimerNative(secs, msg, mins) {
   }
   /* No fallback on web — no browser API exists for native timers */
 }
+
+/* Keep eat-time label current even when slider is untouched */
+setInterval(()=>{
+  const h=S.hours;
+  if(h) document.getElementById('hours-lbl').textContent=h+' hours \u00b7 Eat at '+getEatTime(h);
+},30000);
 </script>
 
 <button id="resume-fab" onclick="enterFocusMode()"><span class="fab-icon">▶</span><span>Resume</span></button>

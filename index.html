@@ -203,7 +203,7 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
 .nav-done{flex:1;padding:13px;border-radius:8px;font-size:0.88rem;cursor:pointer;font-family:var(--font-body);text-align:center;transition:all .25s ease;font-weight:700;letter-spacing:.04em;border:1px solid var(--border);background:var(--bg);color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 .nav-done:hover{border-color:var(--text3);color:var(--text);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
 .nav-done:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none}
-.nav-done.completed{background:var(--green);border-color:var(--green);color:#fff}
+.nav-done.completed{background:#00b341;border-color:#00b341;color:#000}
 
 /* ===== TIMELINE ===== */
 .tl-item{display:flex;gap:10px;cursor:pointer;transition:all .2s ease;padding:3px 6px;border-radius:6px}
@@ -265,6 +265,7 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
   .toggle-stack{display:none}
   .settings-pill{display:inline-flex}
   #play-store-btn{display:none!important}
+  .sec-label{font-size:1rem}
 }
 
 /* ===== FOCUS MODE ===== */
@@ -638,7 +639,7 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
         </div>
         <div class="nav-row">
           <button class="nav-arrow" id="prev-btn" onclick="prevStep()" aria-label="Previous step">←</button>
-          <button class="nav-done" id="done-btn" onclick="completeStep()">Step Complete ✓</button>
+          <button class="nav-done" id="done-btn" onclick="completeStep()"><span id="done-label">Complete</span><span id="done-tick" style="display:none"> ✓</span></button>
           <button class="nav-arrow" id="next-btn" onclick="nextStep()" aria-label="Next step">→</button>
         </div>
       </div>
@@ -1524,7 +1525,7 @@ function renderMethod(){
       pillTitle=`Tap to do fold ${done+1} and set 30m timer`;
     } else {
       pillLabel='⏰ Fold 4 of 4';
-      pillTitle='All 4 folds done — tap Step Complete';
+      pillTitle='All 4 folds done — tap Complete';
     }
     const activeClass=(isActive||allDone)?' active':'';
     const clickHandler=allDone?'':(`doCoilFold(${i})`);
@@ -1575,26 +1576,21 @@ function renderMethod(){
   document.getElementById('prev-btn').disabled=i===0;
   document.getElementById('next-btn').disabled=i===total-1;
   const db=document.getElementById('done-btn');
+  const dt=document.getElementById('done-tick');
   if(bakeStarted){
     const isActiveStep=i===activeStep;
     const isFinalStep=activeStep>=total-1;
     db.disabled=!isActiveStep||isFinalStep;
-    if(isFinalStep&&isActiveStep){
-      db.textContent='Bake Complete ✓';
-      db.classList.add('completed');
-    } else if(isActiveStep){
-      db.textContent='Step Complete ✓';
-      db.classList.remove('completed');
-    } else if(i<activeStep){
-      db.textContent='Completed ✓';
+    if(i<activeStep){
+      dt.style.display='inline';
       db.classList.add('completed');
     } else {
-      db.textContent='Step Complete ✓';
+      dt.style.display='none';
       db.classList.remove('completed');
     }
   } else {
     db.disabled=true;
-    db.textContent='Step Complete ✓';
+    dt.style.display='none';
     db.classList.remove('completed');
   }
   if(bakeStarted&&i===1&&activeTimerStep!==1){
@@ -1639,14 +1635,24 @@ function completeStep(){
     resetBakeState();
     return;
   }
-  stepCompletionTimes[activeStep]=Date.now();
-  activeStep++;
-  S.step=activeStep;
-  update();
-  renderMethod();
-  notifyBakeService();
-  if(tlVisible) renderTimeline();
-  saveSession();
+  const db=document.getElementById('done-btn');
+  if(db.dataset.completing) return;
+  db.dataset.completing='1';
+  document.getElementById('done-tick').style.display='inline';
+  db.classList.add('completed');
+  setTimeout(function(){
+    delete db.dataset.completing;
+    document.getElementById('done-tick').style.display='none';
+    db.classList.remove('completed');
+    stepCompletionTimes[activeStep]=Date.now();
+    activeStep++;
+    S.step=activeStep;
+    update();
+    renderMethod();
+    notifyBakeService();
+    if(tlVisible) renderTimeline();
+    saveSession();
+  },500);
 }
 function setStep(i){S.step=i;renderMethod();showMethodView();}
 

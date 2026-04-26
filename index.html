@@ -197,7 +197,7 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
 
 /* ===== NAV BUTTONS ===== */
 .nav-row{display:flex;gap:10px;margin-top:12px;flex-shrink:0;align-items:center}
-.nav-arrow{width:110px;height:48px;border-radius:8px;font-size:1.2rem;cursor:pointer;font-family:var(--font-body);text-align:center;transition:all .25s ease;font-weight:700;border:1px solid var(--border);background:var(--bg3);color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1);flex-shrink:0;padding:0;line-height:48px}
+.nav-arrow{width:110px;height:48px;border-radius:8px;font-size:1.8rem;cursor:pointer;font-family:sans-serif;transition:all .25s ease;font-weight:700;border:1px solid var(--border);background:var(--bg3);color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1);flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;line-height:1}
 .nav-arrow:hover{border-color:var(--text3);color:var(--text);box-shadow:0 2px 5px rgba(0,0,0,0.14)}
 .nav-arrow:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none}
 .nav-done{flex:1;padding:13px;border-radius:8px;font-size:0.88rem;cursor:pointer;font-family:var(--font-body);text-align:center;transition:all .25s ease;font-weight:700;letter-spacing:.04em;border:1px solid var(--border);background:var(--bg);color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
@@ -618,7 +618,7 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-shrink:0;gap:12px">
       <div>
         <div class="card-title" id="method-label" style="margin-bottom:0">Method</div>
-        <div class="prog-row" id="prog-row" style="margin:0;display:flex;align-items:center;gap:8px"><span id="step-counter"></span><button id="focus-exit" onclick="exitFocusMode()" title="Exit focus mode">✕</button></div>
+        <div class="prog-row" id="prog-row" style="margin:0;display:flex;align-items:center;gap:8px"><button id="focus-exit" onclick="exitFocusMode()" title="Exit focus mode">✕</button><span id="step-counter"></span></div>
       </div>
       <div style="display:flex;gap:6px;flex-shrink:0">
         <button class="tl-toggle method-btn" onclick="resetDefaults()"><span class="btn-icon">↺</span><span class="btn-label">Reset</span></button>
@@ -638,9 +638,9 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
           <div id="tip-area"></div>
         </div>
         <div class="nav-row">
-          <button class="nav-arrow" id="prev-btn" onclick="prevStep()" aria-label="Previous step">←</button>
+          <button class="nav-arrow" id="prev-btn" onclick="prevStep()" aria-label="Previous step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
           <button class="nav-done" id="done-btn" onclick="completeStep()"><span id="done-label">Complete</span><span id="done-tick" style="display:none"> ✓</span></button>
-          <button class="nav-arrow" id="next-btn" onclick="nextStep()" aria-label="Next step">→</button>
+          <button class="nav-arrow" id="next-btn" onclick="nextStep()" aria-label="Next step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
       </div>
     </div>

@@ -1465,7 +1465,7 @@ function buildSteps(ing,hyd,fid,hours){
      tip:'No mixer. Hand mixing keeps the gluten irregular \u2014 that irregularity becomes your voids.'},
 
     {title:'Stretch & Fold x4',subtitle:'30 min apart · 1.5 hours',icon:'🔄',coilFold:true,timer:null,
-     body:`With wet hands, grab one edge of the dough, stretch it up high, and fold it over to the other side. (One hand may have to hold the bowl) Rotate 90°, repeat 4 times — that's one set. Cover, wait 30 minutes, repeat. Four sets total. It'll feel sticky and slack at first — that's normal. Each set builds strength and by fold 4 it should feel smooth, springy, and hold its shape. See guide for the more advanced 'coil folds'.`,
+     body:`With wet hands, grab one edge of the dough, stretch it up high, and fold it over to the other side. (One hand may have to hold the bowl) Rotate 90°, repeat 4 times — that's one set. Cover, wait 30 minutes, repeat. Four sets total. It'll feel sticky and slack at first — that's normal. Each set builds strength and by fold 4 it should feel smooth, springy, and hold its shape. No rest after fold 4 — move straight on. See guide for the more advanced 'coil folds'.`,
      tip:'Wet hands are non-negotiable. Dry hands = dough disaster.',video:'mwtTZK7_t08'},
     ...(fid==='cold'?[{title:'Into the Fridge',icon:'❄️',
       timer: Math.round(Math.max(240, (hours - 370/60) * 60)),
@@ -1527,13 +1527,13 @@ function renderMethod(){
     const isActive=activeTimerStep===i;
     let pillLabel, pillTitle;
     if(done===0){
-      pillLabel='⏰ Fold 1 of 4';
-      pillTitle='Tap to start fold 1 and set 30m timer';
+      pillLabel='⏰ Start folds';
+      pillTitle='Tap after each fold to set 30m timer';
     } else if(done<4){
-      pillLabel=`⏰ Fold ${done+1} of 4`;
-      pillTitle=`Tap to do fold ${done+1} and set 30m timer`;
+      pillLabel=`⏰ ${done} of 4`;
+      pillTitle=`Fold ${done} done — tap after fold ${done+1}`;
     } else {
-      pillLabel='⏰ Fold 4 of 4';
+      pillLabel='✓ 4 of 4';
       pillTitle='All 4 folds done — tap Complete';
     }
     const activeClass=(isActive||allDone)?' active':'';
@@ -1589,7 +1589,7 @@ function renderMethod(){
   if(bakeStarted){
     const isActiveStep=i===activeStep;
     const isFinalStep=activeStep>=total-1;
-    db.disabled=!isActiveStep||isFinalStep;
+    db.disabled=!isActiveStep||isFinalStep||(step.coilFold&&coilFoldCount<4);
     if(i<activeStep){
       dt.style.display='inline';
       db.classList.add('completed');

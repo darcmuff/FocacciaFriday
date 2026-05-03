@@ -1250,7 +1250,7 @@ document.addEventListener('visibilitychange',()=>{
 
 /* Called from native Android when notification is tapped */
 window.onNotificationTap=function(){
-  if(bakeStarted) goToCurrentStep();
+  if(bakeStarted){ enterFocusMode(); goToCurrentStep(); }
 };
 
 function enterFocusMode(){
@@ -1871,6 +1871,10 @@ function loadSession(){
       btn.classList.add('active');
     }
     renderMethod();
+    if(bakeStarted){
+      enterFocusMode();
+      goToCurrentStep();
+    }
   }catch(e){}
 }
 if(window.Capacitor){

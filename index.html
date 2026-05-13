@@ -1179,9 +1179,29 @@ function getTotalStepMins(){
   return total;
 }
 function getEatTime(){
+  let eatMs;
+  if(bakeStarted){
+    const times=calcStepTimes();
+    if(times&&times.length){
+      // Last step's projected start + its duration = actual eat time
+      const lastIdx=steps.length-1;
+      const lastStart=times[lastIdx].getTime();
+      const lastStep=steps[lastIdx];
+      let lastDur=ACTIVE_MINS;
+      if(lastStep&&!lastStep.concurrent){
+        if(lastStep.coilFold) lastDur=110;
+        else if(lastStep.timer) lastDur=lastStep.timer+(lastStep.activeMins||0);
+        else if(lastStep.activeMins) lastDur=lastStep.activeMins;
+      }
+      eatMs=lastStart+lastDur*60000;
+    } else {
+      eatMs=startTime+getTotalStepMins()*60000;
+    }
+  } else {
+    eatMs=Date.now()+getTotalStepMins()*60000;
+  }
+  const eat=new Date(eatMs);
   const base=bakeStarted?startTime:Date.now();
-  const totalMs=getTotalStepMins()*60000;
-  const eat=new Date(base+totalMs);
   const now=new Date(base);
   const dayDiff=Math.floor((eat-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/(86400000));
   let suffix='';

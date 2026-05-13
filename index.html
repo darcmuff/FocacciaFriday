@@ -1384,7 +1384,7 @@ function update(){
   const ing={flour,water:Math.round(flour*hyd/100),salt:r(flour*saltPc/100),yeast:r(flour*yp/100),oil:r(flour*oilPc/100)};
   const total=Math.round(ing.flour+ing.water+ing.salt+ing.yeast+ing.oil);
 
-  document.getElementById('hours-lbl').textContent=`${hours} hours · Eat at ${getEatTime(hours)}`;
+  document.getElementById('hours-lbl').textContent=`${hours} hrs · Eat at ${getEatTime(hours)}`;
   updateTimeLabels(hours);
   document.getElementById('hyd-lbl').textContent=`Hydration: ${hyd}%`;
   document.getElementById('temp-lbl').textContent=`Room / Control Temp: ${dt(rTemp)}`;
@@ -1935,7 +1935,7 @@ function setTimerNative(secs, msg, mins) {
 /* Keep eat-time label current even when slider is untouched */
 setInterval(()=>{
   const h=S.hours;
-  if(h) document.getElementById('hours-lbl').textContent=h+' hours \u00b7 Eat at '+getEatTime(h);
+  if(h) document.getElementById('hours-lbl').textContent=h+' hrs \u00b7 Eat at '+getEatTime(h);
 },30000);
 </script>
 

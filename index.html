@@ -1126,9 +1126,8 @@ function calcYeast(fid, rt, hrs, hyd) {
   let coldLagMultiplier = 1.0;
 
   if (fid === 'room') {
-    /* Yeast works from addition through to oven */
-    /* Dynamic bulk = total hours - static steps, yeast active during bulk + post-fold static */
-    effectiveTime = Math.max(2, hrs - deadTimeHrs);
+    /* Yeast active from mix to oven — subtract gather(5) and rest(30) */
+    effectiveTime = Math.max(2, hrs - (65 / 60));
   } else {
     /* Warm time before fridge */
     const warmBeforeHrs = WARM_BEFORE_FRIDGE_MINS / 60;
@@ -1166,42 +1165,10 @@ function fmtClock(date){
   h=h%12||12;
   return h+':'+String(m).padStart(2,'0')+ampm;
 }
-function getTotalStepMins(){
-  let total=0;
-  for(let i=0;i<steps.length;i++){
-    const s=steps[i];
-    if(s.concurrent) continue;
-    if(s.coilFold) total+=110;
-    else if(s.timer) total+=s.timer+(s.activeMins||0);
-    else if(s.activeMins) total+=s.activeMins;
-    else total+=ACTIVE_MINS;
-  }
-  return total;
-}
-function getEatTime(){
-  let eatMs;
-  if(bakeStarted){
-    const times=calcStepTimes();
-    if(times&&times.length){
-      // Last step's projected start + its duration = actual eat time
-      const lastIdx=steps.length-1;
-      const lastStart=times[lastIdx].getTime();
-      const lastStep=steps[lastIdx];
-      let lastDur=ACTIVE_MINS;
-      if(lastStep&&!lastStep.concurrent){
-        if(lastStep.coilFold) lastDur=110;
-        else if(lastStep.timer) lastDur=lastStep.timer+(lastStep.activeMins||0);
-        else if(lastStep.activeMins) lastDur=lastStep.activeMins;
-      }
-      eatMs=lastStart+lastDur*60000;
-    } else {
-      eatMs=startTime+getTotalStepMins()*60000;
-    }
-  } else {
-    eatMs=Date.now()+getTotalStepMins()*60000;
-  }
-  const eat=new Date(eatMs);
+function getEatTime(hours){
   const base=bakeStarted?startTime:Date.now();
+  const eat=new Date(base);
+  eat.setHours(eat.getHours()+hours);
   const now=new Date(base);
   const dayDiff=Math.floor((eat-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/(86400000));
   let suffix='';
@@ -1417,7 +1384,7 @@ function update(){
   const ing={flour,water:Math.round(flour*hyd/100),salt:r(flour*saltPc/100),yeast:r(flour*yp/100),oil:r(flour*oilPc/100)};
   const total=Math.round(ing.flour+ing.water+ing.salt+ing.yeast+ing.oil);
 
-  document.getElementById('hours-lbl').textContent=`${hours} hours · Eat at ${getEatTime()}`;
+  document.getElementById('hours-lbl').textContent=`${hours} hours · Eat at ${getEatTime(hours)}`;
   updateTimeLabels(hours);
   document.getElementById('hyd-lbl').textContent=`Hydration: ${hyd}%`;
   document.getElementById('temp-lbl').textContent=`Room / Control Temp: ${dt(rTemp)}`;
@@ -1500,11 +1467,11 @@ function buildSteps(ing,hyd,fid,hours){
      body:`With wet hands, grab one edge of the dough, stretch it up high, and fold it over to the other side. (One hand may have to hold the bowl) Rotate 90°, repeat 4 times — that's one set. Cover, wait 30 minutes, repeat. Four sets total. It'll feel sticky and slack at first — that's normal. Each set builds strength and by fold 4 it should feel smooth, springy, and hold its shape. No rest after fold 4 — move straight on. See guide for the more advanced 'coil folds'.`,
      tip:'Wet hands are non-negotiable. Dry hands = dough disaster.',video:'mwtTZK7_t08'},
     ...(fid==='cold'?[{title:'Into the Fridge',icon:'❄️',
-      timer: Math.round(Math.max(240, (hours - 370/60) * 60)),
+      timer: Math.round(Math.max(240, (hours - 410/60) * 60)),
       body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with good olive oil — line the sides and bottom of the pan. Tip the dough in and coax towards the corners. Lightly oil a sheet of tin foil so it doesn't stick, and cover tightly. Fridge at ${dt(3)}–${dt(5)}.\nCold ferment: ${Math.max(4, (hours - 370/60)).toFixed(1)} hours. Set your phone timer and leave it alone.`,
       tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
     ...(fid==='room'?[{title:'Bulk Ferment',icon:'⏱',
-      timer: Math.round(Math.max(30, (hours - 220/60) * 60)),
+      timer: Math.round(Math.max(30, (hours - 260/60) * 60)),
       body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with good olive oil, lining the sides and bottom of the pan. Tip the dough in and coax towards the corners. Lightly oil a sheet of tin foil so it doesn't stick, and cover. Leave at room temperature until visibly puffy and jiggly and roughly doubled in size.`,
       tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
     ...(fid==='cold'?[{title:'Final Proof',icon:'🔍',timer:150,
@@ -1968,7 +1935,7 @@ function setTimerNative(secs, msg, mins) {
 /* Keep eat-time label current even when slider is untouched */
 setInterval(()=>{
   const h=S.hours;
-  if(h) document.getElementById('hours-lbl').textContent=h+' hours \u00b7 Eat at '+getEatTime();
+  if(h) document.getElementById('hours-lbl').textContent=h+' hours \u00b7 Eat at '+getEatTime(h);
 },30000);
 </script>
 

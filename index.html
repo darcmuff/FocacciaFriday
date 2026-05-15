@@ -1102,11 +1102,11 @@ function calcPanFlour(shape, w, h, hyd) {
 }
 
 function sliderToHours(pos){
-  const raw = 4 * Math.pow(8, pos / 100);
+  const raw = 4 * Math.pow(12, pos / 100);
   return Math.round(Math.min(48, Math.max(4, raw)));
 }
 function hoursToSlider(h){
-  return Math.round(Math.log(h / 4) / Math.log(8) * 100);
+  return Math.round(Math.log(h / 4) / Math.log(12) * 100);
 }
 
 function calcYeast(fid, rt, hrs, hyd) {

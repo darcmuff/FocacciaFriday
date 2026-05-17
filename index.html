@@ -268,6 +268,12 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
   .sec-label{font-size:1rem}
 }
 
+/* Landscape on short screens — allow scroll */
+@media (max-height:500px) and (orientation:landscape){
+  html,body{overflow:auto;height:auto}
+  #page{height:auto;overflow:visible}
+}
+
 /* ===== FOCUS MODE ===== */
 #focus-exit{display:none}
 #resume-fab-row{display:none}
@@ -534,7 +540,6 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
     <button class="h-icon-btn" onclick="showShop()" title="Equipment I use"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button>
     <button class="h-icon-btn" id="share-btn" onclick="shareRecipe()" title="Share recipe"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
     <button class="h-icon-btn" onclick="showSaved()" title="Saved recipes"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="none"/></svg></button>
-    <button class="h-icon-btn" id="dark-btn" onclick="toggleDark()" title="Dark mode"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <button id="guide-btn" class="h-icon-btn" onclick="showGuide()" title="How to use" style="font-size:20px;font-weight:700;font-family:inherit">?</button>
     <div class="toggle-stack">
       <div class="toggle-group">
@@ -561,6 +566,13 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
           <div class="toggle-group">
             <button class="toggle-btn active" id="mob-btn-metric" onclick="setUnits('metric')">Metric</button>
             <button class="toggle-btn" id="mob-btn-imperial" onclick="setUnits('imperial')">Imperial</button>
+          </div>
+        </div>
+        <div>
+          <div class="settings-dropdown-label">Theme</div>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="mob-btn-light" onclick="if(document.body.classList.contains('dark'))toggleDark()">Light</button>
+            <button class="toggle-btn" id="mob-btn-dark" onclick="if(!document.body.classList.contains('dark'))toggleDark()">Dark</button>
           </div>
         </div>
       </div>
@@ -784,7 +796,10 @@ body.dark .m-timer-pill.nudge{animation:timer-nudge-dark 1.5s ease-in-out infini
         </div>
 
         <div style="display:flex;align-items:center;gap:14px;">
-          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,0.1);pointer-events:none;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+          <div style="display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg3);box-shadow:0 1px 3px rgba(0,0,0,0.1);height:36px;flex-shrink:0;">
+            <button id="guide-btn-light" class="toggle-btn active" onclick="if(document.body.classList.contains('dark'))toggleDark()" style="height:36px;">Light</button>
+            <button id="guide-btn-dark" class="toggle-btn" onclick="if(!document.body.classList.contains('dark'))toggleDark()" style="height:36px;">Dark</button>
+          </div>
           <div><strong style="color:var(--text)">Dark Mode</strong><br><span style="font-size:0.88rem;color:var(--text2)">Switches between light and dark mode. The app remembers your preference.</span></div>
         </div>
 
@@ -1762,9 +1777,13 @@ function loadPrefs(){
 }
 function toggleDark(){
   document.body.classList.toggle('dark');
-  document.getElementById('dark-btn').innerHTML=document.body.classList.contains('dark')
-    ?'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
-    :'<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  var isDark=document.body.classList.contains('dark');
+  var ml=document.getElementById('mob-btn-light');
+  var md=document.getElementById('mob-btn-dark');
+  if(ml&&md){ml.classList.toggle('active',!isDark);md.classList.toggle('active',isDark);}
+  var gl=document.getElementById('guide-btn-light');
+  var gd=document.getElementById('guide-btn-dark');
+  if(gl&&gd){gl.classList.toggle('active',!isDark);gd.classList.toggle('active',isDark);}
   savePrefs();
 }
 function resetDefaults(){

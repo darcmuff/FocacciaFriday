@@ -1129,10 +1129,10 @@ function calcYeast(fid, rt, hrs, hyd) {
   /* Derived from actual method step durations */
   const PRE_YEAST_MINS = 5;          /* gather(5) — yeast added at mix */
   const WARM_BEFORE_FRIDGE_MINS = 180; /* mix active(10) + mix rest(60) + folds(110) — yeast active throughout */
-  const FINAL_PROOF_MINS = 150;      /* cold ferment only */
+  const FINAL_PROOF_MINS = 240;      /* cold ferment only */
   const POST_FOLD_STATIC_MINS = 45;  /* dimple(15) + bake(30) — yeast still active until oven kills it */
   const ROOM_STATIC_MINS = 260;      /* gather(5) + mix(10+60) + folds(110) + dimple(15) + bake(30) + rest(30) */
-  const COLD_STATIC_MINS = 410;      /* gather(5) + mix(10+60) + folds(110) + final proof(150) + dimple(15) + bake(30) + rest(30) */
+  const COLD_STATIC_MINS = 500;      /* gather(5) + mix(10+60) + folds(110) + final proof(240) + dimple(15) + bake(30) + rest(30) */
 
   const k = 3.53;
   const tempMultiplier = Math.pow(2, (rt - 24) / 10);
@@ -1490,7 +1490,7 @@ function buildSteps(ing,hyd,fid,hours){
       timer: Math.round(Math.max(30, (hours - 260/60) * 60)),
       body:`Line your baking pan with greaseproof paper — unless you have a very good non-stick pan. Be very generous with good olive oil, lining the sides and bottom of the pan. Tip the dough in and coax towards the corners. Lightly oil a sheet of tin foil so it doesn't stick, and cover. Leave at room temperature until visibly puffy and jiggly and roughly doubled in size.`,
       tip:'Greaseproof paper makes removal effortless and prevents sticking. The generous pooled oil creates the crispy fried underside.'}]:[]),
-    ...(fid==='cold'?[{title:'Final Proof',icon:'🔍',timer:150,
+    ...(fid==='cold'?[{title:'Final Proof',icon:'🔍',timer:240,
      body:'Remove from the fridge and leave it somewhere warm until it\'s doubled and looks puffy and bubbly. Jiggle test — if it wobbles like jelly, it\'s ready.',tip:null}]:[]),
     {title:'Preheat Oven',icon:'🔥',timer:null,concurrent:true,
      body:`${dt(230)}, no fan if possible. Or use the top grill oven if you have one. (Often the grill oven can operate as a second oven and doesn't typically have a fan.)\n\nIt's not a dealbreaker at all if you can't go fanless.`,

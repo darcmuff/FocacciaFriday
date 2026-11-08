@@ -13,6 +13,7 @@ Published on GitHub Pages at `https://darcmuff.github.io/FocacciaFriday/`. `mani
 - Default branch is `main`. Before this notes commit, `origin` had only `main`, at `3210f983e52a95e62c1d1701ac1d79ba1b6f5e0f` (2026-06-08, "Increase cold ferment final proof from 2.5hrs to 4hrs"). No root README and no earlier NOTES file.
 - Files checked this date: `index.html` (UI and calculator; title "Focaccia Calculator — Focaccia Fridays"), `sw.js`, `manifest.json`, `privacy.html`, root `icon-192.png` and `icon-512.png`, `assets/focc.jpg`, `og-image-v2.png`, `.well-known/assetlinks.json`. No `icons/` directory.
 - `sw.js` cache name is `focacciafriday-v3`. Precache list: `/FocacciaFriday/`, `index.html`, `manifest.json`, and `icons/icon-192.png` plus `icons/icon-512.png`. The worker also schedules timer notifications from page messages.
+- A `.nojekyll` file is present, so GitHub Pages serves the tree as static files. Manifest `theme_color` and `background_color` are `#ece8e0`. The `theme-color` meta tag in `index.html` is `#faf7f2`. Manifest `orientation` is `any`.
 - Newest `main` history, from commit subjects only: cold-ferment final proof raised from 2.5 hours to 4 hours (2026-06-08); status bar, nav pill spacing, and dark mode in settings (2026-05-17 and 2026-05-18); time slider base changed from 8 to 12 for a 4–48 hour range (2026-05-15); `viewport-fit=cover` and `user-scalable=no` (2026-05-14); eat-time, timeline totals, and yeast effective-time fixes, plus session restore of hours, hydration, and temperature (2026-05-06 through 2026-05-13).
 - No `TODO`, `FIXME`, or `WIP` markers in `index.html`, `sw.js`, `manifest.json`, or `privacy.html`.
 - Path mismatch recorded from the files, not scheduled as work: `sw.js` precaches and notifies under `icons/icon-192.png` and `icons/icon-512.png`. The files on disk, and the paths in `manifest.json`, are `icon-192.png` and `icon-512.png` at the repo root.
@@ -26,3 +27,4 @@ No product roadmap is stated in the tree. Do not add one here.
 3. Do not record secrets, tokens, or private data in this file.
 4. The icon path mismatch above is the only inconsistency found in this pass. It is noted so it is not rediscovered. It is not an approved task.
 5. This notes pass did not change runtime files, versions, or deploys. `main` was left at the SHA in Current state.
+6. Color values above are a second recorded mismatch (`#ece8e0` in the manifest, `#faf7f2` on the page). Same rule: noted, not an approved task.
